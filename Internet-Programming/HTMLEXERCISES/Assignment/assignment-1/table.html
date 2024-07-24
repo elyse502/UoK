@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Table</title>
+    <style>
+        .table {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .table table {
+            border-collapse: collapse;
+        }
+        h1 {
+            margin-top: 80px;
+            text-align: center;
+        } 
+        
+        th, td {
+            border: 2px solid black;
+            padding: 20px 50px;
+            font-size: 18px;
+        }
+        
+        /* th {
+            font-weight: normal;
+        } */
+    </style>
+</head>
+<body>
+    <h1><u>TABLE</u></h1>
+    <div class="table">
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">State of Health</th>
+                    <th colspan="2" style="text-align: center; padding-left: 70px;">Fasting Value</th>
+                    <th>After Eating</th>
+                </tr>
+                <tr>
+                    <th>Minimum</th>
+                    <th>Maximum</th>
+                    <th>2 hours after eating</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Healthy</td>
+                    <td>70</td>
+                    <td>100</td>
+                    <td>Less than 140</td>
+                </tr>
+                <tr>
+                    <td>Pre-Diabetes</td>
+                    <td>101</td>
+                    <td>126</td>
+                    <td>140 to 200</td>
+                </tr>
+                <tr>
+                    <td>Diabetes</td>
+                    <td>More than 126</td>
+                    <td>N/A</td>
+                    <td>More than 200</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

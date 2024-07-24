@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 2 - Task 2</title>
+    <link rel="stylesheet" href="quizApp.css">
+</head>
+<body>
+    <div class="container">
+        <form action="">
+            <div class="form-section">
+                <h1>Fill your Names</h1>
+                <input type="text" id="firstName" placeholder="First Name">
+                <input type="text" id="lastName" placeholder="Last Name">
+                <input type="text" id="regNo" placeholder="Registration Number">
+                <h1>Your Department</h1>
+                <label><input type="radio" name="department" value="BBIT"> BBIT</label>
+                <label><input type="radio" name="department" value="BIT"> BIT</label>
+                <label><input type="radio" name="department" value="BCS"> BCS</label>
+            </div>
+        </form>
+        <div class="quiz-section">
+            <h3>Answer Below Questions</h3>
+            <div class="question">
+                <p>Q1: What is HTML in full</p><br />
+                <label><input type="radio" name="q1" value="0"> Hyper Text Makeup Language &nbsp;&nbsp;&nbsp;&nbsp; (5 Marks)</label>
+                <label><input type="radio" name="q1" value="0"> Hyper Text Make Language &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (5 Marks)</label>
+                <label><input type="radio" name="q1" value="5"> Hyper Text Markup Language &nbsp;&nbsp;&nbsp;&nbsp; (5 Marks)</label>
+            </div>
+            <div class="question">
+                <p>Q2: What is CSS in full</p><br />
+                <label><input type="radio" name="q2" value="0"> Cascade Style &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (5 Marks)</label>
+                <label><input type="radio" name="q2" value="0"> Cascade Sheetstyle &nbsp;&nbsp;&nbsp;&nbsp; (5 Marks)</label>
+                <label><input type="radio" name="q2" value="5"> Cascade Stylesheet &nbsp;&nbsp;&nbsp;&nbsp; (5 Marks)</label>
+            </div>
+            <div class="question">
+                <p>Q3: What are the 3 types of CSS</p><br />
+                <label><input type="radio" name="q3" value="0"> International, Local, Internal &nbsp;&nbsp;&nbsp;&nbsp; (5 Marks)</label>
+                <label><input type="radio" name="q3" value="5"> Global, Local, Internal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (5 Marks)</label>
+                <label><input type="radio" name="q3" value="0"> Global, International, Local &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (5 Marks)</label>
+            </div><br /><br />
+            <div class="result-section">
+                <label for="totalMarks" style="padding-left: 60px;">Your total Marks<input type="text" id="totalMarks" readonly></label>
+                <button onclick="calculateResult()">Calculate Result</button>
+            </div>
+        </div>
+    </div>
+    <script src="quizApp.js"></script>
+</body>
+</html>

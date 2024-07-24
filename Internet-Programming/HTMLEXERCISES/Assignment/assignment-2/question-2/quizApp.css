@@ -1,0 +1,78 @@
+body {
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 50px;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+}
+
+.form-section, .quiz-section {
+    background: #2e8b57;
+    color: white;
+    padding: 20px;
+    border: 2px solid #fff;
+    outline: 5px solid #ccc;
+    /* border-radius: 5px; */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    width: 600px;
+}
+.quiz-section h3 {
+    margin-top: 0;
+}
+.form-section {
+    margin-top: 80px;
+    padding: 80px;
+    padding-top: 0px;
+    width: 300px;
+    height: 300px;
+}
+
+h1, h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 3px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+button {
+    font-weight: bold;
+    width: 50%;
+    float: right;
+    padding: 10px;
+    background: #fff;
+    color: #333;
+    border: none;
+    border-radius: 90px;
+    margin-right: 100px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+.result-section #totalMarks {
+    font-weight: bold;
+    text-align: center;
+    width: 50%;
+    float: right;
+    margin-right: 100px;
+}

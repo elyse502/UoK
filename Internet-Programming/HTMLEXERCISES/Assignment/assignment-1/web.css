@@ -1,0 +1,132 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+header {
+    background-image: url(./images/coding-background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+header .wrapper {
+    justify-content: center;
+    text-align: center;
+    color: white;
+    width: 70%;
+    margin-left: 200px;
+    padding: 10px 0 80px 0;
+}
+header .wrapper button {
+    background-color: black;
+    color: white;
+    padding: 10px 30px;
+    border: 1px solid white;
+}
+header .wrapper button:hover {
+    cursor: pointer;
+    opacity: 0.3;
+}
+
+.container {
+    /* background-color: white; */
+    justify-content: center;
+    text-align: center;
+}
+.container .top {
+    justify-content: center;
+    text-align: center;
+    height: 160px;
+}
+.container .top .descr article {
+	display: inline-block;
+	width: 400px;
+	padding: 0 20px;
+	margin: 0 20px;
+	/* border: 1px solid #FF5A5F; */
+	text-align: center;
+}
+.container .middle {
+    background-color: rgba(7, 7, 10, 0.904);
+    justify-content: center;
+    /* text-align: center; */
+    /* border: 1px solid #FF5A5F; */
+    margin-bottom: 60px;
+    height: 330px;
+}
+.container .middle .card-work {
+    display: inline-block;
+    background-color: white;
+    width: 200px;
+	padding: 0;
+	margin: 10px 5px;
+}
+.container .middle .card-work h3, p {
+    font-size: xx-small;
+    padding: 0 20px;
+}
+.container .middle .card-work .card-image {
+    /* border: 1px solid #FF5A5F; */
+    height: 110px;
+    /* background-image: url(./images/laptop_keyboard.jpeg); */
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+.container .middle .card-work h3 {
+    font-size: 17px;
+}
+.container .bottom {
+    /* border: 1px solid #FF5A5F; */
+    margin: 0px;
+    padding: 0 200px 30px 200px;
+}
+.container .bottom h2, p {
+    font-size: 12px;
+}
+
+
+footer article {
+    display: inline-block;
+	width: 505px;
+    /* height: 500px; */
+	padding: 0 20px;
+	margin: 0 20px;
+}
+footer .label {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+  }
+  
+footer .label .left {
+flex: 1;
+background-color: skyblue;
+color: white;
+padding: 20px;
+margin: 0;
+}
+  
+footer .label .right {
+flex: 1;
+background-color: rgba(7, 7, 10, 0.904);;
+color: white;
+padding: 20px;
+margin: 0;
+}
+footer .down {
+    background-color: black;
+    color: white;
+    /* border: 1px solid #FF5A5F; */
+    height: 20px;
+    padding: 20px 0;
+}
+footer .down p {
+    display: inline;
+    /* border: 1px solid #FF5A5F; */
+    margin: 0 250px;
+}
+footer .down p a {
+    color: aqua;
+    text-decoration: none;
+}

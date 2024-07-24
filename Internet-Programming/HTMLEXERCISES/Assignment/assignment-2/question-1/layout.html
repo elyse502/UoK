@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assignment 2 - Task 1</title>
+    <link rel="stylesheet" href="layout.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h3>Mathematical Operations</h3>
+      <div class="row">
+        <label for="num1">First Number</label>
+        <input type="number" id="num1" value="32" />
+        <button onclick="setOperator('+')">+</button>
+      </div>
+      <div class="row">
+        <label for="num2">Second Number</label>
+        <input type="number" id="num2" value="23" />
+        <button onclick="setOperator('-')">-</button>
+      </div>
+      <div class="row">
+        <label for="num3">Third Number</label>
+        <input type="number" id="num3" value="12" />
+        <button onclick="setOperator('*')">*</button>
+      </div>
+      <div class="row">
+        <label for="operator">Operator</label>
+        <input type="text" id="operator" readonly value="+" />
+        <button onclick="setOperator('/')">/</button>
+      </div>
+      <div class="row">
+        <label for="answer">Answer</label>
+        <input type="text" id="answer" readonly value="68" />
+        <button onclick="calculate()">Click to Check</button>
+      </div>
+      <div class="row">
+        <label for="even">Even</label>
+        <input
+          type="text"
+          id="even"
+          readonly
+          value="12,32"
+          style="margin-right: 165px"
+        />
+      </div>
+      <div class="row">
+        <label for="odd">Odd</label>
+        <input
+          type="text"
+          id="odd"
+          readonly
+          value="23"
+          style="margin-right: 165px"
+        />
+      </div>
+      <div class="row">
+        <label for="max">Maximum Number</label>
+        <input
+          type="text"
+          id="max"
+          readonly
+          value="32"
+          style="margin-right: 165px"
+        />
+      </div>
+      <div class="row">
+        <label for="min">Minimum Number</label>
+        <input type="text" id="min" readonly value="12" />
+        <button onclick="findEvenOdd()">Result</button>
+      </div>
+    </div>
+    <script src="layout.js"></script>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+body {
+    background-image: url(./images/login-page.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+.navBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.navBar ul {
+    display: flex;
+    flex-direction: row;
+}
+.navBar ul li {
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(54, 49, 49);
+    color: white;
+    padding: 5px 40px;
+    border: 1px solid black;
+    margin: 0 1px;
+}
+.navBar ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.wrapper {
+    background-color: #696969;
+    opacity: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    height: 360px;
+    margin: 30px 0 30px 700px;
+    border: 2px solid white;
+    border-radius: 20px;
+}
+
+.wrapper h1 {
+    text-align: center;
+    color: #fff;
+}
+
+.wrapper button {
+    background-color: white;
+    opacity: 0.5;
+    justify-content: center;
+    color: black;
+    border: 1px solid white;
+    border-radius: 40px;
+    padding: 10px 80px;
+    margin-left: 40px; 
+}
+.wrapper button:hover {
+    background-color: aqua;
+    cursor: pointer;
+}
+
+.input-box input {
+    background-color: white;
+    opacity: 0.5;
+    width: 90%;
+    height: 100%;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    color: #0f0f0f;
+    padding: 10px 20px 13px 20px;
+}
+
+.input-box input::placeholder {
+    color: #0f0f0f;
+    padding: 20px 45px 20px 20px;
+}
+
+.remember-me {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+

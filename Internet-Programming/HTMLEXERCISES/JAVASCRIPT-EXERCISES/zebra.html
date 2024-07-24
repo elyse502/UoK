@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highlighting Tables</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <div class="table-container">
+        <table border="2" border-collapse: collapse;>
+            <tr>
+                <td>working</td>
+                <td>somewhere</td>
+                <td>baba</td>
+            </tr>
+            <tr>
+                <td>funny</td>
+                <td>kamari</td>
+                <td>sam</td>
+            </tr>
+        </table><br /><br /><br />
+        <table border="1">
+            <tr>
+                <td>1000</td>
+                <td>5000</td>
+                <td>10000</td>
+            </tr>
+            <tr>
+                <td>200</td>
+                <td>700</td>
+                <td>100000</td>
+            </tr>
+            <tr>
+                <td>tom</td>
+                <td>hello</td>
+                <td>kafour</td>
+            </tr>
+            <tr>
+                <td>bienvenue</td>
+                <td>au</td>
+                <td>terrain</td>
+            </tr>
+            <tr>
+                <td>sam</td>
+                <td>is</td>
+                <td>behaving</td>
+            </tr>
+            <tr>
+                <td>manu</td>
+                <td>ok</td>
+                <td>trop</td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        window.onload = function () {
+            var tables = document.querySelectorAll('table');
+            tables.forEach(function (table) {
+                var rows = table.querySelectorAll('tr');
+                for (var i = 1; i < rows.length; i += 2) {
+                    rows[i].style.backgroundColor = 'yellow';
+                    rows[i].style.color = 'red';
+                }
+            });
+        };
+    </script>
+</body>
+</html>
