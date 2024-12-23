@@ -1,0 +1,96 @@
+"""After studying python module and Pandas do the below question(Mandatory for everyone and to be presented on Saturday )
+The X shop in Kigali city has compiled a record of customer transactions and requires a Python program for data mining.
+As a Python programmer, you are provided with a dataset of customer transactions stored in the below CSV file named transactions.csv.
+The file includes the following columns: CustomerID, TransactionDate, Amount, and Category"""
+
+import pandas as pd
+
+# Create sample dataset
+dataInfo = {
+    'CustomerID': [1001, 1002, 1001, 1003, 1002],
+    'TransactionDate': ['2023-01-15', '2023-03-22', '2023-04-10', '2022-12-05', '2023-05-18'],
+    'Amount': [50.00, 200.00, 100.00, 50.00, 120.00],
+    'Category': ['Electronics', 'Clothing', 'Electronics', 'Books', 'Clothing']
+}
+df = pd.DataFrame(dataInfo)
+print(">> THE Data Frame:")
+print(df)
+print()
+
+# Write the DataFrame to a CSV file
+df.to_csv('transaction.csv', index=False)
+print(f'>> CSV file "transaction.csv" has been successfully created: \n {df.to_string(index=False)}')
+print()
+
+
+# a) Write a Python function to load the dataset into a Pandas DataFrame
+def load_dataset(file_path):
+    """
+    Loads the dataset from the specified file path into a Pandas DataFrame.
+
+    Args:
+        file_path (str): The file path of the dataset.
+
+    Returns:
+        pd.DataFrame: The dataset loaded into a Pandas DataFrame.
+    """
+    with open(file_path, mode='r', encoding="utf-8") as file:
+        return pd.read_csv(file)
+
+
+# b) Write code to calculate the total transaction amount for each customer
+def get_total_transaction_per_customer(df):
+    """
+    Calculates the total transaction amount for each customer.
+
+    Args:
+        df (pd.DataFrame): The DataFrame containing the transaction data.
+
+    Returns:
+        pd.Series: A Series with the total transaction amount for each customer.
+    """
+    return df.groupby('CustomerID')['Amount'].sum()
+
+
+# c) Develop code to find the average transaction amount for each category
+def get_average_transaction_per_category(df):
+    """
+    Calculates the average transaction amount for each category.
+
+    Args:
+        df (pd.DataFrame): The DataFrame containing the transaction data.
+
+    Returns:
+        pd.Series: A Series with the average transaction amount for each category.
+    """
+    return df.groupby('Category')['Amount'].mean()
+
+
+# d) Write code to filter the DataFrame to include only transactions that occurred in the year 2023. Create a new column called TransactionMonth that extracts the month from the TransactionDate.
+def filtered_2023_transactions(df):
+    """
+    Processes the transaction data for the year 2023.
+
+    Args:
+        df (pd.DataFrame): The DataFrame containing the transaction data.
+
+    Returns:
+        pd.DataFrame: The DataFrame containing the processed transactions for the year 2023.
+    """
+    # Filter the DataFrame to include only transactions in 2023
+    df = df[df['TransactionDate'] >= '2023-01-01']
+    df = df[df['TransactionDate'] <= '2023-12-31']
+
+    # Create a new column 'TransactionMonth' that extracts the month from the TransactionDate
+    # df['TransactionMonth'] = pd.to_datetime(df['TransactionDate']).dt.month
+    df['TransactionMonth'] = pd.to_datetime(df['TransactionDate']).dt.strftime('%B')
+
+    return df
+
+
+# Test the functions
+print(f'>> Total transaction amount for each customer: \n {get_total_transaction_per_customer(df)}')
+print()
+print(f'>> Average transaction amount for each category: \n {get_average_transaction_per_category(df)}')
+print()
+print(f">> Overall Processed transactions for the year 2023: \n {filtered_2023_transactions(df)}")

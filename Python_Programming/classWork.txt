@@ -1,0 +1,19 @@
+"""____________________________________Class WORK____________________________________________
+    Records of only even numbers between 100 and 180 and sort the answer in descending order"""
+
+
+class Calculation:
+    def computingNumbers(self):
+        even = []
+        for i in range(100, 181):
+            if i % 2 == 0:
+                even.append(i)
+        even.sort(reverse=True)
+        # print(even)
+        for j in even:
+            print(j)
+
+
+calc1 = Calculation()
+calc1.computingNumbers()
+

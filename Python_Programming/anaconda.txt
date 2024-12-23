@@ -1,0 +1,8 @@
+Activating Environment(ANACONDA):
+__________________________________
+
+conda create --name [project_name]
+conda env list
+conda activate [project_name]
+
+jupyter notebook

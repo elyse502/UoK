@@ -1,0 +1,1436 @@
+_________________________________________Solution for Python Exercises_________________________________________________
+
+_____________Question 1. Explain break, continue and pass statement with suitable example of each._____________________
+1. break:
+- The break statement is used to get out of a loop, like a while loop or a for loop.
+- Imagine you have a list of numbers, and you want to stop the loop as soon as you find a certain number, like 7.
+- Here's an example:
+
+```
+numbers = [3, 5, 7, 9, 11]
+for num in numbers:
+    if num == 7:
+        print("Found the number 7!")
+        break
+    print(num)
+```
+- In this example, the loop will stop as soon as it finds the number 7, and it won't print the other numbers (9 and 11).
+
+2. continue:
+- The continue statement is used to skip the current iteration of a loop and move to the next one.
+- Imagine you have a list of numbers, and you want to print all the numbers except the number 5.
+- Here's an example:
+
+```
+numbers = [3, 5, 7, 9, 11]
+for num in numbers:
+    if num == 5:
+        continue
+    print(num)
+```
+- In this example, the loop will skip the number 5 and print all the other numbers (3, 7, 9, and 11).
+
+3. pass:
+The pass statement is used when you have a block of code (like a function or a loop) that doesn't do anything yet.
+It's like a placeholder, so you can write the code later without getting an error.
+Here's an example:
+
+```
+def my_function():
+    pass
+
+for i in range(5):
+    pass
+```
+- In this example, the my_function() doesn't do anything yet, but you can add code to it later. And the loop doesn't do anything either, 
+but you can add code inside the loop later.
+
+_____________________Question 2. Differentiate between List, Tuple & Set with suitable examples of each._________________________
+1. List:
+- A list is a collection of items that can be of different data types, like numbers, strings, or even other lists.
+- You can add, remove, and change items in a list.
+- Here's an example:
+
+```
+my_list = [1, "apple", 3.14, "banana"]
+print(my_list)  # Output: [1, 'apple', 3.14, 'banana']
+```
+
+2. Tuple:
+- A tuple is similar to a list, but it's a collection of items that can't be changed once they're created.
+- Tuples are defined using parentheses, instead of square brackets like lists.
+- Here's an example:
+
+```
+my_tuple = (1, "apple", 3.14, "banana")
+print(my_tuple)  # Output: (1, 'apple', 3.14, 'banana')
+```
+
+3. Set:
+- A set is a collection of unique items, meaning it can't have duplicates.
+- Sets are defined using curly braces, like this: {}.
+- Here's an example:
+
+```
+my_set = {1, "apple", 3.14, "banana", 1}
+print(my_set)  # Output: {1, 'apple', 3.14, 'banana'}
+```
+- Notice that the number 1 only appears once in the output, because sets don't allow duplicates.
+
+- The main differences are:
+* Lists can be changed, tuples can't be changed, and sets only have unique items.
+* Lists use square brackets [], tuples use parentheses (), and sets use curly braces {}.
+* Lists can have duplicates, sets can't have duplicates.
+
+_____________________Question 3. Explain any three collection data types of Python with suitable examples of each._________________________
+The three collection data types I'll cover are:
+
+* List
+* Tuple
+* Dictionary
+
+Let's dive in!
+
+1. List:
+- A list is an ordered collection of items, which can be of different data types.
+- Lists are defined using square brackets [].
+- Example:
+
+```
+my_list = [1, "apple", 3.14, True]
+print(my_list)  # Output: [1, 'apple', 3.14, True]
+```
+- In this example, the list my_list contains an integer, a string, a float, and a boolean value.
+
+2. Tuple:
+- A tuple is an ordered collection of items, similar to a list.
+- The main difference is that tuples are immutable, meaning you can't change the items once the tuple is created.
+- Tuples are defined using parentheses ().
+- Example:
+
+```
+my_tuple = (1, "banana", 2.71)
+print(my_tuple)  # Output: (1, 'banana', 2.71)
+```
+- In this example, the tuple my_tuple contains an integer, a string, and a float.
+
+3. Dictionary:
+- A dictionary is an unordered collection of key-value pairs.
+- Dictionaries are defined using curly braces {}, with each key-value pair separated by a colon :.
+- Example:
+
+```
+my_dict = {
+    "name": "John",
+    "age": 25,
+    "city": "New York"
+}
+print(my_dict)  # Output: {'name': 'John', 'age': 25, 'city': 'New York'}
+```
+- In this example, the dictionary my_dict has three key-value pairs: "name" is the key, and "John" is the value; "age" is the key, 
+and 25 is the value; "city" is the key, and "New York" is the value.
+
+- The main differences between these three collection data types are:
+
+* Lists are ordered and mutable, tuples are ordered and immutable, and dictionaries are unordered and mutable.
+* Lists use square brackets [], tuples use parentheses (), and dictionaries use curly braces {}.
+* Lists can have duplicates, tuples can have duplicates, and dictionaries can't have duplicate keys (but can have duplicate values).
+
+_____________________Question 4. Explain count() and index() methods of list with suitable examples of each.___________________________
+1. count():
+- The count() method is used to count the number of occurrences of a specific element in a list.
+- The syntax is:
+
+```
+list.count(element)
+```
+- Example:
+
+```
+my_list = [1, 2, 3, 2, 4, 2, 5]
+print(my_list.count(2))  # Output: 3
+```
+- In this example, the number 2 appears 3 times in the list my_list, so the count() method returns 3.
+
+2. index():
+- The index() method is used to find the index (position) of the first occurrence of a specific element in a list.
+- The syntax is:
+
+```
+list.index(element, start, end)
+```
+- The start and end parameters are optional and specify the range of indices to search within.
+- Example:
+
+```
+my_list = [1, 2, 3, 2, 4, 2, 5]
+print(my_list.index(2))  # Output: 1
+print(my_list.index(2, 3))  # Output: 3
+print(my_list.index(2, 4, 6))  # Output: 5
+```
+- In the first example, the index() method returns 1, which is the index of the first occurrence of the number 2 in the list.
+- In the second example, the index() method starts searching from index 3 (inclusive) and returns 3, which is the index of the first 
+occurrence of the number 2 within that range.
+- In the third example, the index() method searches between indices 4 (inclusive) and 6 (exclusive), and returns 5, which is the index 
+of the first occurrence of the number 2 within that range.
+
+
+_____________________Question 5. Explain insert() and remove() methods of list with suitable examples of each.___________________________
+1. insert():
+- The insert() method is used to insert an element at a specific index in a list.
+- The syntax is:
+
+```
+list.insert(index, element)
+```
+- Example:
+
+```
+my_list = [1, 2, 3, 4, 5]
+my_list.insert(2, 'apple')
+print(my_list)  # Output: [1, 2, 'apple', 3, 4, 5]
+```
+- In this example, the string 'apple' is inserted at index 2 (the third position) in the list my_list.
+
+2. remove():
+- The remove() method is used to remove the first occurrence of a specific element from a list.
+- The syntax is:
+
+```
+list.remove(element)
+```
+- Example:
+
+```
+my_list = [1, 2, 3, 2, 4, 2, 5]
+my_list.remove(2)
+print(my_list)  # Output: [1, 3, 2, 4, 2, 5]
+```
+- In this example, the first occurrence of the number 2 is removed from the list my_list.
+
+
+_____________________Question 6. Explain reverse() and remove() methods of list with suitable examples of each.___________________________
+1. reverse():
+- The reverse() method is used to reverse the order of elements in a list.
+- The syntax is:
+
+```
+list.reverse()
+```
+- Example:
+
+```
+my_list = [1, 2, 3, 4, 5]
+my_list.reverse()
+print(my_list)  # Output: [5, 4, 3, 2, 1]
+```
+- In this example, the order of elements in the list my_list is reversed.
+
+2. remove():
+- The remove() method is used to remove the first occurrence of a specific element from a list.
+- The syntax is:
+
+```
+list.remove(element)
+```
+- Example:
+
+```
+my_list = [1, 2, 3, 2, 4, 2, 5]
+my_list.remove(2)
+print(my_list)  # Output: [1, 3, 2, 4, 2, 5]
+```
+- In this example, the first occurrence of the number 2 is removed from the list my_list.
+
+
+_____________________Question 7. Develop a program to find the largest among three numbers.___________________________
+```
+def find_largest(num1, num2, num3):
+    if num1 >= num2 and num1 >= num3:
+        return num1
+    elif num2 >= num1 and num2 >= num3:
+        return num2
+    else:
+        return num3
+
+# Get user input
+print("Enter three numbers:")
+number1 = float(input("Number 1: "))
+number2 = float(input("Number 2: "))
+number3 = float(input("Number 3: "))
+
+# Find the largest number
+largest = find_largest(number1, number2, number3)
+
+# Print the result
+print(f"The largest number is: {largest}")
+```
+
+_____________________Question 8. Write a python program to find the given year is leap or not___________________________
+```
+def is_leap_year(year):
+    if year % 4 == 0:
+        if year % 100 == 0:
+            if year % 400 == 0:
+                return True
+            else:
+                return False
+        else:
+            return True
+    else:
+        return False
+
+# Get user input
+user_year = int(input("Enter a year: "))
+
+# Check if the year is a leap year
+if is_leap_year(user_year):
+    print(f"{user_year} is a leap year.")
+else:
+    print(f"{user_year} is not a leap year.")
+```
+
+_____________________Question 9. Write a python program to print factorial of a given number___________________________
+
+```
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+# Get user input
+num = int(input("Enter a number: "))
+
+# Calculate the factorial
+result = factorial(num)
+
+# Print the result
+print(f"The factorial of {num} is {result}.")
+```
+
+___________________________________________Question 10. What is module?___________________________________________________
+In Python, a module is a file containing Python definitions and statements. It serves as a way to organize and reuse code, 
+making it easier to manage and maintain larger programs.
+
+A module can contain variables, functions, classes, and even other modules. By organizing code into modules, you can create 
+a modular design for your application, where different parts of the program are kept separate and can be easily imported and 
+used in other parts of the code.
+
+_____________________________Question 11. How to create a module? Explain with example____________________________________
+To create a module in Python, you simply need to create a Python file (with the .py extension) and place your code in it. Here's an example:
+
+Let's say we want to create a module called math_utils.py that contains some useful math-related functions.
+
+1. Create the math_utils.py file:
+
+```
+# math_utils.py
+def add(a, b):
+    """Adds two numbers."""
+    return a + b
+
+def subtract(a, b):
+    """Subtracts two numbers."""
+    return a - b
+
+def multiply(a, b):
+    """Multiplies two numbers."""
+    return a * b
+
+def divide(a, b):
+    """Divides two numbers."""
+    return a / b
+```
+- In this example, we've created a module called math_utils.py that contains four functions: add(), subtract(), multiply(), and divide().
+
+2. Using the module in another Python file:
+Now, let's say we want to use the functions from the math_utils module in another Python file, such as main.py:
+
+```
+# main.py
+import math_utils
+
+result = math_utils.add(5, 3)
+print(result)  # Output: 8
+
+result = math_utils.subtract(10, 4)
+print(result)  # Output: 6
+
+result = math_utils.multiply(4, 6)
+print(result)  # Output: 24
+
+result = math_utils.divide(12, 3)
+print(result)  # Output: 4.0
+```
+
+- In the main.py file, we import the math_utils module using the import statement. This allows us to access the functions defined in the math_utils.py 
+module by using the dot notation, such as math_utils.add(), math_utils.subtract(), etc.
+
+- You can also import specific functions from the module, like this:
+
+```
+# main.py
+from math_utils import add, subtract
+
+result = add(5, 3)
+print(result)  # Output: 8
+
+result = subtract(10, 4)
+print(result)  # Output: 6
+```
+
+- In this case, we use the from keyword to import the add() and subtract() functions directly, without having to use the math_utils prefix.
+
+- Additionally, you can import all the functions from a module using the * wildcard:
+
+```
+# main.py
+from math_utils import *
+
+result = add(5, 3)
+print(result)  # Output: 8
+
+result = subtract(10, 4)
+print(result)  # Output: 6
+
+result = multiply(4, 6)
+print(result)  # Output: 24
+
+result = divide(12, 3)
+print(result)  # Output: 4.0
+```
+
+- However, it's generally considered a good practice to be more specific when importing modules or functions, as it can make your code more 
+maintainable and less prone to naming conflicts.
+
+- By creating modules, you can organize your code, make it more reusable, and easily share it with others. Modules are a fundamental concept 
+in Python and are essential for building larger and more complex applications.
+
+
+_____________________________Question 12. Describe the any one regular expression____________________________________
+Regular expressions (regex) are a powerful way to work with text patterns in programming. One of the commonly used regular expressions 
+is the . (dot) character, which matches any single character, except for a newline character (\n).
+
+Here's a more detailed explanation of the . regular expression:
+
+1. Matching any single character: 
+The . (dot) character is a wildcard in regular expressions that matches any single character, except for a newline character (\n). 
+This means it can match letters, digits, punctuation, or any other character.
+
+2. Greedy matching: 
+By default, the . character is a greedy quantifier, which means it will match as many characters as possible, up to the end of the line or 
+the next pattern element.
+
+3. Example usage:
+- Matching a single character: The pattern a.b would match "axb", "a1b", "a-b", etc.
+- Matching multiple characters: The pattern a.+b would match "a123b", "a-_#b", "abcdefghib", etc.
+
+4. Negating the . character: 
+If you want to match any character except a specific character, you can use a character class [^.] to negate the . character. For example, 
+the pattern a[^n]b would match "axb", "a1b", but not "anb".
+
+5. Multiline matching: 
+By default, the . character does not match the newline character (\n). If you want the . character to match newline 
+characters as well, you can use the re.DOTALL flag when compiling the regular expression.
+
+Here's an example that demonstrates the use of the . character in Python:
+
+```
+import re
+
+text = "The quick brown fox jumps over the lazy dog."
+
+# Matching a single character
+print(re.findall(r"a.b", text))  # Output: ['axb']
+
+# Matching multiple characters
+print(re.findall(r"a.+b", text))  # Output: []
+
+# Negating the `.` character
+print(re.findall(r"a[^n]b", text))  # Output: ['axb']
+
+# Multiline matching
+print(re.findall(r".+", text, re.DOTALL))  # Output: ['The quick brown fox jumps over the lazy dog.']
+```
+
+In the above example, we demonstrate the use of the . character in various scenarios, including matching a single character, matching 
+multiple characters, negating the . character, and using the re.DOTALL flag for multiline matching.
+
+The . character is a fundamental and widely used regular expression pattern, and understanding its behavior is essential for working 
+with text patterns in programming.
+
+
+_____________________________Question 13. Explain package installation via pip____________________________________
+In Python, the pip (short for "PIP Installs Packages") is the default package manager used to install and manage external Python packages 
+and libraries. It allows you to easily download, install, upgrade, and remove Python packages from the Python Package Index (PyPI) or other package repositories.
+
+Here's how you can install packages using pip:
+
+1. Open a terminal or command prompt: Depending on your operating system, you can open a terminal (on macOS or Linux) or a command prompt (on Windows).
+2. Check the current version of pip: Before installing any packages, it's a good practice to ensure that you have the latest version of pip installed. 
+You can do this by running the following command:
+
+``
+python -m pip install --upgrade pip
+```
+
+This command will upgrade your pip to the latest version.
+
+3. Install a package: To install a package, you can use the following command:
+
+```
+pip install package_name
+```
+
+Replace package_name with the name of the package you want to install. For example, to install the numpy package, you would run:
+
+```
+pip install numpy
+```
+
+4. Install a specific version of a package: If you want to install a specific version of a package, you can use the following command:
+
+```
+pip install package_name==version_number
+```
+
+For example, to install numpy version 1.19.2, you would run:
+
+```
+pip install numpy==1.19.2
+```
+
+5. Install from a requirements file: If you have a list of packages and their versions stored in a requirements.txt file, you can install 
+them all at once using the following command:
+basic
+
+```
+pip install -r requirements.txt
+```
+
+This is commonly used in development and deployment environments to ensure consistent package versions across different systems.
+
+6. Uninstall a package: To uninstall a package, you can use the following command:
+
+```
+pip uninstall package_name
+```
+
+Replace package_name with the name of the package you want to uninstall.
+
+7. Search for packages: You can search for available packages on PyPI using the following command:
+
+```
+pip search package_name
+```
+
+This will show you a list of packages that match the search term.
+
+8. List installed packages: To see a list of all the packages installed in your Python environment, you can use the following command:
+
+```
+pip list
+```
+
+This will show you the name and version of each installed package.
+
+pip is a powerful tool that makes it easy to manage and install Python packages. It's an essential part of the Python ecosystem and is 
+used extensively by Python developers to access and use a wide range of external libraries and tools.
+
+
+_____________________________Question 14. What is import statement in modules?____________________________________
+The import statement in Python is used to bring in functionality from other modules into the current module. Modules in Python are 
+self-contained units of code that can be imported and used in other parts of a program.
+
+There are several ways to use the import statement:
+
+1. Importing the entire module:
+
+```
+import module_name
+```
+
+This imports the entire module and allows you to access its contents using the dot notation, like module_name.function_name().
+
+2. Importing specific objects from a module:
+
+```
+from module_name import object_1, object_2, object_3
+```
+
+This imports specific objects (functions, classes, variables, etc.) from the module, allowing you to use them directly in your code 
+without the module prefix.
+
+3. Importing all objects from a module:
+
+```
+from module_name import *
+```
+
+This imports all the objects from the module into the current namespace, allowing you to use them directly without any prefix. 
+However, this approach is generally discouraged as it can lead to naming conflicts and make your code less readable.
+
+2. Renaming imported objects:
+
+```
+import module_name as alias
+from module_name import object_name as new_name
+```
+
+This allows you to use a different name for the imported module or object, which can be useful to avoid naming conflicts or make 
+your code more descriptive.
+
+
+_____________________________Question 15. Explain about reading and writing files in python____________________________________
+In Python, you can read from and write to files using the built-in open() function. The general process involves the following steps:
+
+1. Opening a file:
+- Use the open() function to open a file.
+- The open() function takes two arguments: the file path and the mode (e.g., "r" for reading, "w" for writing, "a" for appending).
+- Example: file = open("example.txt", "r")
+
+2. Reading from a file:
+- Once a file is opened for reading, you can use various methods to read its contents:
+	* read(): Reads the entire file content as a single string.
+	* readline(): Reads a single line from the file.
+	* readlines(): Reads all the lines of the file and returns them as a list of strings.
+
+- Example:
+
+```
+with open("example.txt", "r") as file:
+    content = file.read()
+    print(content)
+```
+
+3. Writing to a file:
+- To write to a file, you need to open it in write mode ("w") or append mode ("a").
+- Use the write() method to write data to the file.
+- Example:
+
+```
+with open("example.txt", "w") as file:
+    file.write("Hello, world!")
+```
+
+4. Appending to a file:
+- To add new content to the end of a file, you can open it in append mode ("a").
+- Example:
+
+```
+with open("example.txt", "a") as file:
+    file.write("\nThis is a new line.")
+```
+
+5. Using the with statement:
+- The with statement is a convenient way to work with files, as it automatically handles the opening and closing of the file.
+- This ensures that the file is properly closed, even if an exception occurs during the file operations.
+
+
+_____________________________________Question 16. Create Python codes to read a file_____________________________________________
+
+```
+# Reading the entire file
+with open("example.txt", "r") as file:
+    content = file.read()
+    print(content)
+
+# Reading the file line by line
+with open("example.txt", "r") as file:
+    for line in file:
+        print(line.strip())
+
+# Reading the file into a list of lines
+with open("example.txt", "r") as file:
+    lines = file.readlines()
+    for line in lines:
+        print(line.strip())
+
+# Reading a file with a specific encoding
+with open("example.txt", "r", encoding="utf-8") as file:
+    content = file.read()
+    print(content)
+```
+
+_____________________________Question 17. What is the difference between global and local scope?____________________________________
+In Python, the scope determines the visibility and accessibility of variables. There are two main types of scope: global scope and local scope.
+
+1. Global Scope:
+- Variables defined outside of any function or class are considered to be in the global scope.
+- Variables in the global scope can be accessed and modified from anywhere in the code, including inside functions.
+- Using the global keyword inside a function allows you to modify a global variable from within that function.
+
+Example:
+
+```
+global_variable = 10
+
+def my_function():
+    print(global_variable)  # Can access the global variable
+
+my_function()  # Output: 10
+
+def modify_global():
+    global global_variable
+    global_variable = 20
+
+modify_global()
+print(global_variable)  # Output: 20
+```
+
+2. Local Scope:
+- Variables defined within a function or a block (e.g., inside a loop or an if statement) are considered to be in the local scope.
+- Local variables can only be accessed and modified within the function or block where they are defined.
+- If a variable with the same name exists in both the global and local scope, the local variable will take precedence within the function or block.
+
+Example:
+
+```
+global_variable = 10
+
+def my_function():
+    local_variable = 5
+    print(local_variable)  # Can access the local variable
+    print(global_variable)  # Can also access the global variable
+
+my_function()  # Output: 5, 10
+
+def modify_local():
+    local_variable = 20
+    print(local_variable)  # Can access the local variable
+    print(global_variable)  # Can also access the global variable
+
+modify_local()  # Output: 20, 10
+```
+
+In the second example, the local_variable defined within the my_function() and modify_local() functions are local to those functions and do not affect the 
+global global_variable.
+
+
+_____________________________Question 18. What is the __init__() function in Python?____________________________________
+In Python, the __init__() function is a special method that is used to initialize the attributes of an object when an instance of a class is created. 
+It is automatically called when an object is created from a class.
+
+The __init__() function is used to set the initial state of the object, such as setting the values of the object's attributes.
+
+
+_____________________________Question 19. What is the difference between lists, tuples and sets?____________________________________
+1. Lists:
+- Ordered collection of items
+- Items can be added, removed, and modified
+- Duplicates are allowed
+
+2. Tuples:
+- Ordered collection of items
+- Items cannot be added, removed, or modified after creation
+- Duplicates are allowed
+
+3. Sets:
+- Unordered collection of unique items
+- Items can be added or removed
+- Duplicates are automatically removed
+
+In summary:
+- Lists are mutable, ordered, and allow duplicates.
+- Tuples are immutable, ordered, and allow duplicates.
+- Sets are mutable, unordered, and unique (no duplicates).
+
+
+_____________________________Question 20. Which collection does not allow duplicate members?____________________________________
+The collection that does not allow duplicate members is a set.
+
+Sets in Python are an unordered collection of unique elements. When you add an item to a set, if the item already exists in the set, 
+it will not be added again, ensuring that each member in the set is unique.
+
+
+_____________________________Question 21. What is the output of the following code?____________________________________
+
+```
+x = 41
+
+if x > 10:
+    print("Above ten,")
+    if x > 20:
+        print("and also above 20!")
+    else:
+        print("but not above 20.")
+```
+
+- The output of the given code will be:
+
+```
+Above ten,
+and also above 20!
+```
+
+_____________________________Question 22. How can you create and use a Module in Python?, Write sample codes of python module____________________________________
+In Python, a module is a file containing Python definitions and statements. Modules allow you to organize your code, reuse it, and share it with others.
+
+Here's how you can create and use a module in Python:
+
+1. Creating a Module:
+- Create a new Python file (e.g., my_module.py) and define your functions, classes, or variables in it.
+
+```
+# my_module.py
+def greet(name):
+    print(f"Hello, {name}!")
+
+PI = 3.14159
+```
+
+2. Using a Module:
+- In another Python file, you can import the module using the import statement.
+
+```
+# main.py
+import my_module
+
+my_module.greet("Alice")  # Output: Hello, Alice!
+print(my_module.PI)  # Output: 3.14159
+```
+
+- You can also import specific items from a module using the from statement.
+
+```
+# main.py
+from my_module import greet, PI
+
+greet("Bob")  # Output: Hello, Bob!
+print(PI)  # Output: 3.14159
+```
+
+- If you want to use a module with a different name, you can use the as keyword.
+
+```
+# main.py
+import my_module as mm
+
+mm.greet("Charlie")  # Output: Hello, Charlie!
+print(mm.PI)  # Output: 3.14159
+```
+
+
+_______________________________________Question 23. What is pandas in python______________________________________________        
+Pandas is a powerful open-source Python library for data manipulation and analysis. It provides data structures and data analysis 
+tools for working with structured (tabular, multidimensional, potentially heterogeneous) and time series data.
+
+- The main data structures in Pandas are:
+
+1. Series: A one-dimensional labeled array, similar to a column in a spreadsheet or a SQL table.
+2. DataFrame: A two-dimensional labeled data structure, like a spreadsheet or a SQL table, with rows and columns.
+
+
+
+_____________________________Question 24. How do you create a DataFrame from a dictionary?____________________________________
+To create a Pandas DataFrame from a dictionary in Python, you can use the pd.DataFrame() function. Here's an example:
+
+```
+import pandas as pd
+
+# Create a dictionary
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+    'Age': [25, 30, 35, 40],
+    'City': ['New York', 'London', 'Paris', 'Tokyo']
+}
+
+# Create a DataFrame from the dictionary
+df = pd.DataFrame(data)
+
+# Display the DataFrame
+print(df)
+```
+
+- This will output:
+
+```
+      Name  Age       City
+0   Alice   25  New York
+1     Bob   30   London
+2  Charlie   35    Paris
+3   David   40    Tokyo
+```
+
+- Here's how it works:
+
+1. We create a dictionary data with three keys: 'Name', 'Age', and 'City'. Each key has a list of values associated with it.
+2. We then pass the data dictionary to the pd.DataFrame() function to create a new DataFrame df.
+3. Finally, we print the resulting DataFrame df to see the data.
+
+- You can also specify the column order when creating the DataFrame:
+
+```
+df = pd.DataFrame(data, columns=['Name', 'City', 'Age'])
+```
+
+- This will create a DataFrame with the columns in the order 'Name', 'City', and 'Age'.
+
+- Additionally, you can create a DataFrame from a dictionary of Series objects:
+
+```
+data = {
+    'Name': pd.Series(['Alice', 'Bob', 'Charlie', 'David']),
+    'Age': pd.Series([25, 30, 35, 40]),
+    'City': pd.Series(['New York', 'London', 'Paris', 'Tokyo'])
+}
+
+df = pd.DataFrame(data)
+```
+
+This approach is useful when you have Series objects with different lengths or need to specify the data types for each column.
+
+
+_____________________________Question 25. How do you select a single column from a DataFrame?____________________________________
+To select a single column from a Pandas DataFrame, you can use one of the following methods:
+
+1. Using the column name as an attribute:
+
+```
+import pandas as pd
+
+# Create a sample DataFrame
+data = {'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+        'Age': [25, 30, 35, 40],
+        'City': ['New York', 'London', 'Paris', 'Tokyo']}
+
+df = pd.DataFrame(data)
+
+# Select the 'Name' column
+name_column = df.Name
+```
+
+2. Using bracket notation with the column name as a string:
+
+```
+# Select the 'Age' column
+age_column = df['Age']
+```
+
+3. Using the loc[] or iloc[] accessor with a single column label or integer index:
+
+```
+# Select the 'City' column using label
+city_column = df.loc[:, 'City']
+
+# Select the first column using integer index
+first_column = df.iloc[:, 0]
+```
+
+- All of these methods will return a Pandas Series, which is a one-dimensional labeled array.
+
+- Here's an example of how to work with the selected column:
+
+```
+# Print the 'Name' column
+print(name_column)
+# Output:
+# 0    Alice
+# 1      Bob
+# 2   Charlie
+# 3    David
+# Name: Name, dtype: object
+
+# Calculate the mean of the 'Age' column
+print(age_column.mean())
+# Output: 32.5
+```
+
+- N.B: The column selection methods return a view of the data, not a copy. This means that any modifications made 
+to the selected column will affect the original DataFrame.
+
+
+
+_____________________________Question 26. How do you filter rows based on a condition?____________________________________
+To filter rows in a Pandas DataFrame based on a condition, you can use boolean indexing. Here's an example:
+
+```
+import pandas as pd
+
+# Create a sample DataFrame
+data = {'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+        'Age': [25, 30, 35, 40],
+        'City': ['New York', 'London', 'Paris', 'Tokyo']}
+
+df = pd.DataFrame(data)
+
+# Filter rows where Age is greater than 30
+older_than_30 = df[df['Age'] > 30]
+print(older_than_30)
+```
+
+- This will output:
+
+```
+      Name  Age       City
+2  Charlie   35    Paris
+3   David   40    Tokyo
+```
+
+- Here's how it works:
+
+1. We create a boolean condition df['Age'] > 30, which evaluates to a Series of boolean values, with True for rows where the 'Age' column 
+is greater than 30, and False otherwise.
+2. We then use this boolean Series to filter the DataFrame, creating a new DataFrame older_than_30 that contains only the rows where the 
+condition is True.
+
+You can also use multiple conditions by combining them with logical operators (& for AND, | for OR, ~ for NOT):
+
+```
+# Filter rows where Age is greater than 30 and City is Paris
+older_parisians = df[(df['Age'] > 30) & (df['City'] == 'Paris')]
+print(older_parisians)
+```
+
+- This will output:
+
+```
+      Name  Age       City
+2  Charlie   35    Paris
+```
+
+- Additionally, you can use the isin() method to filter rows where a column value is in a specified list of values:
+
+```
+# Filter rows where City is either London or Paris
+european_cities = df[df['City'].isin(['London', 'Paris'])]
+print(european_cities)
+```
+
+- This will output:
+
+```
+     Name  Age       City
+1    Bob   30   London
+2  Charlie   35    Paris
+```
+
+- Boolean indexing is a powerful feature in Pandas that allows you to filter DataFrames based on complex conditions, making it 
+easy to extract the data you need for your analysis.
+
+
+_____________________________Question 27. How do you add a new column to a DataFrame?____________________________________
+To add a new column to a Pandas DataFrame, you can use the following methods:
+
+1. Assign a new column directly:
+
+```
+import pandas as pd
+
+# Create a sample DataFrame
+data = {'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+        'Age': [25, 30, 35, 40]}
+
+df = pd.DataFrame(data)
+
+# Add a new 'City' column
+df['City'] = ['New York', 'London', 'Paris', 'Tokyo']
+
+print(df)
+```
+
+- This will output:
+
+```
+      Name  Age       City
+0   Alice   25  New York
+1     Bob   30   London
+2  Charlie   35    Paris
+3   David   40    Tokyo
+```
+
+2. Use the assign() method:
+
+```
+# Add a new 'Salary' column
+df = df.assign(Salary=[50000, 60000, 70000, 80000])
+print(df)
+```
+
+- This will output:
+
+```
+      Name  Age       City  Salary
+0   Alice   25  New York   50000
+1     Bob   30   London    60000
+2  Charlie   35    Paris    70000
+3   David   40    Tokyo     80000
+```
+
+3. Create a new column from an existing column:
+
+```
+# Create a new 'Age Group' column based on the 'Age' column
+df['Age Group'] = pd.cut(df['Age'], bins=[0, 30, 40, float('inf')], labels=['Young', 'Middle-aged', 'Senior'])
+print(df)
+```
+
+- This will output:
+
+```
+      Name  Age       City  Salary Age Group
+0   Alice   25  New York   50000      Young
+1     Bob   30   London    60000  Middle-aged
+2  Charlie   35    Paris    70000  Middle-aged
+3   David   40    Tokyo     80000      Senior
+```
+
+- In the last example, we used the pd.cut() function to create a new 'Age Group' column based on the values in the 'Age' column.
+
+- You can also add a new column by assigning the result of a function or a calculation to a new column name:
+
+```
+# Add a 'Full Name' column by concatenating 'Name' and 'Age'
+df['Full Name'] = df['Name'] + ' (' + df['Age'].astype(str) + ')'
+print(df)
+```
+
+- This will output:
+
+```
+      Name  Age       City  Salary Age Group        Full Name
+0   Alice   25  New York   50000      Young   Alice (25)
+1     Bob   30   London    60000  Middle-aged     Bob (30)
+2  Charlie   35    Paris    70000  Middle-aged  Charlie (35)
+3   David   40    Tokyo     80000      Senior    David (40)
+```
+
+- The key point is that you can add a new column to a DataFrame in a variety of ways, depending on the data and the operation you want to perform.
+
+
+
+_____________________________Question 28. How do you apply a function to a DataFrame column?____________________________________
+To apply a function to a column in a Pandas DataFrame, you can use the following methods:
+
+1. Using the apply() method:
+
+```
+import pandas as pd
+
+# Create a sample DataFrame
+data = {'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+        'Age': [25, 30, 35, 40]}
+
+df = pd.DataFrame(data)
+
+# Apply a function to the 'Age' column
+def double_age(age):
+    return age * 2
+
+df['Double Age'] = df['Age'].apply(double_age)
+print(df)
+```
+
+- This will output:
+
+```
+      Name  Age  Double Age
+0   Alice   25          50
+1     Bob   30          60
+2  Charlie   35          70
+3   David   40          80
+```
+
+2. Using a lambda function:
+
+```
+# Apply a lambda function to the 'Name' column
+df['Name Length'] = df['Name'].apply(lambda x: len(x))
+print(df)
+```
+
+- This will output:
+
+```
+      Name  Age  Double Age  Name Length
+0   Alice   25          50            5
+1     Bob   30          60            3
+2  Charlie   35          70            7
+3   David   40          80            5
+```
+
+3. Applying multiple functions with agg():
+
+```
+# Apply multiple functions to the 'Age' column
+age_stats = df['Age'].agg(['min', 'max', 'mean'])
+print(age_stats)
+```
+
+This will output:
+
+```
+       min  max       mean
+Age    25   40  32.500000
+```
+
+4. Applying a function to each row with apply(axis='columns'):
+
+```
+# Apply a function to each row
+def full_name(row):
+    return f"{row['Name']} ({row['Age']})"
+
+df['Full Name'] = df.apply(full_name, axis='columns')
+print(df)
+```
+
+- This will output:
+
+```
+      Name  Age  Double Age  Name Length           Full Name
+0   Alice   25          50            5         Alice (25)
+1     Bob   30          60            3             Bob (30)
+2  Charlie   35          70            7      Charlie (35)
+3   David   40          80            5          David (40)
+```
+
+- The apply() method allows you to apply any Python function to a DataFrame column or row. This is a powerful feature that enables you 
+to perform complex transformations and calculations on your data.
+
+
+
+_____________________________Question 29. How do you group data by a column and calculate the mean?____________________________________
+To group data by a column and calculate the mean in a Pandas DataFrame, you can use the groupby() and mean() methods. Here's an example:
+
+```
+import pandas as pd
+
+# Create a sample DataFrame
+data = {'Name': ['Alice', 'Bob', 'Alice', 'Charlie', 'Bob', 'David'],
+        'Age': [25, 30, 27, 35, 32, 40],
+        'City': ['New York', 'London', 'New York', 'Paris', 'London', 'Tokyo']}
+
+df = pd.DataFrame(data)
+
+# Group by 'Name' and calculate the mean 'Age'
+age_by_name = df.groupby('Name')['Age'].mean()
+print(age_by_name)
+```
+
+- This will output:
+
+```
+Name
+Alice    26.0
+Bob      31.0
+Charlie  35.0
+David    40.0
+Name: Age, dtype: float64
+```
+
+- Here's how it works:
+
+1. We use the groupby() method to create a GroupBy object, grouping the DataFrame by the 'Name' column.
+2. We then apply the mean() method to the 'Age' column of the GroupBy object, which calculates the mean age for each unique name.
+3. The result is a Series, where the index is the unique 'Name' values, and the values are the corresponding mean ages.
+
+
+
+_____________________________Question 30. Python code to print the given stars____________________________________
+```
+for i in range(10):
+    for j in range(i + 1):
+        print('*', end=" ")
+    print()
+```   
+
+
+
+_________Question 31. Differentiate what is class, what is Inheritance and what is polymorphism in python. Give on create one example for each_____________
+* Class: In Python, a class is a blueprint or a template for creating objects. It defines the attributes (data) and behaviors (methods) that the objects 
+of that class will have. A class is the fundamental building block of object-oriented programming (OOP).
+
+- Example:
+
+```
+class Dog:
+    def __init__(self, name, breed):
+        self.name = name
+        self.breed = breed
+
+    def bark(self):
+        print("Woof!")
+```
+
+- In this example, Dog is a class that has two attributes (name and breed) and one method (bark()).
+
+1. Inheritance:
+Inheritance is a mechanism in which a new class is based on an existing class. The new class (called the derived or child class) inherits the 
+attributes and methods from the existing class (called the base or parent class). This allows for code reuse and the creation of specialized 
+versions of the parent class.
+
+- Example:
+
+```
+class GermanShepherd(Dog):
+    def __init__(self, name, age):
+        super().__init__(name, "German Shepherd")
+        self.age = age
+
+    def protect(self):
+        print("I will protect the family.")
+```
+
+- In this example, the GermanShepherd class inherits from the Dog class. The GermanShepherd class has its own protect() method and also 
+inherits the bark() method from the Dog class.
+
+2. Polymorphism:
+Polymorphism is the ability of objects of different classes to be treated as objects of a common superclass. This means that a method 
+call on a variable of a superclass can invoke the method implementation in the appropriate subclass.
+
+- Example:
+
+```
+class Cat:
+    def make_sound(self):
+        print("Meow!")
+
+class Dog:
+    def make_sound(self):
+        print("Woof!")
+
+def make_animal_sound(animal):
+    animal.make_sound()
+
+cat = Cat()
+dog = Dog()
+
+make_animal_sound(cat)  # Output: Meow!
+make_animal_sound(dog)  # Output: Woof!
+```
+
+- In this example, the make_animal_sound() function can take either a Cat or a Dog object and call their respective make_sound() methods. 
+This is possible because both Cat and Dog classes have a make_sound() method, and the function treats them as objects of a common superclass 
+(in this case, any object that has a make_sound() method).
+
+- These are the key differences between class, inheritance, and polymorphism in Python. Classes are the blueprints for creating objects, 
+inheritance allows for code reuse and specialization, and polymorphism enables objects of different classes to be treated as a common superclass.
+
+
+
+
+
+_____________________________________Question 32. After studying python module and Pandas do the given question_________________________________________
+a. Write a Python function to load the dataset into a Pandas DataFrame:
+
+```
+import pandas as pd
+
+def load_dataset(file_path):
+    """
+    Loads the dataset from the CSV file into a Pandas DataFrame.
+    
+    Args:
+        file_path (str): The path to the CSV file.
+    
+    Returns:
+        pd.DataFrame: The DataFrame containing the transaction data.
+    """
+    with open(file_path, mode="r", encoding="utf-8") as myFile:
+        df = pd.read_csv(myFile)
+    return df
+```
+
+- we use the with statement to open the CSV file and read its contents. The encoding="utf-8" parameter is used to ensure the file is 
+read correctly, in case the data contains non-ASCII characters.
+
+- The pd.read_csv() function is then called with the opened file object, which will load the data into a Pandas DataFrame.
+
+- The advantage of using the with statement is that it automatically handles the opening and closing of the file, ensuring that the 
+file is properly closed after the block of code is executed, even if an exception occurs.
+
+b. Write code to calculate the total transaction amount for each customer:
+
+```
+def get_total_transaction_per_customer(df):
+    """
+    Calculates the total transaction amount for each customer.
+    
+    Args:
+        df (pd.DataFrame): The DataFrame containing the transaction data.
+    
+    Returns:
+        pd.Series: A Series with the total transaction amount for each customer.
+    """
+    return df.groupby('CustomerID')['Amount'].sum()
+```
+
+- This function uses the groupby() method to group the DataFrame by the 'CustomerID' column, and then applies the sum() function to the 'Amount' column. 
+This will give us a Series where the index is the 'CustomerID' and the values are the total transaction amounts for each customer.
+
+c. Develop code to find the average transaction amount for each category:
+
+```
+def get_average_transaction_per_category(df):
+    """
+    Calculates the average transaction amount for each category.
+    
+    Args:
+        df (pd.DataFrame): The DataFrame containing the transaction data.
+    
+    Returns:
+        pd.Series: A Series with the average transaction amount for each category.
+    """
+    return df.groupby('Category')['Amount'].mean()
+```
+
+- This function also uses the groupby() method, but this time it groups the DataFrame by the 'Category' column. 
+It then applies the mean() function to the 'Amount' column, which will give us a Series where the index is 
+the 'Category' and the values are the average transaction amounts for each category.
+
+(d) Python code to filter the DataFrame to include only transactions that occurred in the year 2023 and
+a new column called TransactionMonth that extracts the month from the TransactionDate.
+
+```
+def process_transactions(df, year=2023):
+    """
+    Processes the transaction data for the given year.
+    
+    Args:
+        df (pd.DataFrame): The DataFrame containing the transaction data.
+        year (int, optional): The year to process the transactions for. Defaults to 2023.
+    
+    Returns:
+        pd.DataFrame: The DataFrame containing the processed transactions for the given year.
+    """
+    # Convert TransactionDate to datetime
+    df['TransactionDate'] = pd.to_datetime(df['TransactionDate'])
+    
+    # Filter for the given year
+    df_year = df[df['TransactionDate'].dt.year == year]
+    
+    # Create TransactionMonth column
+    df_year['TransactionMonth'] = df_year['TransactionDate'].dt.month
+    
+    return df_year
+```
+
+* To use these functions, you can call them like this:
+
+```
+# Load the dataset
+transactions_df = load_dataset('transactions.csv')
+
+# Calculate the total transaction amount per customer
+total_transactions_per_customer = get_total_transaction_per_customer(transactions_df)
+print(total_transactions_per_customer)
+
+# Calculate the average transaction amount per category
+average_transactions_per_category = get_average_transaction_per_category(transactions_df)
+print(average_transactions_per_category)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
