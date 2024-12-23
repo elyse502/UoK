@@ -1,0 +1,8 @@
+ASSIGNMENT
+-------------
+
+Writing a program that solves a quadratic equation....
+
+ax^2+bx+c = 0
+
+The name: quadratic_equation.c
