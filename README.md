@@ -1,6 +1,6 @@
 <div align="center">
 
-# UoK 👨‍🎓
+# 🎓 UoK 👨‍🎓
 
 ![NEW-UoK-Logo-e1717660118908](https://github.com/user-attachments/assets/e44d53e9-e2f1-41c2-a139-eb63ad6b1441)
 </div><br /><br />
