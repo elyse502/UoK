@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'app_router.dart';
 
@@ -17,6 +18,8 @@ class GadgetGroveApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
+        fontFamily:
+            GoogleFonts.poppins().fontFamily, // Set Poppins as default font
       ),
     );
   }
