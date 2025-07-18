@@ -55,7 +55,7 @@ class TaskFlowApp extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
         // Incorporate Google Fonts (optional but enhances UI)
-        textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),

@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TaskFlow - Projects'),
+        title: const Text('TaskFlow - Projects 📑'),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
       ),
