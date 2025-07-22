@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'app_router.dart'; // Import the new app_router.dart
 
 void main() {
@@ -22,8 +21,7 @@ class UrbanEatsApp extends StatelessWidget {
           foregroundColor: Colors.white, // White text
           elevation: 0,
         ),
-        fontFamily:
-            GoogleFonts.poppins().fontFamily, // Set Poppins as default font
+        fontFamily: 'Roboto', // Set Roboto as default font
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),

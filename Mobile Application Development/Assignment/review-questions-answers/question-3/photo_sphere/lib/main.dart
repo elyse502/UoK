@@ -37,6 +37,7 @@ class PhotoSphereApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'PhotoSphere', // Updated title
       theme: ThemeData(
         primarySwatch:

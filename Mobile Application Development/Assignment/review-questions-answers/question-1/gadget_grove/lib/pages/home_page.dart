@@ -74,7 +74,7 @@ class HomePage extends StatelessWidget {
                 const Icon(Icons.star, color: Colors.amber),
                 const SizedBox(width: 8),
                 Text(
-                  "Top Picks For You",
+                  "Top Picks For You 🏪",
                   style: Theme.of(
                     context,
                   ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),

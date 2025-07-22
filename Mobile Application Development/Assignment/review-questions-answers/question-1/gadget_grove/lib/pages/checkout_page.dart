@@ -20,7 +20,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Checkout")),
+      appBar: AppBar(title: Text("Checkout 🛒")),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Form(

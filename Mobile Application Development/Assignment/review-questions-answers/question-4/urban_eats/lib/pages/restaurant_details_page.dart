@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../data/mock_restaurants.dart';
 import '../models/restaurant.dart';
-import '../models/menu_item.dart';
 import 'package:intl/intl.dart'; // For currency formatting
 
 class RestaurantDetailsPage extends StatelessWidget {

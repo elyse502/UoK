@@ -47,7 +47,7 @@ class PostCard extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       // Navigate to ProfilePage when username is tapped
-                      context.go('/profile/${postUser.userId}');
+                      context.push('/profile/${postUser.userId}');
                     },
                     child: Text(
                       postUser.username,
