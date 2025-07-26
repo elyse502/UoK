@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:task_flow/models/task.dart';
+import 'package:go_router/go_router.dart';
 
 class TaskItem extends StatefulWidget {
-  final String title;
-  const TaskItem({super.key, required this.title});
+  final Task task;
+  const TaskItem({super.key, required this.task});
 
   @override
   State<TaskItem> createState() => _TaskItemState();
 }
 
 class _TaskItemState extends State<TaskItem> {
-  bool _isChecked = false;
+  late bool _isChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isChecked = widget.task.isCompleted;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: ListTile(
         leading: Checkbox(
           value: _isChecked,
@@ -25,25 +33,27 @@ class _TaskItemState extends State<TaskItem> {
           },
         ),
         title: Text(
-          widget.title,
+          widget.task.taskTitle,
           style: TextStyle(
             decoration: _isChecked
                 ? TextDecoration.lineThrough
                 : TextDecoration.none,
-            color: _isChecked ? Colors.grey : null,
+            color: _isChecked ? Colors.red : null,
           ),
         ),
-        subtitle: const Text('Due: Tomorrow'),
+        subtitle: Text('Due: ${widget.task.dueDate}'),
         trailing: IconButton(
-          icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
           onPressed: () {
-            print('Delete button pressed for ${widget.title}');
+            print('Item ${widget.task.taskTitle} deleted!');
           },
+          icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
         ),
+        // onTap: () {
+        //   setState(() {
+        //     _isChecked = !_isChecked;
+        //   });
         onTap: () {
-          setState(() {
-            _isChecked = !_isChecked;
-          });
+          context.push('/task/${widget.task.id}');
         },
       ),
     );
