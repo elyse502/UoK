@@ -1,0 +1,325 @@
+R1
+==
+enable
+confi t
+int gi0/0
+ip add 192.168.10.1 255.255.255.0
+no shut
+int gi0/2
+ip add 192.168.20.1 255.255.255.128
+no shut
+int gi0/1
+ip add 10.10.10.1 255.255.255.252
+no shut
+
+
+R2
+===
+enable
+config t
+int gi0/0
+ip add 10.10.10.2 255.255.255.252
+no shut
+int gi0/1
+ip add 192.168.30.1 255.255.255.192
+no shut
+int gi0/2
+ip add 192.168.40.1 255.255.255.224 
+no shut
+
+
+
+R1
+==
+
+router eigrp 100
+network 192.168.10.0 0.0.0.255
+network 192.168.20.0 0.0.0.127
+network 10.10.10.0 0.0.0.3
+
+R2
+==
+router eigrp 100
+network 192.168.30.0 0.0.0.63
+network 192.168.40.0 0.0.0.31
+network 10.10.10.0 0.0.0.3
+
+
+
+Router#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C       10.10.10.0/30 is directly connected, GigabitEthernet0/1
+L       10.10.10.1/32 is directly connected, GigabitEthernet0/1
+     192.168.10.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.10.0/24 is directly connected, GigabitEthernet0/0
+L       192.168.10.1/32 is directly connected, GigabitEthernet0/0
+     192.168.20.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.20.0/25 is directly connected, GigabitEthernet0/2
+L       192.168.20.1/32 is directly connected, GigabitEthernet0/2
+
+
+
+
+
+Router#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     10.0.0.0/8 is variably subnetted, 2 subnets,p 2 masks
+C       10.10.10.0/30 is directly connected, GigabitEthernet0/1
+L       10.10.10.1/32 is directly connected, GigabitEthernet0/1
+     192.168.10.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.10.0/24 is directly connected, GigabitEthernet0/0
+L       192.168.10.1/32 is directly connected, GigabitEthernet0/0
+     192.168.20.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.20.0/25 is directly connected, GigabitEthernet0/2
+L       192.168.20.1/32 is directly connected, GigabitEthernet0/2
+     192.168.30.0/26 is subnetted, 1 subnets
+D       192.168.30.0/26 [90/5376] via 10.10.10.2, 00:00:12, GigabitEthernet0/1
+     192.168.40.0/27 is subnetted, 1 subnets
+D       192.168.40.0/27 [90/5376] via 10.10.10.2, 00:00:12, GigabitEthernet0/1
+
+
+
+enable 
+config t
+int gi0/0
+ip add 10.10.10.1 255.255.255.252
+no shut
+int gi0/1
+ip add 192.168.30.1 255.255.255.224
+no shut
+
+
+R2
+===
+enable 
+config t
+int gi0/0
+ip add 10.10.10.2 255.255.255.252
+no shut
+int gi0/1
+ip add 20.20.20.1 255.255.255.252
+no shut
+int gi0/2
+ip add 30.30.30.1 255.255.255.252
+no shut
+R3
+==
+
+enable
+config t
+int gi0/0
+ip add 20.20.20.2 255.255.255.252
+no shut
+int gi0/1
+ip add 40.40.40.1 255.255.255.252
+no shut
+int gi0/2
+ip add 192.168.10.1 255.255.255.0
+no shut
+
+
+R4
+===
+enable
+config t
+int gi0/0/1
+ip add 40.40.40.2 255.255.255.252
+no shut
+int gi0/0/0
+ip add 30.30.30.2 255.255.255.252
+no shut
+int gi0/0/2
+ip add 192.168.20.1 255.255.255.128
+no shut
+
+router ospf 10
+router-id 1.1.1.1
+network 10.10.10.0 0.0.0.3 area 0
+network 192.168.30.0 0.0.0.31 area 0
+
+
+router ospf 10
+router-id 2.2.2.2
+network 10.10.10.0  0.0.0.3 area 0
+network 20.20.20.0 0.0.0.3 area 10
+network 30.30.30.0 0.0.0.3 area 10
+
+
+router ospf 10
+router-id 3.3.3.3
+network 20.20.20.0 0.0.0.3 area 10
+network 40.40.40.0 0.0.0.3 area 10
+network 192.168.10.0 0.0.0.255 area 10
+
+router ospf 10
+router-id 4.4.4.4
+network 30.30.30.0 0.0.0.3 area 10
+network 40.40.40.0 0.0.0.3 area 10
+network 192.168.20.0 0.0.0.127 area 10
+
+
+
+
+
+
+
+
+
+Router#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     20.0.0.0/30 is subnetted, 1 subnets
+O       20.20.20.0/30 [110/2] via 30.30.30.1, 00:00:00, GigabitEthernet0/0/0
+     30.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C       30.30.30.0/30 is directly connected, GigabitEthernet0/0/0
+L       30.30.30.2/32 is directly connected, GigabitEthernet0/0/0
+     40.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C       40.40.40.0/30 is directly connected, GigabitEthernet0/0/1
+L       40.40.40.2/32 is directly connected, GigabitEthernet0/0/1
+     192.168.20.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.20.0/25 is directly connected, GigabitEthernet0/0/2
+
+
+
+
+
+Router#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     10.0.0.0/30 is subnetted, 1 subnets
+O IA    10.10.10.0/30 [110/2] via 20.20.20.1, 00:01:25, GigabitEthernet0/0
+     20.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C       20.20.20.0/30 is directly connected, GigabitEthernet0/0
+L       20.20.20.2/32 is directly connected, GigabitEthernet0/0
+     30.0.0.0/30 is subnetted, 1 subnets
+O       30.30.30.0/30 [110/2] via 20.20.20.1, 00:01:10, GigabitEthernet0/0
+                      [110/2] via 40.40.40.2, 00:01:10, GigabitEthernet0/1
+     40.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C       40.40.40.0/30 is directly connected, GigabitEthernet0/1
+L       40.40.40.1/32 is directly connected, GigabitEthernet0/1
+     192.168.10.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.10.0/24 is directly connected, GigabitEthernet0/2
+L       192.168.10.1/32 is directly connected, GigabitEthernet0/2
+     192.168.20.0/25 is subnetted, 1 subnets
+O       192.168.20.0/25 [110/2] via 40.40.40.2, 00:01:10, GigabitEthernet0/1
+     192.168.30.0/27 is subnetted, 1 subnets
+O IA    192.168.30.0/27 [110/3] via 20.20.20.1, 00:01:25, GigabitEthernet0/0
+
+
+
+Router#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     10.0.0.0/30 is subnetted, 1 subnets
+O IA    10.10.10.0/30 [110/2] via 30.30.30.1, 00:02:50, GigabitEthernet0/0/0
+     20.0.0.0/30 is subnetted, 1 subnets
+O       20.20.20.0/30 [110/2] via 30.30.30.1, 00:02:35, GigabitEthernet0/0/0
+                      [110/2] via 40.40.40.1, 00:02:35, GigabitEthernet0/0/1
+     30.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C       30.30.30.0/30 is directly connected, GigabitEthernet0/0/0
+L       30.30.30.2/32 is directly connected, GigabitEthernet0/0/0
+     40.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C       40.40.40.0/30 is directly connected, GigabitEthernet0/0/1
+L       40.40.40.2/32 is directly connected, GigabitEthernet0/0/1
+O    192.168.10.0/24 [110/2] via 40.40.40.1, 00:02:35, GigabitEthernet0/0/1
+     192.168.20.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.20.0/25 is directly connected, GigabitEthernet0/0/2
+L       192.168.20.1/32 is directly connected, GigabitEthernet0/0/2
+     192.168.30.0/27 is subnetted, 1 subnets
+O IA    192.168.30.0/27 [110/3] via 30.30.30.1, 00:02:50, GigabitEthernet0/0/0
+
+router bgp 100
+bgp router-id 1.1.1.1
+neighbor 10.10.10.2 remote-as 200 
+network 10.10.10.0 mask 255.255.255.0
+network 192.168.10.0 mask 255.255.255.128
+
+
+router bgp 200
+bgp router-id 2.2.2.2
+neighbor 10.10.10.1 remote-as 100 
+network 10.10.10.0 mask 255.255.255.0
+network 192.168.20.0 mask 255.255.255.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
