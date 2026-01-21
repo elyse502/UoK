@@ -1,0 +1,282 @@
+Review Questions [Part 1]
+1. What is Data Warehousing?
+Data warehousing is the process of collecting, storing, and managing data from various sources into a single, central repository (the data warehouse). Its main goal is to support business analysis and decision-making, not daily transactions. Think of it as a company's "corporate memory" for data.
+
+2. List and explain Data Transformation Strategies.
+
+Cleaning: Fixing errors and inconsistencies (e.g., correcting "N.Y." and "New York" to a standard format).
+
+Integration: Combining data from different sources into a unified view.
+
+Transformation: Converting data into a suitable format (e.g., changing units from pounds to kilograms).
+
+Reduction: Reducing the volume of data but producing the same analytical results (e.g., through aggregation).
+
+Normalization: Scaling data to fall within a small, specified range to improve the performance of certain algorithms.
+
+Smoothing: Removing noise from data to see underlying trends.
+
+3. What is data transformation and why is it mandatory?
+Data transformation is the process of converting data from its original format into a format that is suitable for the data warehouse and for analysis.
+Why it's mandatory: Source data is often messy, inconsistent, and in different formats. Without transformation, you'd have "garbage in, garbage out." It ensures data is consistent, accurate, and usable for reliable reporting and mining.
+
+4. What is the difference between data warehouse, Data mining, and operational database?
+
+Operational Database: Designed for daily business transactions (e.g., recording a sale). It's optimized for speed and is highly detailed (OLTP - Online Transaction Processing).
+
+Data Warehouse: A subject-oriented, integrated, time-variant collection of data used for analysis and decision support (OLAP - Online Analytical Processing). It holds historical data.
+
+Data Mining: The process of discovering hidden patterns and knowledge from the data in the warehouse. The warehouse is the source, and data mining is the technique to find insights.
+
+5. Explain how a data warehouse can help an airline company to select the best route.
+A data warehouse can consolidate data on:
+
+Ticket sales and profitability per route.
+
+Passenger load factors (how full planes are).
+
+Seasonal trends and customer preferences.
+
+Fuel costs and operational expenses per route.
+By analyzing this historical data, the airline can identify which routes are most profitable, which are underperforming, and predict demand for new routes, leading to better strategic decisions.
+
+6. Differentiate data warehouse and operational database in terms of historical processing.
+
+Operational Database: Focuses on current data. It typically holds short-term, transactional data (e.g., the last few months). Its main job is the "here and now."
+
+Data Warehouse: Focuses on historical data. It stores many years of data to identify long-term trends, patterns, and performance over time. Its main job is to analyze the "then and why."
+
+7. What are objectives of a data warehouse in an organization?
+
+To provide a single, unified view of the organization's data.
+
+To improve the quality and consistency of data.
+
+To enable historical trend analysis.
+
+To support business intelligence and strategic decision-making.
+
+To separate analytical processing from transactional processing, improving the performance of both.
+
+8. How can data transformation improve data warehouse productivity?
+It improves productivity by:
+
+Improving Data Quality: Clean, consistent data leads to more accurate and trustworthy reports.
+
+Speeding up Queries: Properly structured and aggregated data allows for faster query response times.
+
+Reducing Errors: Automated transformation processes minimize manual data handling and the risk of human error.
+
+9. What is ETL?
+ETL stands for Extract, Transform, Load. It is the three-step core process of building a data warehouse.
+
+Extract: Data is pulled from various source systems (e.g., databases, CRM systems).
+
+Transform: Data is cleaned, integrated, and reformatted into a useful structure.
+
+Load: The transformed data is loaded into the data warehouse.
+
+Review Questions [Part 2]
+1. Discuss on threats and their effect on data warehouse.
+
+Data Quality Threat: "Garbage in, garbage out." Poor source data leads to incorrect analysis and bad decisions.
+
+Security Threat: Unauthorized access can lead to theft of sensitive business intelligence.
+
+Performance Threat: Poorly designed warehouses can be slow, making them unusable for decision-makers.
+
+Cost Overtun Threat: Data warehouse projects can be complex and expensive, potentially exceeding budgets.
+
+2. Explain data warehouse architecture.
+It's the blueprint that defines how data flows from sources to end-users. A common architecture has three tiers:
+
+Bottom Tier (Data Sources & ETL): Where data is extracted from sources, transformed, and loaded into the warehouse server.
+
+Middle Tier (OLAP Server): The "brain" that organizes data into multidimensional cubes for complex analysis.
+
+Top Tier (Front-end/Client Tier): The tools (like dashboards and reporting software) that users interact with to query, analyze, and visualize the data.
+
+3. Explain steps involved in data mining.
+
+Data Cleaning: Remove noise and inconsistencies.
+
+Data Integration: Combine multiple data sources.
+
+Data Selection: Choose data relevant to the analysis task.
+
+Data Transformation: Convert data into appropriate forms for mining (e.g., aggregation).
+
+Data Mining: Apply intelligent algorithms to extract patterns.
+
+Pattern Evaluation: Identify the truly interesting patterns representing knowledge.
+
+Knowledge Presentation: Present the mined knowledge to the user using visualization techniques.
+
+4. Explain the data warehouse statement: “A data warehouse is a subject-oriented, integrated, time-variant, and non-volatile collection of data.”
+
+Subject-Oriented: Organized around key subjects (e.g., customers, products, sales), not daily operations.
+
+Integrated: Data from different sources is made consistent (e.g., same units, formats).
+
+Time-Variant: Data is stored to provide a historical perspective (e.g., you can analyze data from the last 5 years).
+
+Non-Volatile: Data is stable; once entered, it is not updated or deleted but only reloaded and queried for analysis.
+
+5. Explain features and main purpose of a Data warehouse.
+Features: Subject-oriented, Integrated, Time-variant, Non-volatile (as above).
+Main Purpose: To enable business users to make better and faster decisions by providing a consolidated, historical view of data for analysis and reporting.
+
+6. What are most services where data mining is used and how can a data warehouse improve those services?
+
+Retail (Recommendation Systems): Data mining finds "customers who bought X also bought Y." A data warehouse provides the clean, integrated sales history needed for accurate recommendations.
+
+Finance (Fraud Detection): Data mining identifies unusual transaction patterns. A data warehouse consolidates transaction data from all channels for a complete view.
+
+Healthcare (Patient Diagnosis): Data mining finds patterns in symptoms and outcomes. A data warehouse integrates patient records, lab results, and treatment data.
+
+7. List steps of data processing and why data processing is important?
+Steps: Collection -> Preparation (Cleaning/Transformation) -> Input -> Processing -> Output -> Storage.
+Importance: Raw data is useless. Processing converts it into a meaningful and structured format (information) that can be used for analysis, decision-making, and other business functions.
+
+8. Compare Transaction database vs data warehouse, OLAP vs OLTP.
+
+Feature	Transactional Database (OLTP)	Data Warehouse (OLAP)
+Purpose	Run day-to-day operations	Support decision-making & analysis
+Data	Current, detailed data	Historical, summarized & detailed data
+Design	Application-oriented (normalized)	Subject-oriented (dimensional)
+Usage	Many small transactions (insert, update)	Few, but complex, queries (select)
+Users	Clerks, IT staff	Managers, analysts, CEOs
+9. What are the factors to take into consideration to select the best OLAP software tool?
+
+Type of OLAP (MOLAP, ROLAP, HOLAP): Suits different storage and processing needs.
+
+Scalability: Can it handle growing data volumes?
+
+Performance & Speed: How fast are query responses?
+
+Integration: Does it work with your existing data warehouse and BI tools?
+
+Ease of Use: Is it user-friendly for business analysts?
+
+Cost: Licensing, implementation, and maintenance costs.
+
+10. Differentiate data cube and relational database.
+
+Relational Database: Stores data in tables (rows and columns). Optimized for storing and managing transactional data.
+
+Data Cube: A multidimensional structure that extends the 2D table concept. It allows data to be viewed and analyzed across multiple dimensions (e.g., Sales by Product, by Region, by Time). It is optimized for analysis, not transactions.
+
+11. Compare V-model vs Waterfall vs Iterative model.
+
+Waterfall: A linear, sequential approach. Each phase (Requirements, Design, Implementation, Testing) must be fully completed before the next begins. Rigid and slow to adapt to change.
+
+V-Model: An extension of Waterfall that emphasizes verification and validation. Each development phase has a corresponding testing phase. More structured for testing but still rigid.
+
+Iterative Model: The project is broken into small, repeating cycles (iterations). In each iteration, a working version is produced, allowing for feedback and changes. More flexible and adaptable to changing requirements (e.g., Agile methodologies).
+
+Review Questions [Part 3]
+1. Describe Normalization, Generalization, and Specialization with examples.
+
+Normalization (in DB design): Organizing data in a database to reduce redundancy. (e.g., Separating customer name and address into different tables to avoid repeating the address for every order).
+
+Generalization: Reducing the detail in data by moving up a concept hierarchy. (e.g., Replacing specific cities "Nairobi," "Mombasa" with a more general concept "Kenya").
+
+Specialization: The opposite of generalization. It adds more detail by moving down a concept hierarchy. (e.g., Breaking down "Kenya" into its specific cities).
+
+2. Discuss on types of clustering.
+
+Partitioning Clustering: Divides data into non-overlapping groups (clusters). Example: K-Means algorithm.
+
+Hierarchical Clustering: Creates a tree of clusters (a dendrogram), which can be agglomerative (bottom-up, merging small clusters) or divisive (top-down, splitting large clusters).
+
+Density-Based Clustering: Forms clusters based on areas of high density, useful for discovering clusters of arbitrary shape. Example: DBSCAN.
+
+3. What are the Purpose of Web Mining and where is it most used?
+Purpose: To discover useful information and patterns from the web (its content, structure, and usage data).
+Most Used In:
+
+Search Engines (Google): To improve search result ranking.
+
+E-commerce (Amazon): For product recommendations and personalization.
+
+Social Media Analysis: To understand user behavior and trends.
+
+4. Explain Categories of Web mining.
+
+Web Content Mining: Extracting useful information from the actual content of web pages (text, images, videos).
+
+Web Structure Mining: Discovering the structure of the web itself by analyzing hyperlinks to understand the relationships between sites (e.g., PageRank).
+
+Web Usage Mining: Analyzing user interaction data (web server logs, clickstreams) to understand user behavior and improve website design.
+
+5. What are four OLAP Tools that you can advise your company?
+
+Microsoft Power BI / Azure Analysis Services: Great for integration with other Microsoft products, user-friendly.
+
+Tableau: Excellent for data visualization and ease of use for business users.
+
+IBM Cognos Analytics: A robust, enterprise-level solution for large organizations.
+
+Oracle OLAP: A powerful option for companies heavily invested in the Oracle ecosystem.
+
+6. Compare Data mining vs Web Mining.
+
+Data Mining: A broad field of discovering patterns in any kind of data (databases, data warehouses, text files).
+
+Web Mining: A sub-field of data mining that specifically focuses on discovering patterns from web data (content, structure, usage).
+
+7. What are the criteria you can consider for a data mining system classification?
+
+Kind of Databases Mined: (Relational, Data Warehouse, Text, Web).
+
+Kind of Knowledge Mined: (Association, Classification, Clustering, etc.).
+
+Techniques Used: (Machine Learning, Statistics, Neural Networks).
+
+Applications Adapted to: (Finance, Marketing, Healthcare).
+
+8. Differentiate web graph and link.
+
+Link: A single hyperlink (a pointer) from one web page to another.
+
+Web Graph: The entire, massive graph structure of the World Wide Web, where web pages are nodes and hyperlinks are the edges connecting them.
+
+9. What are the necessary protocols that can be used to deliver web services?
+The main protocols are:
+
+SOAP (Simple Object Access Protocol): A protocol for exchanging structured information using XML.
+
+REST (Representational State Transfer): An architectural style that uses standard HTTP methods (GET, POST, etc.). It is simpler and more popular than SOAP.
+
+10. List out at least five data mining classifications based on the kind of knowledge mined.
+
+Association Rule Mining (e.g., Market Basket Analysis)
+
+Classification (e.g., Classifying emails as spam or not spam)
+
+Clustering (e.g., Grouping customers by purchasing behavior)
+
+Regression (e.g., Predicting house prices)
+
+Anomaly/Outlier Detection (e.g., Detecting credit card fraud)
+
+11. "Data warehouse must be management oriented and directed." What does it mean?
+It means that the design, development, and use of the data warehouse should be driven by the strategic information needs of management, not by the technical needs of the IT department. It exists to solve business problems and answer management's questions.
+
+12. List and explain web services.
+Web services are software systems designed to support interoperable machine-to-machine interaction over a network.
+
+SOAP Web Services: Formal services that use the XML-based SOAP protocol and WSDL for definition. Highly structured.
+
+RESTful Web Services: Simpler services that use REST principles and standard HTTP. They treat data as resources (URLs) and are more flexible and lightweight.
+
+13. List and explain Categories of web mining.
+(This is a repeat of Question 4 in Part 3)
+
+Web Content Mining: Extracts knowledge from the content of web pages.
+
+Web Structure Mining: Discovers the model underlying the link structure of the web.
+
+Web Usage Mining: Discovers patterns from web server logs and user clickstream data.
+
+Good luck with your CAT! Focus on understanding the core concepts and how they relate to each other. You've got this
