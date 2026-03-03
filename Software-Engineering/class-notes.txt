@@ -1,0 +1,24 @@
+__________ USE CASES: __________
+1. BORROW A BOOK
+2. RESERVE A BOOK
+3. RECORD NEW BOOK
+4. SCAN RESERVATION LIST
+5. RETURN A BOOK
+6. SEND FINE NOTICE
+7. RECORD DETAILS OF NEW MEMBER
+8. CANCEL THE MEMBERSHIP
+9. PAY FINE
+10. VALIDATE MEMBERSHIP CARD
+11. ISSUE MEMBERSHIP CARD
+12. SEND AVAILABILITY NOTIFICATION
+
+- We have two types of actors: "primary actors" and "secondary actors".
+  - primary actors are always on the left side on a flowchart while secondary actors are always on the right side.
+
+__________ Sequence diagrams: __________
+components:
+1. Actor
+2. Message: return message and synchronous message
+3. Activators
+4. Alternative frames
+5. Lifetime

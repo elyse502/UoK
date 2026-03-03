@@ -1,0 +1,8 @@
+Model questions - Software Engineering:
+	* Usecase diagram
+	* Class diagrams (+: public, -: private, #: Secret)
+	* Sequence diagram
+	* Qualities of functional software.
+	* Development process models
+	* Design - Modular structures
+	* Chapter 4: Testing techniques
