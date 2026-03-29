@@ -1,0 +1,103 @@
+__________________________________ SERVER AND SYSTEM ADMNISTRATION _____________________________________
+
+1. Challenges faced in Backup, About the following challenges in Back up propose method to overcome them:
+* Storage limitations
+* Network issues
+* Backup failures
+* Human errors
+
+----------------------------------------------------- Solution -----------------------------------------------------------------------------
+
+### 1. **Storage Limitations**
+
+**Challenge:** Backup data grows quickly, leading to insufficient storage capacity.
+
+**Solutions:**
+
+* **Use compression & deduplication:** Reduces the size of stored backups by eliminating duplicate data.
+* **Adopt cloud storage:** Scalable options (like services from Amazon Web Services or Microsoft Azure) allow you to expand storage as needed.
+* **Implement tiered storage:** Store frequently accessed backups on fast storage and older backups on cheaper, slower media.
+* **Set retention policies:** Automatically delete or archive outdated backups.
+
+---
+
+### 2. **Network Issues**
+
+**Challenge:** Slow or unstable networks can delay or interrupt backups.
+
+**Solutions:**
+
+* **Schedule backups during off-peak hours:** Reduces network congestion.
+* **Use incremental or differential backups:** Only changes are transferred, reducing bandwidth usage.
+* **Enable bandwidth throttling:** Prevents backups from overwhelming the network.
+* **Use local backups first (hybrid backup):** Store locally, then replicate to cloud later.
+
+---
+
+### 3. **Backup Failures**
+
+**Challenge:** Backups may fail due to software bugs, hardware issues, or misconfigurations.
+
+**Solutions:**
+
+* **Automated monitoring & alerts:** Get notified immediately when a backup fails.
+* **Regular testing (restore tests):** Ensure backups are actually usable.
+* **Redundancy:** Maintain multiple backup copies (e.g., 3-2-1 rule: 3 copies, 2 media types, 1 offsite).
+* **Keep backup software updated:** Reduces bugs and compatibility issues.
+
+---
+
+### 4. **Human Errors**
+
+**Challenge:** Mistakes like accidental deletion, misconfiguration, or forgetting backups.
+
+**Solutions:**
+
+* **Automate backup processes:** Reduces reliance on manual intervention.
+* **Role-based access control (RBAC):** Limits who can modify or delete backups.
+* **Clear backup policies & documentation:** Ensures consistent procedures.
+* **Training & awareness:** Educate staff on best practices.
+* **Versioning:** Keeps multiple file versions so accidental changes can be reversed.
+
+---
+
+### Summary
+
+Most backup challenges can be mitigated through **automation, monitoring, proper planning, and scalable infrastructure**. Combining local and cloud strategies with regular testing ensures reliability and data safety.
+
+______________________________________________________________________________________________________________________________________________________
+
+2. Protocols - Discuss in details about
+
+- DNS
+- DHCP
+- HTTP
+- SSL
+- FTP
+- FMTP
+- SMTP
+- SSH
+
+* What is
+* Why(Role) is needed?
+* Process (how it work?)
+* Symptoms indicating a failure
+* Solution
+* Effect of fail
+
+3. Technologies - Discus in details about:
+- RAID
+- Docker
+- Virtualization
+- Active Directory
+
+* What is
+* Why do we need
+* How it work
+* Advantages and disadvantages
+* Use case
+* Challenge
+* Effect of fail
+* Propose A solution
+
+
