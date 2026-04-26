@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RITCO Company Ticket Booking</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+  body{background:#00bcd4;min-height:100vh;padding:10px}
+  h1{text-align:center;color:#1565c0;font-size:22px;padding:12px 0 8px;font-weight:700}
+  .layout{display:flex;gap:10px;align-items:flex-start}
+  .left{flex:1;min-width:0}
+  .right{width:300px;flex-shrink:0}
+  .cards{display:flex;gap:8px;justify-content:center;margin-bottom:8px;flex-wrap:wrap}
+  .card{background:#1565c0;color:#fff;border-radius:6px;padding:8px 12px;text-align:center;min-width:80px}
+  .card .card-title{font-size:10px;opacity:.85}
+  .card .card-val{font-size:18px;font-weight:700}
+  .seats-lbl{text-align:center;color:#1565c0;font-weight:700;font-size:13px;margin-bottom:6px}
+  .form-panel{background:#e0f7fa;border-radius:8px;padding:12px;border:1px solid #b2ebf2}
+  .form-panel h3{color:#1565c0;font-size:14px;margin-bottom:10px;text-align:center}
+  .form-row{display:flex;align-items:center;margin-bottom:7px;gap:6px}
+  .form-row label{width:110px;font-size:12px;font-weight:600;color:#333;flex-shrink:0}
+  .form-row input,.form-row select{flex:1;padding:5px 7px;border:1px solid #90caf9;border-radius:4px;font-size:12px;background:#fff}
+  .form-row input[disabled]{background:#f5f5f5;color:#888}
+  .btn-book{width:100%;background:#1565c0;color:#fff;border:none;border-radius:5px;padding:9px;font-size:13px;font-weight:700;cursor:pointer;margin-top:4px}
+  .btn-book:hover{background:#0d47a1}
+  .table-section{background:#e0f7fa;border-radius:8px;padding:10px;border:1px solid #b2ebf2}
+  .table-title{color:#1565c0;font-size:16px;font-weight:700;text-align:center;margin-bottom:8px}
+  .tbl-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:12px;min-width:600px}
+  thead tr{background:#1565c0;color:#fff}
+  thead th{padding:7px 6px;text-align:left;font-size:12px;white-space:nowrap}
+  tbody tr{cursor:pointer;border-bottom:1px solid #b2ebf2}
+  tbody tr:hover{background:#b3e5fc}
+  tbody tr.selected{background:#81d4fa}
+  tbody td{padding:6px;white-space:nowrap}
+  .btn-print{background:#2e7d32;color:#fff;border:none;border-radius:5px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;float:right;margin-top:8px}
+  .btn-print:hover{background:#1b5e20}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center}
+  .modal-bg.open{display:flex}
+  .modal{background:#fff;border-radius:10px;width:360px;max-width:95vw;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.2)}
+  .modal-header{background:#1565c0;color:#fff;text-align:center;padding:12px;font-weight:700;font-size:16px}
+  .modal-body{padding:16px 20px}
+  .modal-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #eee;font-size:13px}
+  .modal-row .lbl{font-weight:700;color:#333}
+  .modal-row .val{color:#555;text-align:right}
+  .modal-footer{background:#1565c0;color:#fff;text-align:center;padding:9px;font-size:12px;font-weight:700}
+  .modal-close{display:block;margin:10px auto 0;background:#1565c0;color:#fff;border:none;border-radius:5px;padding:6px 20px;cursor:pointer;font-size:13px}
+  @media(max-width:720px){.layout{flex-direction:column}.right{width:100%}}
+</style>
+</head>
+<body>
+<h1>RITCO COMPANY BOOKING TICKET</h1>
+<div class="layout">
+  <div class="left">
+    <div class="table-section">
+      <div class="table-title">BOOKED TICKETS</div>
+      <div class="tbl-wrap">
+        <table id="tbl">
+          <thead><tr>
+            <th>Ticket Code</th><th>Name</th><th>Phone</th><th>Price (RWF)</th>
+            <th>Status</th><th>Route</th><th>Date</th><th>Time</th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <button class="btn-print" onclick="printTicket()">&#128438; Print Ticket (Text)</button>
+    </div>
+  </div>
+  <div class="right">
+    <div class="cards">
+      <div class="card"><div class="card-title">Available Buses</div><div class="card-val">5</div></div>
+      <div class="card"><div class="card-title">Available Tickets</div><div class="card-val" id="cAvail">20</div></div>
+      <div class="card"><div class="card-title">Booked Tickets</div><div class="card-val" id="cBooked">0</div></div>
+    </div>
+    <div class="seats-lbl" id="seatsLbl">Remaining Seats: 20</div>
+    <div class="form-panel">
+      <h3>Book a Ticket</h3>
+      <div class="form-row"><label>Name:</label><input id="fName" placeholder="Full name"></div>
+      <div class="form-row"><label>Phone Number:</label><input id="fPhone" placeholder="+250..."></div>
+      <div class="form-row"><label>Price (RWF):</label><input id="fPrice" type="number" placeholder="e.g. 2000"></div>
+      <div class="form-row"><label>Status:</label>
+        <select id="fStatus"><option>Paid</option><option>Pending</option></select></div>
+      <div class="form-row"><label>Route:</label>
+        <select id="fRoute">
+          <option>Kigali - Muhanga</option><option>Muhanga - Kigali</option>
+          <option>Kigali - Musanze</option><option>Musanze - Kigali</option>
+          <option>Kigali - Rubavu</option><option>Rubavu - Kigali</option>
+        </select></div>
+      <div class="form-row"><label>Date:</label><input id="fDate" type="date"></div>
+      <div class="form-row"><label>Time:</label><input id="fTime" type="time"></div>
+      <div class="form-row"><label>Ticket Code:</label><input id="fCode" disabled></div>
+      <button class="btn-book" onclick="bookTicket()">Book Ticket</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div class="modal-header">RITCO COMPANY</div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer">THANK YOU FOR BOOKING WITH US!</div>
+    <button class="modal-close" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<script>
+  let remaining=20,booked=0;
+  const tickets=[];
+  let selected=-1;
+
+  function pad(n){return String(n).padStart(2,'0')}
+  function today(){const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+  function nowTime(){const d=new Date();return pad(d.getHours())+':'+pad(d.getMinutes())}
+  function genCode(){return 'TKT-'+(Math.floor(Math.random()*9000)+1000)}
+
+  document.getElementById('fDate').value=today();
+  document.getElementById('fTime').value=nowTime();
+  document.getElementById('fCode').value=genCode();
+
+  function updateCards(){
+    document.getElementById('cAvail').textContent=remaining;
+    document.getElementById('cBooked').textContent=booked;
+    document.getElementById('seatsLbl').textContent='Remaining Seats: '+remaining;
+  }
+
+  function bookTicket(){
+    const name=document.getElementById('fName').value.trim();
+    const phone=document.getElementById('fPhone').value.trim();
+    const price=document.getElementById('fPrice').value.trim();
+    if(!name||!phone||!price){alert('Please fill in Name, Phone and Price.');return}
+    if(remaining<=0){alert('All seats are fully booked.');return}
+    const t={
+      code:document.getElementById('fCode').value,
+      name,phone,price,
+      status:document.getElementById('fStatus').value,
+      route:document.getElementById('fRoute').value,
+      date:document.getElementById('fDate').value,
+      time:document.getElementById('fTime').value
+    };
+    tickets.push(t);
+    remaining--;booked++;
+    addRow(t,tickets.length-1);
+    updateCards();
+    clearForm();
+    alert('Ticket booked successfully!\nCode: '+t.code);
+  }
+
+  function addRow(t,idx){
+    const tb=document.getElementById('tbody');
+    const tr=document.createElement('tr');
+    tr.dataset.idx=idx;
+    tr.innerHTML=`<td>${t.code}</td><td>${t.name}</td><td>${t.phone}</td><td>${t.price}</td><td>${t.status}</td><td>${t.route}</td><td>${t.date}</td><td>${t.time}</td>`;
+    tr.onclick=function(){
+      document.querySelectorAll('#tbody tr').forEach(r=>r.classList.remove('selected'));
+      tr.classList.add('selected');
+      selected=idx;
+      showDetails(idx);
+    };
+    tb.appendChild(tr);
+  }
+
+  function clearForm(){
+    document.getElementById('fName').value='';
+    document.getElementById('fPhone').value='';
+    document.getElementById('fPrice').value='';
+    document.getElementById('fDate').value=today();
+    document.getElementById('fTime').value=nowTime();
+    document.getElementById('fStatus').selectedIndex=0;
+    document.getElementById('fRoute').selectedIndex=0;
+    document.getElementById('fCode').value=genCode();
+    selected=-1;
+    document.querySelectorAll('#tbody tr').forEach(r=>r.classList.remove('selected'));
+  }
+
+  function showDetails(idx){
+    const t=tickets[idx];
+    const rows=[
+      ['Company Name','RITCO'],['Email','ritco@gmail.com'],['Tel','+250 078000000'],
+      ['Route',t.route],['Date',t.date],['Time',t.time],
+      ['Ticket Code',t.code],['Passenger',t.name],['Phone',t.phone],
+      ['Price',t.price+' RWF'],['Status',t.status],['Cashier','Mukamana Aline']
+    ];
+    document.getElementById('modalBody').innerHTML=rows.map(r=>`<div class="modal-row"><span class="lbl">${r[0]}:</span><span class="val">${r[1]}</span></div>`).join('');
+    document.getElementById('modal').classList.add('open');
+  }
+
+  function closeModal(){document.getElementById('modal').classList.remove('open')}
+
+  function printTicket(){
+    if(selected<0){alert('Please click a ticket row in the table first, then press Print.');return}
+    const t=tickets[selected];
+    const now=new Date();
+    const ts=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate())+' '+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+    const D='================================================';
+    const H='################################################';
+    const content=[
+      H,'           RITCO COMPANY','         BUS TICKET RECEIPT',H,'',
+      '  Company     : RITCO','  Email       : ritco@gmail.com',
+      '  Tel         : +250 078000000','  Country     : RWANDA','',
+      D,'  TICKET DETAILS',D,
+      '  Ticket Code : '+t.code,'  Passenger   : '+t.name,
+      '  Phone       : '+t.phone,'  Route       : '+t.route,
+      '  Date        : '+t.date,'  Time        : '+t.time,
+      '  Price       : '+t.price+' RWF','  Status      : '+t.status,
+      '  Cashier     : Mukamana Aline',D,'',
+      '  Printed on  : '+ts,'',
+      '     THANK YOU FOR BOOKING WITH RITCO!',
+      '       Have a safe and pleasant journey!',H
+    ].join('\r\n');
+    const blob=new Blob([content],{type:'text/plain'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download='RITCO_'+t.code+'.txt';
+    a.click();URL.revokeObjectURL(url);
+  }
+
+  document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+</script>
+</body>
+</html>

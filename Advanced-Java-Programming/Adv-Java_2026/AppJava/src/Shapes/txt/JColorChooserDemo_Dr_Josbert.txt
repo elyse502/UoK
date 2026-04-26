@@ -1,0 +1,56 @@
+package Dr_Josbert_2D;
+import java.awt.*;        // Importing AWT classes for Graphics, Color, and Layout management
+import java.awt.event.*;  // Importing AWT event classes and listener interfaces for 
+                                 //handling user interactions
+import javax.swing.*;     // Importing Swing classes for building the GUI components
+@SuppressWarnings("serial") // Suppressing serial warning for serialization
+public class JColorChooserDemo_ extends JFrame { // Class extending JFrame to create a windowed application
+    
+    JPanel panel; // Panel to hold components and set background color
+    Color bgColor = Color.LIGHT_GRAY;  // Initial color for the panel's background
+
+    // Constructor to setup the UI components and event handlers
+    public JColorChooserDemo_() {
+        panel = new JPanel(new BorderLayout()); // Creating a JPanel with BorderLayout
+
+        JButton btnColor = new JButton("Change Color"); // Button to trigger color change
+        panel.add(btnColor, BorderLayout.SOUTH); // Adding button to the southern part of the panel
+
+        // Adding an action listener to the button for handling click events
+        btnColor.addActionListener(new ActionListener() {
+             @Override
+             public void actionPerformed(ActionEvent evt) {
+                 // Open a color chooser dialog to let the user select a color
+                Color color = JColorChooser.showDialog(JColorChooserDemo_.this,
+                      "Choose a color", bgColor);
+                    
+                if (color != null) { // Check if the user selected a new color
+                   bgColor = color; // Update the background color with the new selection
+                }
+                panel.setBackground(bgColor); // Set the background color of the panel 
+                //to the selected color
+             }
+        });
+
+        setContentPane(panel); // Setting the content pane of the JFrame to our panel
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit application on close
+        setTitle("JColorChooser Demo"); // Set title of the window
+        setSize(300, 200); // Setting the size of the window
+        setLocationRelativeTo(null);  // Center the application window on the screen
+        setVisible(true);             // Make the window visible
+    }
+     
+    // The entry point of the program
+    public static void main(String[] args) {
+        // Run the GUI codes inside the Event-Dispatching thread for thread safety
+        SwingUtilities.invokeLater(new Runnable() {
+             @Override
+             public void run() {
+                new JColorChooserDemo_();  // Instantiate the demo class, triggering the UI setup
+             }
+        });
+    }
+
+}
+

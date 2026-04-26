@@ -1,0 +1,31 @@
+﻿-- Database creation
+CREATE DATABASE IF NOT EXISTS Netbeansloginsituation;
+USE Netbeansloginsituation;
+
+-- Table creation for employee data
+CREATE TABLE IF NOT EXISTS kigaliemployeesdata (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    company_name VARCHAR(100) NOT NULL,
+    industry VARCHAR(50) NOT NULL,
+    employee_name VARCHAR(100) NOT NULL,
+    employee_gender VARCHAR(10) NOT NULL,
+    post VARCHAR(50) NOT NULL,
+    min_salary VARCHAR(50) NOT NULL,
+    max_salary VARCHAR(50) NOT NULL,
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Sample data insertion (optional)
+INSERT INTO kigaliemployeesdata 
+(company_name, industry, employee_name, employee_gender, post, min_salary, max_salary)
+VALUES
+('Tech Solutions', 'IT', 'John Doe', 'Male', 'Manager', 'less than 300000 rwf', 'above 500000'),
+('Green Farms', 'Farming', 'Jane Smith', 'Female', 'CEO', 'less than 500000 rwf', 'above 10000000');
+
+-- User creation with privileges (optional)
+CREATE USER IF NOT EXISTS 'emp_user'@'localhost' IDENTIFIED BY 'password123';
+GRANT ALL PRIVILEGES ON loginsituation.* TO 'emp_user'@'localhost';
+FLUSH PRIVILEGES;
+
+-- Verification query
+SELECT * FROM kigaliemployeesdata;

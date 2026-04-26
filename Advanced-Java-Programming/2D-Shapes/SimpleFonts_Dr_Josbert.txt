@@ -1,0 +1,44 @@
+package Dr_Josbert_2D;
+import java.awt.*;
+import javax.swing.*;
+
+public class SimpleFonts extends JFrame {
+
+    // Constructor to set up the window
+    public SimpleFonts() {
+        setTitle("Font Styles Example"); // Window title
+        setSize(500, 300);              // Window size
+        setVisible(true);               // Make window visible
+    }
+
+    // Method to draw text on the window
+    public void paint(Graphics g) {
+        super.paint(g); // Call parent paint method
+
+        // Plain text (black, small size)
+        g.setFont(new Font("Serif", Font.PLAIN, 16));
+        g.setColor(Color.BLACK);
+        g.drawString("NKERABAHIZI Josbert", 50, 70);
+
+        // Bold text (blue, medium size)
+        g.setFont(new Font("SansSerif", Font.BOLD, 28));
+        g.setColor(Color.BLUE);
+        g.drawString("NKERABAHIZI Josbert", 50, 110);
+
+        // Italic text (green, larger size)
+        g.setFont(new Font("Monospaced", Font.ITALIC, 52));
+        g.setColor(Color.GREEN);
+        g.drawString("NKERABAHIZI Josbert", 50, 150);
+
+        // Bold + Italic text (red, biggest size)
+        g.setFont(new Font("Serif", Font.BOLD + Font.ITALIC, 80));
+        g.setColor(Color.RED);
+        g.drawString("NKERABAHIZI Josbert", 50, 200);
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        SimpleFonts app = new SimpleFonts();
+        app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+}

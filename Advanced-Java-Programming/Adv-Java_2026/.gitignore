@@ -1,0 +1,8 @@
+/AppJava/build
+/AppJava/nbproject
+/test
+build.xml
+manifest.mf
+/WebApp/nbproject/private/
+/WebApp/dist/
+/WebApp/build/

@@ -1,0 +1,14 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'war'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    providedCompile 'javaee:javaee-api:5'
+    providedCompile 'javax.servlet:servlet-api:2.5'
+    
+    testImplementation     'junit:junit:4.13'
+}

@@ -1,0 +1,1620 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Assignments.SideFootballGame;
+
+/**
+ *
+ * @author Elysee NIYIBIZI
+ * @Reg No. 2305000921
+ */
+
+import javax.swing.*;
+import javax.sound.sampled.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+import java.awt.image.*;
+import java.util.*;
+import java.util.List;
+import java.util.function.DoubleUnaryOperator;
+import java.io.*;
+
+/**
+ * ╔══════════════════════════════════════════════════════════════════════╗
+ * ║          KICK OFF! — 5-a-Side Football                             ║
+ * ║          Advanced Java Programming — UoK                           ║
+ * ║          Lecturer: Dr. NTEZIRIZA NKERABAHIZI Josbert               ║
+ * ╠══════════════════════════════════════════════════════════════════════╣
+ * ║  CONTROLS (Player controls BLUE team):                             ║
+ * ║   ARROW KEYS     — Move selected player                            ║
+ * ║   SPACE          — Kick / Shoot (hold to charge power)             ║
+ * ║   TAB            — Switch to nearest player                        ║
+ * ║   ENTER          — Start game / confirm menu                       ║
+ * ║   P / ESC        — Pause                                           ║
+ * ║   R              — Restart (from Game Over)                        ║
+ * ║   M              — Mute / Unmute                                   ║
+ * ╚══════════════════════════════════════════════════════════════════════╝
+ */
+public class FootballGame extends JPanel implements ActionListener, KeyListener {
+
+    // ══════════════════════════════════════════════════════════════════
+    //  CONSTANTS
+    // ══════════════════════════════════════════════════════════════════
+    static final int W = 960, H = 700;
+    static final int FPS = 60;
+
+    // Pitch dimensions (inside white lines)
+    static final int PX = 60,  PY = 80;
+    static final int PW = 840, PH = 540;
+
+    // Goal dimensions
+    static final int GW = 14;   // half-width
+    static final int GH = 90;   // height (vertical span)
+    static final int GY = PY + PH/2 - GH/2;  // top of goal opening
+    static final int LGX = PX;               // left goal x
+    static final int RGX = PX + PW;          // right goal x
+
+    // Player & ball sizes
+    static final int  PLAYER_R  = 14;
+    static final float BALL_R   = 9f;
+    static final float BALL_FRICTION = 0.978f;
+    static final float PLAYER_SPEED  = 3.2f;
+    static final float AI_SPEED_EASY = 2.0f;
+    static final float AI_SPEED_MED  = 2.8f;
+    static final float AI_SPEED_HARD = 3.5f;
+
+    static final int MATCH_DURATION = 180; // seconds per half (2 halves = 360 total)
+    static final int HALF_DURATION  = 90;  // seconds per half
+    static final String SCORE_FILE   = "football_scores.txt";
+
+    // ══════════════════════════════════════════════════════════════════
+    //  ENUMS
+    // ══════════════════════════════════════════════════════════════════
+    enum Screen { MENU, TEAM_SELECT, PLAYING, HALFTIME, PAUSED, GOAL_ANIM, FULL_TIME, SCORES }
+    enum Difficulty { EASY, MEDIUM, HARD }
+    enum PlayerState { IDLE, RUN, KICK, SLIDE, CELEBRATE, GK_DIVE }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  TEAM DATA
+    // ══════════════════════════════════════════════════════════════════
+    static final String[][]  TEAM_NAMES = {
+        {"RWANDA STARS",   "AMAVUBI"},
+        {"KENYA LIONS",    "HARAMBEE"},
+        {"NIGERIA EAGLES", "SUPER EAGLES"},
+        {"BRAZIL SELECT",  "SELEÇÃO"},
+        {"SPAIN LEGENDS",  "LA ROJA"},
+        {"ENGLAND FC",     "THREE LIONS"},
+    };
+    static final Color[][] TEAM_COLORS = {
+        {new Color(0,150,50),  new Color(255,255,0)},   // Rwanda
+        {new Color(220,40,40), new Color(0,0,140)},     // Kenya
+        {new Color(0,60,150),  new Color(255,255,255)}, // Nigeria
+        {new Color(220,40,40), new Color(220,230,255)}, // Brazil
+        {new Color(180,0,40),  new Color(220,220,220)}, // Spain
+        {new Color(220,220,220),new Color(0,50,150)},   // England
+    };
+
+    // ══════════════════════════════════════════════════════════════════
+    //  GAME STATE
+    // ══════════════════════════════════════════════════════════════════
+    Screen     screen     = Screen.MENU;
+    Difficulty difficulty = Difficulty.MEDIUM;
+    int        scoreBlue  = 0, scoreRed = 0;
+    int        half       = 1;
+    int        matchTimer = 0;    // frames
+    int        blueTeamIdx = 0, redTeamIdx = 1;
+    int        menuSelection = 0;
+    int        difficultyIdx = 1;
+    int        goalAnimTimer  = 0;
+    boolean    lastGoalBlue   = false;
+    int        halfTimeTimer  = 0;
+    long       tick = 0;
+    int        screenShake = 0;
+    boolean    muteSound = false;
+
+    // Shots / stats
+    int[] shots   = {0,0}; // blue, red
+    int[] shotsOnTarget = {0,0};
+    int[] possession = {0,0}; // frames
+
+    // Win condition
+    int hiScore = 0;
+
+    // ══════════════════════════════════════════════════════════════════
+    //  BALL
+    // ══════════════════════════════════════════════════════════════════
+    Ball ball;
+
+    // ══════════════════════════════════════════════════════════════════
+    //  PLAYERS (5 per team)
+    // ══════════════════════════════════════════════════════════════════
+    Player[] bluePlayers = new Player[5];
+    Player[] redPlayers  = new Player[5];
+    int      controlledIdx = 0; // which blue player user controls
+
+    // ══════════════════════════════════════════════════════════════════
+    //  POWER SHOT
+    // ══════════════════════════════════════════════════════════════════
+    boolean spaceHeld   = false;
+    float   shootPower  = 0f;
+    float   maxPower    = 1.0f;
+
+    // ══════════════════════════════════════════════════════════════════
+    //  INPUT
+    // ══════════════════════════════════════════════════════════════════
+    boolean kUp,kDown,kLeft,kRight,kSpace,kTab;
+    boolean kSpacePrev = false;
+
+    // ══════════════════════════════════════════════════════════════════
+    //  CROWD / ATMOSPHERE
+    // ══════════════════════════════════════════════════════════════════
+    // Animated crowd blobs on sidelines
+    float[]  crowdX   = new float[120];
+    float[]  crowdY   = new float[120];
+    Color[]  crowdC   = new Color[120];
+    float[]  crowdBob = new float[120];
+
+    // ══════════════════════════════════════════════════════════════════
+    //  PARTICLES & FLOATERS
+    // ══════════════════════════════════════════════════════════════════
+    List<Particle>  particles = new ArrayList<>();
+    List<FloatText> floaters  = new ArrayList<>();
+    List<int[]>     confetti  = new ArrayList<>(); // goal celebration
+
+    // ══════════════════════════════════════════════════════════════════
+    //  SOUND
+    // ══════════════════════════════════════════════════════════════════
+    SFX sound = new SFX();
+    Random rng = new Random();
+    javax.swing.Timer gameTimer;
+
+    // ══════════════════════════════════════════════════════════════════
+    //  CONSTRUCTOR
+    // ══════════════════════════════════════════════════════════════════
+    public FootballGame() {
+        setPreferredSize(new Dimension(W, H));
+        setBackground(new Color(20, 80, 20));
+        setFocusable(true);
+        addKeyListener(this);
+        initCrowd();
+        loadHiScore();
+        gameTimer = new javax.swing.Timer(1000 / FPS, this);
+        gameTimer.start();
+    }
+
+    void initCrowd() {
+        // Top & bottom sideline crowd
+        for (int i = 0; i < 60; i++) {
+            crowdX[i]    = 60 + rng.nextFloat() * 840;
+            crowdY[i]    = 18 + rng.nextFloat() * 50;
+            crowdC[i]    = randomCrowdColor();
+            crowdBob[i]  = rng.nextFloat() * (float)(Math.PI * 2);
+        }
+        for (int i = 60; i < 120; i++) {
+            crowdX[i]    = 60 + rng.nextFloat() * 840;
+            crowdY[i]    = PY + PH + 12 + rng.nextFloat() * 48;
+            crowdC[i]    = randomCrowdColor();
+            crowdBob[i]  = rng.nextFloat() * (float)(Math.PI * 2);
+        }
+    }
+
+    Color randomCrowdColor() {
+        Color[] cs = {
+            new Color(220,40,40), new Color(0,120,220), new Color(255,200,0),
+            new Color(0,180,80),  new Color(255,100,20),new Color(180,0,180),
+            new Color(255,255,255),new Color(40,40,40)
+        };
+        return cs[rng.nextInt(cs.length)];
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  GAME SETUP
+    // ══════════════════════════════════════════════════════════════════
+    void startMatch() {
+        scoreBlue=0; scoreRed=0; half=1; matchTimer=0;
+        shots[0]=shots[1]=0; shotsOnTarget[0]=shotsOnTarget[1]=0;
+        possession[0]=possession[1]=0;
+        particles.clear(); floaters.clear(); confetti.clear();
+        setupPlayers();
+        kickOff(true); // blue kicks off
+        screen = Screen.PLAYING;
+        sound.play("whistle");
+    }
+
+    void setupPlayers() {
+        Color bc = TEAM_COLORS[blueTeamIdx][0];
+        Color bs = TEAM_COLORS[blueTeamIdx][1];
+        Color rc = TEAM_COLORS[redTeamIdx][0];
+        Color rs = TEAM_COLORS[redTeamIdx][1];
+
+        // Blue team (left side), formations: GK + 2 DEF + 1 MID + 1 FWD
+        // Positions in pitch coords
+        int[][] bluePos = {
+            {PX+30,   PY+PH/2},        // 0 GK
+            {PX+120,  PY+PH/4},        // 1 DEF
+            {PX+120,  PY+3*PH/4},      // 2 DEF
+            {PX+240,  PY+PH/2},        // 3 MID
+            {PX+360,  PY+PH/2},        // 4 FWD
+        };
+        String[] blueNums  = {"1","4","5","8","9"};
+        String[] blueNames = {"MURERA","RUBIO","KALISA","MUGABO","NDAYISHIMIYE"};
+
+        for (int i=0;i<5;i++) {
+            bluePlayers[i] = new Player(bluePos[i][0], bluePos[i][1],
+                    bc, bs, blueNums[i], blueNames[i], true, i==0);
+            bluePlayers[i].homeX = bluePos[i][0];
+            bluePlayers[i].homeY = bluePos[i][1];
+        }
+
+        // Red team (right side)
+        int[][] redPos = {
+            {PX+PW-30, PY+PH/2},
+            {PX+PW-120, PY+PH/4},
+            {PX+PW-120, PY+3*PH/4},
+            {PX+PW-240, PY+PH/2},
+            {PX+PW-360, PY+PH/2},
+        };
+        String[] redNums  = {"1","3","6","10","7"};
+        String[] redNames = {"KAMAU","ODHIAMBO","WAWERU","KIPCHOGE","MWANGI"};
+        for (int i=0;i<5;i++) {
+            redPlayers[i] = new Player(redPos[i][0], redPos[i][1],
+                    rc, rs, redNums[i], redNames[i], false, i==0);
+            redPlayers[i].homeX = redPos[i][0];
+            redPlayers[i].homeY = redPos[i][1];
+        }
+        controlledIdx = 4; // control FWD by default
+    }
+
+    void kickOff(boolean blueKicksOff) {
+        ball = new Ball(PX+PW/2, PY+PH/2, 0, 0);
+        // Reset positions slightly
+        for (Player p : bluePlayers) { p.x=p.homeX; p.y=p.homeY; p.state=PlayerState.IDLE; }
+        for (Player p : redPlayers)  { p.x=p.homeX; p.y=p.homeY; p.state=PlayerState.IDLE; }
+        controlledIdx = 4;
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  GAME LOOP
+    // ══════════════════════════════════════════════════════════════════
+    @Override public void actionPerformed(ActionEvent e) {
+        tick++;
+        // Crowd always bobs
+        for (int i=0;i<120;i++) crowdBob[i] += 0.06f + rng.nextFloat()*0.02f;
+
+        switch(screen){
+            case PLAYING    -> updatePlaying();
+            case GOAL_ANIM  -> updateGoalAnim();
+            case HALFTIME   -> { halfTimeTimer++; if(halfTimeTimer>240){ startSecondHalf(); } }
+            default -> {}
+        }
+
+        particles.removeIf(p->{ p.update(); return p.dead; });
+        floaters.removeIf(f->{ f.update(); return f.dead; });
+        if (screenShake>0) screenShake--;
+        repaint();
+    }
+
+    void updatePlaying() {
+        matchTimer++;
+        int halfFrames = HALF_DURATION * FPS;
+
+        // Half time check
+        if (matchTimer >= halfFrames && half==1) {
+            sound.play("whistle");
+            screen = Screen.HALFTIME;
+            halfTimeTimer = 0;
+            return;
+        }
+        if (matchTimer >= halfFrames && half==2) {
+            sound.play("whistle");
+            sound.play("whistle");
+            // Full time
+            saveScore(Math.max(scoreBlue,scoreRed));
+            if(scoreBlue>hiScore||scoreRed>hiScore){
+                hiScore=Math.max(scoreBlue,scoreRed); saveHiScore();
+            }
+            screen = Screen.FULL_TIME;
+            return;
+        }
+
+        // Tab: switch controlled player
+        if (kTab) { switchControl(); kTab=false; }
+
+        // Player input
+        Player cp = bluePlayers[controlledIdx];
+        float dx=0, dy=0;
+        if (kLeft)  dx=-PLAYER_SPEED;
+        if (kRight) dx= PLAYER_SPEED;
+        if (kUp)    dy=-PLAYER_SPEED;
+        if (kDown)  dy= PLAYER_SPEED;
+        if (dx!=0&&dy!=0){ dx*=0.707f; dy*=0.707f; }
+
+        // Move controlled player
+        if (dx!=0||dy!=0) {
+            cp.x = clamp(cp.x+dx, PX+PLAYER_R+1, PX+PW-PLAYER_R-1);
+            cp.y = clamp(cp.y+dy, PY+PLAYER_R+1, PY+PH-PLAYER_R-1);
+            cp.state=PlayerState.RUN;
+            cp.facingAngle = (float)Math.atan2(dy,dx);
+        } else { cp.state=PlayerState.IDLE; }
+
+        // Shoot / Kick logic
+        boolean spaceNow = kSpace;
+        if (spaceNow && !kSpacePrev) { shootPower=0f; spaceHeld=true; }
+        if (spaceNow && spaceHeld)   shootPower = Math.min(maxPower, shootPower+0.025f);
+        if (!spaceNow && kSpacePrev && spaceHeld) {
+            // Release — kick!
+            tryKick(cp, shootPower);
+            shootPower=0f; spaceHeld=false;
+        }
+        kSpacePrev = spaceNow;
+
+        // AI for other blue players
+        float aiSpd = aiSpeed();
+        for (int i=0;i<5;i++) {
+            if (i==controlledIdx) continue;
+            blueAI(bluePlayers[i], i, aiSpd);
+        }
+        // AI for red team
+        for (int i=0;i<5;i++) redAI(redPlayers[i], i, aiSpd);
+
+        // Update ball
+        ball.update();
+
+        // Kick near players
+        autoKickAI();
+
+        // Collision: players vs ball
+        for (Player p : bluePlayers) p.update();
+        for (Player p : redPlayers)  p.update();
+
+        // Possession tracking
+        Player closest = closestToBall(bluePlayers);
+        Player closestR = closestToBall(redPlayers);
+        float dB = dist(closest.x,closest.y,ball.x,ball.y);
+        float dR = dist(closestR.x,closestR.y,ball.x,ball.y);
+        if (dB < dR) possession[0]++; else possession[1]++;
+
+        // Switch control to nearest blue player to ball automatically (if controlled is far)
+        if (dist(cp.x,cp.y,ball.x,ball.y) > 140) {
+            int nearest = nearestBlueIdx();
+            if (nearest != controlledIdx) controlledIdx = nearest;
+        }
+
+        // Goal check
+        checkGoal();
+        // Ball out of bounds
+        keepBallInBounds();
+    }
+
+    float aiSpeed(){
+        return difficulty==Difficulty.EASY ? AI_SPEED_EASY :
+               difficulty==Difficulty.MEDIUM? AI_SPEED_MED : AI_SPEED_HARD;
+    }
+
+    void blueAI(Player p, int idx, float spd) {
+        // GK stays near goal
+        if (p.isGK) {
+            float tgx = PX + 40;
+            float tgy = clamp(ball.y, PY+PH/2f-GH/2f+10, PY+PH/2f+GH/2f-10);
+            moveToward(p, tgx, tgy, spd*1.1f);
+            if (dist(p.x,p.y,ball.x,ball.y)<30) autoKick(p, false);
+            return;
+        }
+        // Outfield: midfield/attack positioning
+        float targetX, targetY;
+        if (ball.x < PX+PW/2f) {
+            // Ball on our side — defend
+            targetX = p.homeX * 0.8f + ball.x * 0.2f;
+            targetY = p.homeY * 0.7f + ball.y * 0.3f;
+        } else {
+            // Ball on their side — support/attack
+            targetX = Math.min(PX+PW-40f, p.homeX + (ball.x-p.homeX)*0.5f);
+            targetY = p.homeY*0.5f + ball.y*0.5f;
+        }
+        moveToward(p, targetX, targetY, spd);
+        if (dist(p.x,p.y,ball.x,ball.y)<28) autoKick(p, false);
+    }
+
+    void redAI(Player p, int idx, float spd) {
+        if (p.isGK) {
+            float tgx = PX + PW - 40;
+            float tgy = clamp(ball.y, PY+PH/2f-GH/2f+10, PY+PH/2f+GH/2f-10);
+            moveToward(p, tgx, tgy, spd*1.1f);
+            if (dist(p.x,p.y,ball.x,ball.y)<30) autoKick(p, true);
+            return;
+        }
+        // Red AI chases ball intelligently
+        float chaseX, chaseY;
+        if (ball.x > PX+PW/2f) {
+            // Ball on red side — defend vigorously
+            chaseX = ball.x; chaseY = ball.y;
+        } else {
+            // Attack: move toward blue goal
+            if (idx == 4) { // striker
+                chaseX = PX + 80; chaseY = PY + PH/2f;
+            } else {
+                chaseX = p.homeX*0.4f + ball.x*0.6f;
+                chaseY = p.homeY*0.5f + ball.y*0.5f;
+            }
+        }
+        moveToward(p, chaseX, chaseY, spd);
+        if (dist(p.x,p.y,ball.x,ball.y)<26) autoKick(p, true);
+    }
+
+    void moveToward(Player p, float tx, float ty, float spd) {
+        float dx=tx-p.x, dy=ty-p.y;
+        float d=(float)Math.sqrt(dx*dx+dy*dy);
+        if (d<2) { p.state=PlayerState.IDLE; return; }
+        float nx=dx/d, ny=dy/d;
+        p.x = clamp(p.x+nx*spd, PX+PLAYER_R, PX+PW-PLAYER_R);
+        p.y = clamp(p.y+ny*spd, PY+PLAYER_R, PY+PH-PLAYER_R);
+        p.facingAngle = (float)Math.atan2(dy,dx);
+        p.state = PlayerState.RUN;
+    }
+
+    void autoKick(Player p, boolean redTeam) {
+        float dx=ball.x-p.x, dy=ball.y-p.y;
+        float d=(float)Math.sqrt(dx*dx+dy*dy);
+        if (d<3) d=3;
+        // Aim toward opponent's goal
+        float goalX = redTeam ? PX+10 : PX+PW-10;
+        float goalY = PY+PH/2f;
+        float shotDx = goalX-ball.x, shotDy = goalY-ball.y;
+        float sl=(float)Math.sqrt(shotDx*shotDx+shotDy*shotDy);
+        if (sl>0) { shotDx/=sl; shotDy/=sl; }
+        float power = 0.5f + rng.nextFloat()*0.4f;
+        float spd2  = 7f + power*6f;
+        // Add some inaccuracy based on difficulty
+        float acc = difficulty==Difficulty.EASY?0.35f:difficulty==Difficulty.MEDIUM?0.18f:0.08f;
+        shotDx += (rng.nextFloat()-0.5f)*acc;
+        shotDy += (rng.nextFloat()-0.5f)*acc;
+        ball.vx = shotDx*spd2; ball.vy = shotDy*spd2;
+        p.state = PlayerState.KICK; p.kickAnim=8;
+        sound.play("kick");
+        if (redTeam) shots[1]++;
+    }
+
+    void autoKickAI() {
+        // Red players that are very close to ball kick automatically
+        for (Player rp : redPlayers) {
+            if (dist(rp.x,rp.y,ball.x,ball.y) < PLAYER_R+BALL_R+2 && rng.nextInt(4)==0) {
+                autoKick(rp, true);
+                break;
+            }
+        }
+        for (int i=0;i<5;i++) {
+            if (i==controlledIdx) continue;
+            Player bp = bluePlayers[i];
+            if (dist(bp.x,bp.y,ball.x,ball.y) < PLAYER_R+BALL_R+2 && rng.nextInt(5)==0) {
+                autoKick(bp, false);
+                break;
+            }
+        }
+    }
+
+    void tryKick(Player p, float power) {
+        float d = dist(p.x,p.y,ball.x,ball.y);
+        if (d > PLAYER_R + BALL_R + 18) return; // too far
+        // Kick toward where player is facing / toward red goal
+        float goalX = PX+PW-10;
+        float goalY = PY+PH/2f + (rng.nextFloat()-0.5f)*30;
+        float dx=goalX-p.x, dy=goalY-p.y;
+        float dl=(float)Math.sqrt(dx*dx+dy*dy);
+        if (dl>0){dx/=dl;dy/=dl;}
+        float spd2 = 6f + power*12f;
+        ball.vx = dx*spd2; ball.vy = dy*spd2;
+        p.state=PlayerState.KICK; p.kickAnim=10;
+        sound.play("kick");
+        shots[0]++;
+        spawnKickFx((int)ball.x,(int)ball.y);
+    }
+
+    void switchControl() {
+        int nearest = nearestBlueIdx();
+        controlledIdx = nearest;
+        sound.play("switch");
+    }
+
+    int nearestBlueIdx() {
+        int best=0; float bestD=Float.MAX_VALUE;
+        for (int i=0;i<5;i++){
+            float d=dist(bluePlayers[i].x,bluePlayers[i].y,ball.x,ball.y);
+            if (d<bestD){bestD=d;best=i;}
+        }
+        return best;
+    }
+
+    Player closestToBall(Player[] team){
+        Player best=team[0]; float bestD=Float.MAX_VALUE;
+        for (Player p:team){float d=dist(p.x,p.y,ball.x,ball.y); if(d<bestD){bestD=d;best=p;}}
+        return best;
+    }
+
+    void checkGoal() {
+        // Left goal (blue goal) — red scores
+        if (ball.x <= LGX + GW && ball.y >= GY && ball.y <= GY+GH) {
+            scoreRed++;
+            lastGoalBlue=false;
+            goalScored();
+        }
+        // Right goal (red goal) — blue scores
+        if (ball.x >= RGX - GW && ball.y >= GY && ball.y <= GY+GH) {
+            scoreBlue++;
+            lastGoalBlue=true;
+            shotsOnTarget[0]++;
+            goalScored();
+        }
+    }
+
+    void goalScored() {
+        sound.play("goal");
+        screen=Screen.GOAL_ANIM;
+        goalAnimTimer=0;
+        screenShake=20;
+        // Confetti
+        for (int i=0;i<80;i++) {
+            confetti.add(new int[]{
+                rng.nextInt(W), rng.nextInt(H/2),
+                rng.nextInt(10)+2, rng.nextInt(10)+2,
+                rng.nextInt(360),
+                rng.nextInt(256), rng.nextInt(256), rng.nextInt(256),
+                rng.nextInt(6)-3, 2+rng.nextInt(4)
+            });
+        }
+        addFloat("GOAL!", W/2, H/2-60, lastGoalBlue?TEAM_COLORS[blueTeamIdx][0]:TEAM_COLORS[redTeamIdx][0]);
+        // Celebration particles
+        for (int i=0;i<40;i++) {
+            particles.add(new Particle(W/2, H/2,
+                new Color(rng.nextInt(256),rng.nextInt(256),rng.nextInt(256)),
+                (float)(rng.nextGaussian()*8),(float)(rng.nextGaussian()*8),
+                40+rng.nextInt(30)));
+        }
+    }
+
+    void updateGoalAnim() {
+        goalAnimTimer++;
+        // Update confetti
+        for (int[] c : confetti) {
+            c[0]+=c[8]; c[1]+=c[9];
+            c[4]=(c[4]+5)%360;
+            if (c[1]>H) { c[0]=rng.nextInt(W); c[1]=-10; }
+        }
+        if (goalAnimTimer>150){
+            confetti.clear();
+            kickOff(lastGoalBlue); // team that scored kicks off — actually other team
+            screen=Screen.PLAYING;
+        }
+    }
+
+    void startSecondHalf() {
+        half=2; matchTimer=0;
+        // Swap sides
+        for (Player p:bluePlayers){p.x=W-p.homeX; p.y=p.homeY; p.homeX=W-p.homeX;}
+        for (Player p:redPlayers) {p.x=W-p.homeX; p.y=p.homeY; p.homeX=W-p.homeX;}
+        ball.x=PX+PW/2; ball.y=PY+PH/2; ball.vx=0; ball.vy=0;
+        screen=Screen.PLAYING;
+        sound.play("whistle");
+    }
+
+    void keepBallInBounds() {
+        // Left wall (goal line — not in goal)
+        if (ball.x <= PX+BALL_R) {
+            if (ball.y < GY || ball.y > GY+GH) { ball.x=PX+BALL_R; ball.vx=Math.abs(ball.vx)*0.6f; }
+        }
+        // Right wall
+        if (ball.x >= PX+PW-BALL_R) {
+            if (ball.y < GY || ball.y > GY+GH) { ball.x=PX+PW-BALL_R; ball.vx=-Math.abs(ball.vx)*0.6f; }
+        }
+        // Top & bottom
+        if (ball.y <= PY+BALL_R)    { ball.y=PY+BALL_R;    ball.vy= Math.abs(ball.vy)*0.6f; sound.play("bounce"); }
+        if (ball.y >= PY+PH-BALL_R) { ball.y=PY+PH-BALL_R; ball.vy=-Math.abs(ball.vy)*0.6f; sound.play("bounce"); }
+    }
+
+    void spawnKickFx(int x, int y) {
+        for (int i=0;i<8;i++) particles.add(new Particle(x,y,new Color(255,220,100),
+            (float)(rng.nextGaussian()*4),(float)(rng.nextGaussian()*4),10+rng.nextInt(8)));
+    }
+
+    void addFloat(String t,int x,int y,Color c){ floaters.add(new FloatText(t,x,y,c)); }
+
+    float dist(float ax,float ay,float bx,float by){
+        float dx=ax-bx,dy=ay-by; return (float)Math.sqrt(dx*dx+dy*dy);
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  PAINT
+    // ══════════════════════════════════════════════════════════════════
+    @Override protected void paintComponent(Graphics g0){
+        super.paintComponent(g0);
+        Graphics2D g=(Graphics2D)g0;
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,  RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+        if (screenShake>0) g.translate(rng.nextInt(screenShake+1)-screenShake/2,
+                                       rng.nextInt(screenShake+1)-screenShake/2);
+
+        switch(screen){
+            case MENU       -> drawMenu(g);
+            case TEAM_SELECT-> drawTeamSelect(g);
+            case PLAYING    -> drawMatch(g);
+            case HALFTIME   -> { drawMatch(g); drawHalfTime(g); }
+            case PAUSED     -> { drawMatch(g); drawPause(g); }
+            case GOAL_ANIM  -> drawGoalAnim(g);
+            case FULL_TIME  -> drawFullTime(g);
+            case SCORES     -> drawScores(g);
+        }
+    }
+
+    // ─── STADIUM BACKGROUND ───────────────────────────────────────────
+    void drawStadium(Graphics2D g) {
+        // Sky / stadium roof gradient
+        GradientPaint sky=new GradientPaint(0,0,new Color(20,20,60),0,PY,new Color(40,40,80));
+        g.setPaint(sky); g.fillRect(0,0,W,PY);
+        GradientPaint sky2=new GradientPaint(0,PY+PH,new Color(40,40,80),0,H,new Color(20,20,60));
+        g.setPaint(sky2); g.fillRect(0,PY+PH,W,H-(PY+PH));
+
+        // Stadium lights (4 corners)
+        int[][] lights={{PX-20,PY-20},{PX+PW+20,PY-20},{PX-20,PY+PH+20},{PX+PW+20,PY+PH+20}};
+        for(int[] lp:lights){
+            // Light beam
+            g.setColor(new Color(255,255,200,15));
+            g.fillOval(lp[0]-60,lp[1]-60,120,120);
+            g.setColor(new Color(255,255,220,40));
+            g.fillOval(lp[0]-20,lp[1]-20,40,40);
+            g.setColor(new Color(255,255,240,200));
+            g.fillOval(lp[0]-6,lp[1]-6,12,12);
+        }
+
+        // Crowd (animated blobs)
+        for (int i=0;i<120;i++){
+            float bob=(float)(Math.sin(crowdBob[i])*3);
+            Color cc=crowdC[i];
+            // Head
+            g.setColor(cc);
+            g.fillOval((int)crowdX[i]-5,(int)(crowdY[i]+bob)-8,10,10);
+            // Body
+            g.setColor(cc.darker());
+            g.fillRect((int)crowdX[i]-4,(int)(crowdY[i]+bob)+2,8,8);
+        }
+
+        // Scoreboard banner
+        g.setColor(new Color(0,0,0,180));
+        g.fillRoundRect(W/2-180, 6, 360, 44, 12,12);
+        g.setColor(new Color(0,100,200,80));
+        g.setStroke(new BasicStroke(1.5f));
+        g.drawRoundRect(W/2-180,6,360,44,12,12);
+        g.setStroke(new BasicStroke(1f));
+    }
+
+    // ─── PITCH ────────────────────────────────────────────────────────
+    void drawPitch(Graphics2D g){
+        // Grass stripes
+        for(int s=0;s<8;s++){
+            int sx=PX+s*(PW/8);
+            Color gc=(s%2==0)?new Color(40,140,40):new Color(34,120,34);
+            g.setColor(gc); g.fillRect(sx,PY,PW/8,PH);
+        }
+
+        // White lines
+        g.setColor(new Color(255,255,255,220));
+        g.setStroke(new BasicStroke(2.5f));
+
+        // Outer boundary
+        g.drawRect(PX,PY,PW,PH);
+
+        // Centre line
+        g.drawLine(PX+PW/2,PY,PX+PW/2,PY+PH);
+
+        // Centre circle
+        g.drawOval(PX+PW/2-60,PY+PH/2-60,120,120);
+        g.setColor(new Color(255,255,255,150));
+        g.fillOval(PX+PW/2-4,PY+PH/2-4,8,8); // centre spot
+
+        // Penalty areas (left and right)
+        g.setColor(new Color(255,255,255,200));
+        // Left penalty area
+        g.drawRect(PX,PY+PH/2-100,100,200);
+        g.drawRect(PX,PY+PH/2-GH/2,30,GH); // goal area
+        // Right penalty area
+        g.drawRect(PX+PW-100,PY+PH/2-100,100,200);
+        g.drawRect(PX+PW-30,PY+PH/2-GH/2,30,GH);
+
+        // Penalty spots
+        g.fillOval(PX+60-3,PY+PH/2-3,6,6);
+        g.fillOval(PX+PW-60-3,PY+PH/2-3,6,6);
+
+        // Corner arcs
+        g.drawArc(PX-8,PY-8,16,16,270,90);
+        g.drawArc(PX+PW-8,PY-8,16,16,180,90);
+        g.drawArc(PX-8,PY+PH-8,16,16,0,90);
+        g.drawArc(PX+PW-8,PY+PH-8,16,16,90,90);
+
+        g.setStroke(new BasicStroke(1f));
+
+        // Goals (3D box effect)
+        drawGoal(g, PX-GW, GY, GW, GH, false);
+        drawGoal(g, PX+PW, GY, GW, GH, true);
+    }
+
+    void drawGoal(Graphics2D g, int x, int y, int gw, int gh, boolean right){
+        // Post and crossbar
+        g.setColor(new Color(255,255,255,220));
+        g.setStroke(new BasicStroke(4f));
+        // Backboard
+        g.setColor(new Color(255,255,255,30));
+        if(!right) g.fillRect(x-gw, y, gw, gh);
+        else       g.fillRect(x,    y, gw, gh);
+        // Net lines
+        g.setColor(new Color(255,255,255,60));
+        g.setStroke(new BasicStroke(0.8f));
+        for(int gy2=y;gy2<y+gh;gy2+=12){
+            if(!right) g.drawLine(x-gw,gy2,x,gy2);
+            else       g.drawLine(x,gy2,x+gw,gy2);
+        }
+        for(int gx2=(right?x:x-gw);gx2<=(right?x+gw:x);gx2+=12)
+            g.drawLine(gx2,y,gx2,y+gh);
+        // Posts
+        g.setColor(Color.WHITE);
+        g.setStroke(new BasicStroke(4f));
+        g.drawLine(x,y,x,y+gh);
+        g.drawLine(x,y,right?x+gw:x-gw,y);
+        g.drawLine(x,y+gh,right?x+gw:x-gw,y+gh);
+        g.setStroke(new BasicStroke(1f));
+    }
+
+    // ─── MATCH SCENE ──────────────────────────────────────────────────
+    void drawMatch(Graphics2D g){
+        drawStadium(g);
+        drawPitch(g);
+
+        // Shadow under players
+        for (Player p:redPlayers)  drawPlayerShadow(g,p);
+        for (Player p:bluePlayers) drawPlayerShadow(g,p);
+
+        // Ball shadow
+        g.setColor(new Color(0,0,0,60));
+        g.fillOval((int)(ball.x-BALL_R+3),(int)(ball.y+4),(int)(BALL_R*2),(int)(BALL_R));
+
+        // Players
+        for (Player p:redPlayers)  drawPlayer(g,p,false);
+        for (Player p:bluePlayers) drawPlayer(g,p,true);
+
+        // Ball
+        drawBall(g);
+
+        // Particles
+        for (Particle p:particles) p.draw(g);
+        for (FloatText f:floaters) f.draw(g);
+
+        drawHUD(g);
+    }
+
+    // ─── PLAYER SPRITE ────────────────────────────────────────────────
+    void drawPlayerShadow(Graphics2D g, Player p){
+        g.setColor(new Color(0,0,0,50));
+        g.fillOval((int)(p.x-PLAYER_R+3),(int)(p.y+PLAYER_R-4),PLAYER_R*2-2,8);
+    }
+
+    void drawPlayer(Graphics2D g, Player p, boolean isBlue){
+        Graphics2D g2=(Graphics2D)g.create();
+        g2.translate(p.x, p.y);
+
+        boolean facingRight = Math.cos(p.facingAngle)>0;
+        if (!facingRight) g2.scale(-1,1);
+
+        Color shirt  = p.shirtColor;
+        Color shorts = p.shortsColor;
+        Color skin   = new Color(220,180,130);
+        Color skinDk = new Color(180,140,100);
+
+        // Run animation frame
+        int frame = (int)(tick/6)%4;
+        float legSwing = (p.state==PlayerState.RUN) ? (float)(Math.sin(tick*0.3)*8) : 0;
+        float armSwing = (p.state==PlayerState.RUN) ? (float)(Math.sin(tick*0.3)*6) : 0;
+
+        // Kick animation
+        float kickLeg = (p.kickAnim>0) ? (float)(-20+p.kickAnim*3) : 0;
+
+        // ── BOOTS ──
+        g2.setColor(new Color(30,20,10));
+        g2.fillRoundRect(-5,16+2+(int)legSwing,6,5,2,2);  // left boot
+        g2.fillRoundRect(-1,16+2-(int)legSwing,6,5,2,2);  // right boot
+
+        // ── SOCKS ──
+        g2.setColor(Color.WHITE);
+        g2.fillRect(-5,10+(int)legSwing,5,8);
+        g2.fillRect(-1,10-(int)legSwing,5,8);
+
+        // ── SHIN GUARDS ──
+        g2.setColor(new Color(255,255,240));
+        g2.fillRoundRect(-5,8+(int)legSwing,4,6,2,2);
+        g2.fillRoundRect(-1,8-(int)legSwing,4,6,2,2);
+
+        // ── SHORTS ──
+        g2.setColor(shorts);
+        g2.fillRoundRect(-8,4,16,12,4,4);
+
+        // ── LEGS ──
+        g2.setColor(skinDk);
+        g2.fillRoundRect(-6,4,5,14+(int)legSwing,3,3);  // left leg
+        g2.fillRoundRect(1, 4,5,14-(int)legSwing,3,3);  // right leg
+        // Kick leg
+        if(p.kickAnim>0){
+            g2.setColor(shorts);
+            g2.fillRoundRect(2,0,(int)kickLeg+4,12,3,3);
+        }
+
+        // ── SHIRT ──
+        GradientPaint sg=new GradientPaint(-8,-12,shirt.brighter(),8,8,shirt.darker());
+        g2.setPaint(sg);
+        g2.fillRoundRect(-10,-14,20,20,6,6);
+
+        // Shirt number
+        g2.setFont(new Font("Arial",Font.BOLD,8));
+        g2.setColor(Color.WHITE);
+        FontMetrics fm=g2.getFontMetrics();
+        g2.drawString(p.number,-fm.stringWidth(p.number)/2,-3);
+
+        // ── ARMS ──
+        g2.setColor(skin);
+        // Left arm
+        g2.fillRoundRect(-13,-10+(int)armSwing,6,10,3,3);
+        g2.setColor(shirt);
+        g2.fillRoundRect(-12,-12+(int)armSwing,5,6,2,2);
+        // Right arm  
+        g2.fillRoundRect(7,-10-(int)armSwing,6,10,3,3);
+        g2.setColor(shirt);
+        g2.fillRoundRect(7,-12-(int)armSwing,5,6,2,2);
+
+        // ── NECK ──
+        g2.setColor(skin);
+        g2.fillRect(-3,-17,6,5);
+
+        // ── HEAD ──
+        g2.setColor(skin);
+        g2.fillOval(-9,-30,18,18);
+        g2.setColor(skinDk);
+        g2.fillArc(-9,-30,18,9,0,180); // shading
+
+        // Hair (color varies by team)
+        g2.setColor(new Color(40,20,10));
+        g2.fillRoundRect(-8,-30,16,8,6,6);
+
+        // Face details
+        // Eyes
+        g2.setColor(Color.WHITE); g2.fillOval(-5,-26,4,3); g2.fillOval(1,-26,4,3);
+        g2.setColor(new Color(40,20,10)); g2.fillOval(-4,-25,2,2); g2.fillOval(2,-25,2,2);
+        // Mouth
+        g2.setColor(new Color(180,80,80));
+        if(p.state==PlayerState.KICK) g2.drawOval(-3,-21,6,4); // open mouth
+        else g2.drawLine(-2,-20,2,-20);
+
+        // ── GK GLOVES ──
+        if(p.isGK){
+            g2.setColor(new Color(255,200,0));
+            g2.fillRoundRect(-16,-8,6,8,3,3);
+            g2.fillRoundRect(10,-8,6,8,3,3);
+        }
+
+        // ── CONTROLLED INDICATOR ──
+        if(isBlue && p==bluePlayers[controlledIdx]){
+            g2.setColor(new Color(255,255,255,160));
+            g2.setStroke(new BasicStroke(1.5f));
+            g2.drawOval(-PLAYER_R-2,-PLAYER_R-2,(PLAYER_R+2)*2,(PLAYER_R+2)*2);
+            // Arrow above head
+            g2.setColor(new Color(255,255,100,200));
+            int[] ax={0,-5,5}; int[] ay={-34,-40,-40};
+            g2.fillPolygon(ax,ay,3);
+        }
+
+        // Player name on hover area
+        if(isBlue && p==bluePlayers[controlledIdx]){
+            g2.setFont(new Font("Arial",Font.BOLD,9));
+            g2.setColor(Color.WHITE);
+            String n=p.name.split(" ")[0]; // first name only
+            g2.drawString(n,-g2.getFontMetrics().stringWidth(n)/2,-36);
+        }
+
+        g2.dispose();
+    }
+
+    // ─── BALL ─────────────────────────────────────────────────────────
+    void drawBall(Graphics2D g){
+        int bx=(int)(ball.x-BALL_R), by=(int)(ball.y-BALL_R);
+        int bd=(int)(BALL_R*2);
+
+        // Shadow
+        g.setColor(new Color(0,0,0,50));
+        g.fillOval(bx+3,by+6,bd,bd/2);
+
+        // Base white sphere
+        RadialGradientPaint rp=new RadialGradientPaint(
+            new Point2D.Float(ball.x-BALL_R*0.3f, ball.y-BALL_R*0.3f), BALL_R,
+            new float[]{0f,0.7f,1f},
+            new Color[]{Color.WHITE, new Color(220,220,220), new Color(160,160,160)});
+        g.setPaint(rp); g.fillOval(bx,by,bd,bd);
+
+        // Spinning pentagon pattern
+        Graphics2D g2=(Graphics2D)g.create();
+        g2.translate(ball.x,ball.y);
+        g2.rotate(ball.spin);
+        g2.setColor(new Color(30,30,30));
+        // Pentagon patches
+        for (int i=0;i<5;i++){
+            double a=Math.PI*2*i/5 - Math.PI/2;
+            int px2=(int)(Math.cos(a)*BALL_R*0.5f);
+            int py2=(int)(Math.sin(a)*BALL_R*0.5f);
+            g2.fillOval(px2-3,py2-3,6,6);
+        }
+        g2.fillOval(-3,-3,6,6); // centre
+        g2.dispose();
+
+        // Shine
+        g.setColor(new Color(255,255,255,160));
+        g.fillOval(bx+2,by+2,bd/3,bd/4);
+    }
+
+    // ─── HUD ──────────────────────────────────────────────────────────
+    void drawHUD(Graphics2D g){
+        // Scoreboard top centre
+        Color bc2=TEAM_COLORS[blueTeamIdx][0];
+        Color rc2=TEAM_COLORS[redTeamIdx][0];
+
+        // Team name left
+        g.setFont(new Font("Arial",Font.BOLD,13));
+        g.setColor(bc2.brighter());
+        String bName=TEAM_NAMES[blueTeamIdx][0];
+        FontMetrics fm=g.getFontMetrics();
+        g.drawString(bName, W/2-160-fm.stringWidth(bName),34);
+
+        // Score
+        g.setFont(new Font("Arial",Font.BOLD,28));
+        g.setColor(Color.WHITE);
+        String sc=scoreBlue+"  :  "+scoreRed;
+        fm=g.getFontMetrics();
+        g.drawString(sc,(W-fm.stringWidth(sc))/2,36);
+
+        // Team name right
+        g.setFont(new Font("Arial",Font.BOLD,13));
+        g.setColor(rc2.brighter());
+        g.drawString(TEAM_NAMES[redTeamIdx][0], W/2+165,34);
+
+        // Timer
+        int secsLeft = (HALF_DURATION*FPS - matchTimer)/FPS;
+        String timeStr = String.format("%02d:%02d",secsLeft/60,secsLeft%60);
+        g.setFont(new Font("Arial",Font.BOLD,14));
+        g.setColor(new Color(255,220,150));
+        fm=g.getFontMetrics();
+        g.drawString("H"+half+" "+timeStr,(W-fm.stringWidth("H"+half+" "+timeStr))/2,50);
+
+        // Power bar (when charging)
+        if (spaceHeld && shootPower>0){
+            int bw=100; int bx=bluePlayers[controlledIdx].isGK?80:
+                             (int)bluePlayers[controlledIdx].x-50;
+            int by2=(int)bluePlayers[controlledIdx].y+28;
+            g.setColor(new Color(0,0,0,120)); g.fillRoundRect(bx,by2,bw,8,4,4);
+            Color pc=shootPower<0.5f?new Color(0,200,80):
+                     shootPower<0.8f?new Color(255,200,0):new Color(255,60,60);
+            g.setColor(pc);
+            g.fillRoundRect(bx,by2,(int)(bw*shootPower),8,4,4);
+            g.setColor(Color.WHITE); g.setStroke(new BasicStroke(1f));
+            g.drawRoundRect(bx,by2,bw,8,4,4);
+            g.setFont(new Font("Arial",Font.BOLD,9));
+            g.setColor(Color.WHITE); g.drawString("POWER",bx,by2-2);
+        }
+
+        // Mini arrow indicating controlled player
+        // (already drawn on player sprite)
+
+        // Bottom stats strip
+        g.setColor(new Color(0,0,0,100));
+        g.fillRect(0,H-22,W,22);
+        g.setFont(new Font("Arial",Font.PLAIN,10));
+        g.setColor(new Color(160,180,220));
+        int blPoss=possession[0]+possession[1]>0?(int)(100f*possession[0]/(possession[0]+possession[1])):50;
+        String stats=String.format("Shots %d-%d  |  Possession %d%%-%d%%  |  TAB: Switch Player  SPACE: Kick",
+                shots[0],shots[1],blPoss,100-blPoss);
+        fm=g.getFontMetrics(); g.drawString(stats,(W-fm.stringWidth(stats))/2,H-7);
+
+        // Half indicator dots
+        for(int h=0;h<2;h++){
+            g.setColor(h<half?new Color(0,220,100):new Color(80,80,80));
+            g.fillOval(W/2+80+h*14,40,8,8);
+        }
+    }
+
+    // ─── GOAL ANIMATION ───────────────────────────────────────────────
+    void drawGoalAnim(Graphics2D g){
+        drawMatch(g);
+        // Confetti
+        for(int[] c:confetti){
+            g.setColor(new Color(c[5],c[6],c[7],(int)(200*(1f-(float)goalAnimTimer/150))));
+            Graphics2D g2=(Graphics2D)g.create();
+            g2.translate(c[0],c[1]); g2.rotate(Math.toRadians(c[4]));
+            g2.fillRect(-c[2]/2,-c[3]/2,c[2],c[3]);
+            g2.dispose();
+        }
+        // GOAL! text
+        float alpha=Math.min(1f,(float)(goalAnimTimer<60?goalAnimTimer/20f:1f-(goalAnimTimer-90)/60f));
+        float scale=1f+(float)Math.sin(tick*0.2)*0.05f;
+        Graphics2D g2=(Graphics2D)g.create();
+        g2.translate(W/2,H/2-40); g2.scale(scale,scale);
+        // Glow
+        for(int gl=8;gl>=0;gl--){
+            Color gc=lastGoalBlue?new Color(0,120,255,10+gl*5):new Color(255,80,80,10+gl*5);
+            g2.setColor(gc);
+            g2.setFont(new Font("Arial",Font.BOLD,90+gl*2));
+            FontMetrics fm=g2.getFontMetrics();
+            g2.drawString("GOAL!",-fm.stringWidth("GOAL!")/2+gl/2,gl/2);
+        }
+        g2.setFont(new Font("Arial",Font.BOLD,88));
+        g2.setPaint(new GradientPaint(-200,-40,
+            lastGoalBlue?new Color(0,200,255):new Color(255,200,0),
+            200,40, lastGoalBlue?new Color(0,80,200):new Color(255,80,40)));
+        FontMetrics fm2=g2.getFontMetrics();
+        g2.drawString("GOAL!",-fm2.stringWidth("GOAL!")/2,0);
+        g2.setColor(new Color(255,255,255,(int)(alpha*220)));
+        g2.dispose();
+
+        // Scorer name
+        String scorer=lastGoalBlue?TEAM_NAMES[blueTeamIdx][0]:TEAM_NAMES[redTeamIdx][0];
+        g.setFont(new Font("Arial",Font.BOLD,22));
+        g.setColor(new Color(255,255,200,(int)(alpha*220)));
+        FontMetrics fm3=g.getFontMetrics();
+        g.drawString(scorer,(W-fm3.stringWidth(scorer))/2,H/2+30);
+
+        // Score update
+        g.setFont(new Font("Arial",Font.BOLD,32));
+        g.setColor(Color.WHITE);
+        String sc=scoreBlue+" - "+scoreRed;
+        fm3=g.getFontMetrics();
+        g.drawString(sc,(W-fm3.stringWidth(sc))/2,H/2+70);
+    }
+
+    // ─── MENU ─────────────────────────────────────────────────────────
+    void drawMenu(Graphics2D g){
+        // Background — stadium at night
+        GradientPaint bg=new GradientPaint(0,0,new Color(5,15,40),0,H,new Color(10,40,10));
+        g.setPaint(bg); g.fillRect(0,0,W,H);
+
+        // Stylised pitch outline
+        g.setColor(new Color(40,120,40,80));
+        g.fillRect(80,200,W-160,320);
+        g.setColor(new Color(255,255,255,30));
+        g.setStroke(new BasicStroke(2f));
+        g.drawRect(80,200,W-160,320);
+        g.drawOval(W/2-80,310,160,160);
+        g.drawLine(W/2,200,W/2,520);
+        g.setStroke(new BasicStroke(1f));
+
+        // Title with glow
+        for(int gl=6;gl>=0;gl--){
+            float a=(float)(0.5+0.5*Math.sin(tick*0.06));
+            g.setColor(new Color(0,200,60,(int)(a*(12+gl*10))));
+            g.setFont(new Font("Arial",Font.BOLD,80+gl*2));
+            FontMetrics fm=g.getFontMetrics();
+            String t1="KICK OFF!";
+            g.drawString(t1,(W-fm.stringWidth(t1))/2+gl/2,160+gl/2);
+        }
+        g.setFont(new Font("Arial",Font.BOLD,80));
+        GradientPaint tp=new GradientPaint(0,80,new Color(0,255,80),0,160,new Color(0,180,40));
+        g.setPaint(tp);
+        String t1="KICK OFF!"; FontMetrics fm=g.getFontMetrics();
+        g.drawString(t1,(W-fm.stringWidth(t1))/2,160);
+
+        g.setFont(new Font("Arial",Font.BOLD,18));
+        g.setColor(new Color(180,220,180));
+        String sub="5-a-Side Football";
+        fm=g.getFontMetrics(); g.drawString(sub,(W-fm.stringWidth(sub))/2,188);
+
+        // Animated demo players
+        drawDemoPlayers(g);
+
+        // Menu options
+        String[] opts={"KICK OFF","DIFFICULTY: "+difficulty.name(),"HIGH SCORES","CONTROLS"};
+        Color[] optC={new Color(0,220,80),new Color(255,200,60),new Color(180,180,255),new Color(180,220,255)};
+        for(int i=0;i<opts.length;i++){
+            boolean sel=(i==menuSelection);
+            float pulse=(float)(0.7+0.3*Math.sin(tick*0.08+i));
+            int mx=W/2, my=560+i*46;
+            if(sel){
+                g.setColor(new Color(optC[i].getRed(),optC[i].getGreen(),optC[i].getBlue(),(int)(pulse*50+20)));
+                g.fillRoundRect(mx-160,my-28,320,38,10,10);
+                g.setColor(new Color(optC[i].getRed(),optC[i].getGreen(),optC[i].getBlue(),(int)(pulse*200+30)));
+                g.setStroke(new BasicStroke(2f));
+                g.drawRoundRect(mx-160,my-28,320,38,10,10);
+                g.setStroke(new BasicStroke(1f));
+            }
+            g.setFont(new Font("Arial",Font.BOLD,sel?20:17));
+            g.setColor(sel?optC[i]:new Color(120,140,120));
+            fm=g.getFontMetrics();
+            g.drawString(opts[i],mx-fm.stringWidth(opts[i])/2,my);
+        }
+
+        // Hi-score
+        g.setFont(new Font("Arial",Font.BOLD,13));
+        g.setColor(new Color(255,215,0));
+        String hs="TOP GOALS: "+hiScore;
+        fm=g.getFontMetrics(); g.drawString(hs,(W-fm.stringWidth(hs))/2,210);
+
+        // Credits
+        g.setFont(new Font("Arial",Font.ITALIC,11));
+        g.setColor(new Color(60,100,60));
+        String cr="Kick Off — Advanced Java Programming | Dr. NTEZIRIZA NKERABAHIZI Josbert | UoK";
+        fm=g.getFontMetrics(); g.drawString(cr,(W-fm.stringWidth(cr))/2,H-10);
+    }
+
+    void drawDemoPlayers(Graphics2D g){
+        // Two groups of animated mini players
+        int[] bxs={320,360,400}, rxs={560,600,640};
+        int   py2=360;
+        for(int i=0;i<3;i++){
+            drawMiniPlayer(g,bxs[i],py2,TEAM_COLORS[blueTeamIdx][0],TEAM_COLORS[blueTeamIdx][1]);
+            drawMiniPlayer(g,rxs[i],py2,TEAM_COLORS[redTeamIdx][0], TEAM_COLORS[redTeamIdx][1]);
+        }
+        // Mini ball
+        g.setColor(Color.WHITE);
+        int bx=(int)(W/2+Math.cos(tick*0.04)*30), by=(int)(py2+Math.sin(tick*0.08)*10);
+        g.fillOval(bx-7,by-7,14,14);
+        g.setColor(new Color(30,30,30));
+        g.fillOval(bx-3,by-3,6,6);
+    }
+
+    void drawMiniPlayer(Graphics2D g,int x,int y,Color shirt,Color shorts){
+        float bob=(float)(Math.sin(tick*0.15+x)*4);
+        g.setColor(new Color(40,20,10)); g.fillOval(x-5,y+(int)(12+bob),10,5); // shadow
+        g.setColor(shirt); g.fillOval(x-7,y+(int)(bob)-4,14,14); // shirt
+        g.setColor(new Color(220,180,130)); g.fillOval(x-5,y+(int)(bob)-14,10,10); // head
+        g.setColor(new Color(40,20,10)); g.fillOval(x-4,y+(int)(bob)-14,9,5); // hair
+        g.setColor(shorts); g.fillRect(x-6,y+(int)(bob)+10,12,6); // shorts
+    }
+
+    // ─── TEAM SELECT ──────────────────────────────────────────────────
+    void drawTeamSelect(Graphics2D g){
+        GradientPaint bg=new GradientPaint(0,0,new Color(5,20,50),0,H,new Color(10,40,10));
+        g.setPaint(bg); g.fillRect(0,0,W,H);
+
+        g.setFont(new Font("Arial",Font.BOLD,36));
+        g.setColor(new Color(0,220,80));
+        String t="SELECT YOUR TEAM"; FontMetrics fm=g.getFontMetrics();
+        g.drawString(t,(W-fm.stringWidth(t))/2,60);
+
+        // Team grid
+        int cols=3, rows=2, cw=260, ch=110, sx=(W-cols*cw-cols*20)/2;
+        for(int i=0;i<TEAM_NAMES.length;i++){
+            int col=i%cols, row=i/cols;
+            int tx=sx+col*(cw+20), ty=100+row*(ch+16);
+            boolean sel=(i==blueTeamIdx);
+
+            g.setColor(new Color(TEAM_COLORS[i][0].getRed(),TEAM_COLORS[i][0].getGreen(),
+                    TEAM_COLORS[i][0].getBlue(),sel?100:40));
+            g.fillRoundRect(tx,ty,cw,ch,12,12);
+            g.setColor(TEAM_COLORS[i][0]);
+            g.setStroke(new BasicStroke(sel?3f:1.5f));
+            g.drawRoundRect(tx,ty,cw,ch,12,12);
+            g.setStroke(new BasicStroke(1f));
+
+            // Team flag colour bar
+            g.setColor(TEAM_COLORS[i][0]);
+            g.fillRect(tx+12,ty+12,cw-24,20);
+            g.setColor(TEAM_COLORS[i][1]);
+            g.fillRect(tx+12,ty+32,cw-24,8);
+
+            g.setFont(new Font("Arial",Font.BOLD,15));
+            g.setColor(Color.WHITE);
+            fm=g.getFontMetrics();
+            g.drawString(TEAM_NAMES[i][0],tx+(cw-fm.stringWidth(TEAM_NAMES[i][0]))/2,ty+64);
+            g.setFont(new Font("Arial",Font.ITALIC,11));
+            g.setColor(new Color(200,210,220));
+            fm=g.getFontMetrics();
+            g.drawString('"'+TEAM_NAMES[i][1]+'"',tx+(cw-fm.stringWidth('"'+TEAM_NAMES[i][1]+'"'))/2,ty+82);
+
+            if(sel){
+                g.setFont(new Font("Arial",Font.BOLD,11));
+                g.setColor(new Color(0,255,100));
+                g.drawString("YOUR TEAM",tx+(cw-g.getFontMetrics().stringWidth("YOUR TEAM"))/2,ty+100);
+            }
+        }
+
+        g.setFont(new Font("Arial",Font.PLAIN,14)); g.setColor(new Color(160,200,180));
+        String hint="Arrow Keys to select  |  ENTER to confirm  |  Opponent assigned automatically";
+        fm=g.getFontMetrics(); g.drawString(hint,(W-fm.stringWidth(hint))/2,H-30);
+
+        // Preview both teams
+        g.setFont(new Font("Arial",Font.BOLD,16));
+        g.setColor(TEAM_COLORS[blueTeamIdx][0]);
+        g.drawString("YOUR: "+TEAM_NAMES[blueTeamIdx][0], 30, H-70);
+        g.setColor(TEAM_COLORS[redTeamIdx][0]);
+        g.drawString("OPP:  "+TEAM_NAMES[redTeamIdx][0], 30, H-50);
+    }
+
+    // ─── HALF TIME ────────────────────────────────────────────────────
+    void drawHalfTime(Graphics2D g){
+        g.setColor(new Color(0,0,0,160)); g.fillRect(0,0,W,H);
+        g.setFont(new Font("Arial",Font.BOLD,48));
+        g.setColor(new Color(0,220,100));
+        String t="HALF TIME"; FontMetrics fm=g.getFontMetrics();
+        g.drawString(t,(W-fm.stringWidth(t))/2,H/2-50);
+        g.setFont(new Font("Arial",Font.BOLD,32));
+        g.setColor(Color.WHITE);
+        String sc=TEAM_NAMES[blueTeamIdx][0]+"  "+scoreBlue+"  —  "+scoreRed+"  "+TEAM_NAMES[redTeamIdx][0];
+        fm=g.getFontMetrics(); g.drawString(sc,(W-fm.stringWidth(sc))/2,H/2+10);
+        g.setFont(new Font("Arial",Font.ITALIC,15));
+        g.setColor(new Color(180,200,180));
+        String r="2nd half starting soon..."; fm=g.getFontMetrics();
+        g.drawString(r,(W-fm.stringWidth(r))/2,H/2+50);
+    }
+
+    // ─── PAUSE ────────────────────────────────────────────────────────
+    void drawPause(Graphics2D g){
+        g.setColor(new Color(0,0,0,160)); g.fillRect(0,0,W,H);
+        g.setFont(new Font("Arial",Font.BOLD,52)); g.setColor(new Color(0,220,80));
+        String p2="PAUSED"; FontMetrics fm=g.getFontMetrics();
+        g.drawString(p2,(W-fm.stringWidth(p2))/2,H/2-20);
+        g.setFont(new Font("Arial",Font.PLAIN,16)); g.setColor(new Color(180,220,180));
+        String r="P / ESC — Resume"; fm=g.getFontMetrics();
+        g.drawString(r,(W-fm.stringWidth(r))/2,H/2+24);
+    }
+
+    // ─── FULL TIME ────────────────────────────────────────────────────
+    void drawFullTime(Graphics2D g){
+        GradientPaint bg=new GradientPaint(0,0,new Color(5,25,5),0,H,new Color(0,40,10));
+        g.setPaint(bg); g.fillRect(0,0,W,H);
+
+        // Gold rays for winner
+        String winner;
+        Color winC;
+        if(scoreBlue>scoreRed){winner="YOU WIN!"; winC=new Color(0,200,255);}
+        else if(scoreRed>scoreBlue){winner="YOU LOSE"; winC=new Color(255,60,60);}
+        else {winner="DRAW!"; winC=new Color(255,200,0);}
+
+        for(int i=0;i<16;i++){
+            double a=Math.toRadians(i*22.5+tick*0.3);
+            g.setColor(new Color(winC.getRed(),winC.getGreen(),winC.getBlue(),12));
+            g.setStroke(new BasicStroke(8));
+            g.drawLine(W/2,H/2,(int)(W/2+Math.cos(a)*700),(int)(H/2+Math.sin(a)*700));
+        }
+        g.setStroke(new BasicStroke(1f));
+
+        // Title
+        g.setFont(new Font("Arial",Font.BOLD,28));
+        g.setColor(new Color(255,200,100));
+        String ft="FULL TIME"; FontMetrics fm=g.getFontMetrics();
+        g.drawString(ft,(W-fm.stringWidth(ft))/2,H/2-130);
+
+        g.setFont(new Font("Arial",Font.BOLD,62));
+        g.setColor(winC);
+        fm=g.getFontMetrics();
+        g.drawString(winner,(W-fm.stringWidth(winner))/2,H/2-60);
+
+        // Score
+        g.setFont(new Font("Arial",Font.BOLD,38));
+        g.setColor(Color.WHITE);
+        String sc=TEAM_NAMES[blueTeamIdx][0]+"   "+scoreBlue+" — "+scoreRed+"   "+TEAM_NAMES[redTeamIdx][0];
+        fm=g.getFontMetrics(); g.drawString(sc,(W-fm.stringWidth(sc))/2,H/2+10);
+
+        // Stats
+        g.setColor(new Color(0,0,0,120)); g.fillRoundRect(W/2-280,H/2+30,560,100,12,12);
+        g.setFont(new Font("Arial",Font.BOLD,14)); g.setColor(new Color(0,200,100));
+        g.drawString("MATCH STATS",W/2-40,H/2+52);
+        g.setFont(new Font("Arial",Font.PLAIN,13)); g.setColor(new Color(180,220,180));
+        int blPoss=possession[0]+possession[1]>0?(int)(100f*possession[0]/(possession[0]+possession[1])):50;
+        String[] stats={
+            "Shots: "+shots[0]+" — "+shots[1],
+            "Possession: "+blPoss+"% — "+(100-blPoss)+"%",
+            "On Target: "+shotsOnTarget[0]+" — "+shotsOnTarget[1]
+        };
+        for(int i=0;i<stats.length;i++){
+            fm=g.getFontMetrics();
+            g.drawString(stats[i],(W-fm.stringWidth(stats[i]))/2,H/2+72+i*18);
+        }
+
+        float p=(float)(0.6+0.4*Math.sin(tick*0.08));
+        drawMenuBtn(g,"ENTER — Play Again",W/2,H/2+160,new Color(0,200,80),15,p);
+        drawMenuBtn(g,"ESC — Main Menu",   W/2,H/2+200,new Color(160,160,200),13,0.8f);
+    }
+
+    void drawMenuBtn(Graphics2D g,String t,int cx,int cy,Color c,int fs,float glow){
+        g.setFont(new Font("Arial",Font.BOLD,fs));
+        FontMetrics fm=g.getFontMetrics(); int tw=fm.stringWidth(t);
+        g.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(),(int)(glow*50+10)));
+        g.fillRoundRect(cx-tw/2-14,cy-fs,tw+28,fs+14,10,10);
+        g.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(),(int)(glow*200+30)));
+        g.setStroke(new BasicStroke(1.5f)); g.drawRoundRect(cx-tw/2-14,cy-fs,tw+28,fs+14,10,10);
+        g.setStroke(new BasicStroke(1f));
+        g.setColor(c); g.drawString(t,cx-tw/2,cy);
+    }
+
+    // ─── HIGH SCORES ──────────────────────────────────────────────────
+    void drawScores(Graphics2D g){
+        GradientPaint bg=new GradientPaint(0,0,new Color(5,25,5),0,H,new Color(0,40,10));
+        g.setPaint(bg); g.fillRect(0,0,W,H);
+
+        g.setFont(new Font("Arial",Font.BOLD,40));
+        GradientPaint tp=new GradientPaint(0,80,new Color(255,220,0),0,130,new Color(255,140,0));
+        g.setPaint(tp);
+        String t="TOP SCORES"; FontMetrics fm=g.getFontMetrics();
+        g.drawString(t,(W-fm.stringWidth(t))/2,100);
+
+        g.setColor(new Color(0,0,0,140));
+        g.fillRoundRect(W/2-200,130,400,300,14,14);
+        g.setColor(new Color(0,100,50,80)); g.setStroke(new BasicStroke(1.5f));
+        g.drawRoundRect(W/2-200,130,400,300,14,14); g.setStroke(new BasicStroke(1f));
+
+        List<int[]> scores=loadAllScores();
+        for(int i=0;i<Math.min(scores.size(),8);i++){
+            Color c=i==0?new Color(255,215,0):i==1?new Color(192,192,192):
+                     i==2?new Color(205,127,50):new Color(160,200,160);
+            g.setFont(new Font("Arial",Font.BOLD,18)); g.setColor(c);
+            String line=(i+1)+".   "+scores.get(i)[0]+" goals";
+            fm=g.getFontMetrics(); g.drawString(line,(W-fm.stringWidth(line))/2,178+i*36);
+        }
+        if(scores.isEmpty()){
+            g.setFont(new Font("Arial",Font.ITALIC,14)); g.setColor(new Color(120,160,120));
+            String n="No scores yet — play your first match!";
+            fm=g.getFontMetrics(); g.drawString(n,(W-fm.stringWidth(n))/2,280);
+        }
+        drawMenuBtn(g,"ESC / ENTER — Back",W/2,H-60,new Color(0,200,80),14,0.9f);
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  INPUT
+    // ══════════════════════════════════════════════════════════════════
+    @Override public void keyPressed(KeyEvent e){
+        int k=e.getKeyCode();
+        if(k==KeyEvent.VK_UP)    kUp   =true;
+        if(k==KeyEvent.VK_DOWN)  kDown =true;
+        if(k==KeyEvent.VK_LEFT)  kLeft =true;
+        if(k==KeyEvent.VK_RIGHT) kRight=true;
+        if(k==KeyEvent.VK_SPACE) kSpace=true;
+        if(k==KeyEvent.VK_TAB)   kTab  =true;
+
+        switch(screen){
+            case MENU -> {
+                if(k==KeyEvent.VK_UP)    menuSelection=(menuSelection+3)%4;
+                if(k==KeyEvent.VK_DOWN)  menuSelection=(menuSelection+1)%4;
+                if(k==KeyEvent.VK_ENTER){
+                    switch(menuSelection){
+                        case 0->{ screen=Screen.TEAM_SELECT; }
+                        case 1->{ difficulty=Difficulty.values()[(difficulty.ordinal()+1)%3]; }
+                        case 2->screen=Screen.SCORES;
+                        case 3->{ /* show controls popup */ }
+                    }
+                    sound.play("menubeep");
+                }
+            }
+            case TEAM_SELECT -> {
+                if(k==KeyEvent.VK_LEFT)  blueTeamIdx=(blueTeamIdx+5)%6;
+                if(k==KeyEvent.VK_RIGHT) blueTeamIdx=(blueTeamIdx+1)%6;
+                if(k==KeyEvent.VK_UP)    blueTeamIdx=(blueTeamIdx+3)%6;
+                if(k==KeyEvent.VK_DOWN)  blueTeamIdx=(blueTeamIdx+3)%6;
+                // Auto-assign opponent (different team)
+                redTeamIdx=(blueTeamIdx+1)%6;
+                if(k==KeyEvent.VK_ENTER){ startMatch(); sound.play("menubeep"); }
+                if(k==KeyEvent.VK_ESCAPE) screen=Screen.MENU;
+            }
+            case PLAYING -> {
+                if(k==KeyEvent.VK_P||k==KeyEvent.VK_ESCAPE) screen=Screen.PAUSED;
+                if(k==KeyEvent.VK_M) muteSound=!muteSound;
+            }
+            case PAUSED -> {
+                if(k==KeyEvent.VK_P||k==KeyEvent.VK_ESCAPE||k==KeyEvent.VK_ENTER)
+                    screen=Screen.PLAYING;
+                if(k==KeyEvent.VK_M) muteSound=!muteSound;
+            }
+            case FULL_TIME -> {
+                if(k==KeyEvent.VK_ENTER){ screen=Screen.TEAM_SELECT; }
+                if(k==KeyEvent.VK_ESCAPE) screen=Screen.MENU;
+            }
+            case SCORES -> {
+                if(k==KeyEvent.VK_ESCAPE||k==KeyEvent.VK_ENTER) screen=Screen.MENU;
+            }
+        }
+    }
+    @Override public void keyReleased(KeyEvent e){
+        int k=e.getKeyCode();
+        if(k==KeyEvent.VK_UP)    kUp   =false;
+        if(k==KeyEvent.VK_DOWN)  kDown =false;
+        if(k==KeyEvent.VK_LEFT)  kLeft =false;
+        if(k==KeyEvent.VK_RIGHT) kRight=false;
+        if(k==KeyEvent.VK_SPACE) kSpace=false;
+    }
+    @Override public void keyTyped(KeyEvent e){}
+
+    // ══════════════════════════════════════════════════════════════════
+    //  FILE I/O
+    // ══════════════════════════════════════════════════════════════════
+    void loadHiScore(){ List<int[]> s=loadAllScores(); if(!s.isEmpty()) hiScore=s.get(0)[0]; }
+    List<int[]> loadAllScores(){
+        List<int[]> list=new ArrayList<>();
+        try(BufferedReader br=new BufferedReader(new FileReader(SCORE_FILE))){
+            String ln; while((ln=br.readLine())!=null){
+                try{list.add(new int[]{Integer.parseInt(ln.trim())});}catch(Exception ignored){}
+            }
+        }catch(IOException ignored){}
+        list.sort((a,b)->b[0]-a[0]); return list;
+    }
+    void saveScore(int goals){
+        List<int[]> all=loadAllScores(); all.add(new int[]{goals});
+        all.sort((a,b)->b[0]-a[0]);
+        try(PrintWriter pw=new PrintWriter(new FileWriter(SCORE_FILE))){
+            for(int i=0;i<Math.min(all.size(),10);i++) pw.println(all.get(i)[0]);
+        }catch(IOException ignored){}
+    }
+    void saveHiScore(){ saveScore(hiScore); }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  UTILITY
+    // ══════════════════════════════════════════════════════════════════
+    static float clamp(float v,float lo,float hi){ return Math.max(lo,Math.min(hi,v)); }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  INNER CLASS — BALL
+    // ══════════════════════════════════════════════════════════════════
+    class Ball {
+        float x,y,vx,vy,spin,spinRate;
+        Ball(float x,float y,float vx,float vy){ this.x=x;this.y=y;this.vx=vx;this.vy=vy; }
+        void update(){
+            x+=vx; y+=vy;
+            vx*=BALL_FRICTION; vy*=BALL_FRICTION;
+            // Spin based on velocity
+            spinRate=(vx+vy)*0.04f;
+            spin+=spinRate;
+            // Near-stop
+            if(Math.abs(vx)<0.05f) vx=0;
+            if(Math.abs(vy)<0.05f) vy=0;
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  INNER CLASS — PLAYER
+    // ══════════════════════════════════════════════════════════════════
+    class Player {
+        float x,y;
+        float homeX,homeY;
+        Color shirtColor, shortsColor;
+        String number, name;
+        boolean isBlue, isGK;
+        PlayerState state=PlayerState.IDLE;
+        float facingAngle=0;
+        int kickAnim=0;
+
+        Player(float x,float y,Color shirt,Color shorts,String num,String name,boolean isBlue,boolean isGK){
+            this.x=x;this.y=y;this.shirtColor=shirt;this.shortsColor=shorts;
+            this.number=num;this.name=name;this.isBlue=isBlue;this.isGK=isGK;
+        }
+        void update(){
+            if(kickAnim>0) kickAnim--;
+            // Clamp to pitch
+            x=clamp(x,PX+PLAYER_R,PX+PW-PLAYER_R);
+            y=clamp(y,PY+PLAYER_R,PY+PH-PLAYER_R);
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  INNER CLASS — PARTICLE
+    // ══════════════════════════════════════════════════════════════════
+    class Particle {
+        float x,y,vx,vy; Color c; int life,maxLife; boolean dead;
+        Particle(int x,int y,Color c,float vx,float vy,int life){
+            this.x=x;this.y=y;this.c=c;this.vx=vx;this.vy=vy;this.life=this.maxLife=life;
+        }
+        void update(){ x+=vx;y+=vy;vx*=0.88f;vy*=0.88f;vy+=0.1f;if(--life<=0)dead=true; }
+        void draw(Graphics2D g){
+            float a=(float)life/maxLife;
+            g.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(),(int)(a*220)));
+            g.fillOval((int)(x-3),(int)(y-3),6,6);
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  INNER CLASS — FLOAT TEXT
+    // ══════════════════════════════════════════════════════════════════
+    class FloatText {
+        String text; float x,y; Color c; float life=1f; boolean dead;
+        FloatText(String t,int x,int y,Color c){text=t;this.x=x;this.y=y;this.c=c;}
+        void update(){ y-=1.2f; life-=0.015f; if(life<=0)dead=true; }
+        void draw(Graphics2D g){
+            g.setFont(new Font("Arial",Font.BOLD,16));
+            g.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(),(int)(life*240)));
+            FontMetrics fm=g.getFontMetrics();
+            g.drawString(text,(int)x-fm.stringWidth(text)/2,(int)y);
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  INNER CLASS — SOUND ENGINE (pure Java synthesis)
+    // ══════════════════════════════════════════════════════════════════
+    class SFX {
+        static final int SR=44100;
+
+        void play(String name){
+            if(muteSound) return;
+            byte[] pcm=gen(name); if(pcm==null) return;
+            Thread t=new Thread(()->{
+                try{
+                    AudioFormat fmt=new AudioFormat(SR,16,1,true,false);
+                    DataLine.Info info=new DataLine.Info(SourceDataLine.class,fmt);
+                    if(!AudioSystem.isLineSupported(info)) return;
+                    try(SourceDataLine line=(SourceDataLine)AudioSystem.getLine(info)){
+                        line.open(fmt,2048); line.start();
+                        line.write(pcm,0,pcm.length); line.drain();
+                    }
+                }catch(Exception ignored){}
+            });
+            t.setDaemon(true); t.start();
+        }
+
+        byte[] gen(String name){
+            return switch(name){
+                // Ball kick — sharp thud
+                case "kick"     -> synth(0.14, t->
+                    (noise()*0.7+sine(t,120-t*60)*0.5)*env(t,0.005,0.03,0.3,0.06)*0.75);
+                // Ball bounce off post/wall
+                case "bounce"   -> synth(0.10, t->
+                    (sine(t,400-t*200)+noise()*0.2)*env(t,0.005,0.02,0.25,0.05)*0.55);
+                // GOAL! — crowd roar + horn
+                case "goal"     -> synth(1.80, t->
+                    (crowdRoar(t)+hornBlast(t)*0.6)*env(t,0.02,0.15,0.7,0.1)*0.80);
+                // Whistle (start / halftime / fulltime)
+                case "whistle"  -> synth(0.60, t->
+                    (sine(t,2200+sine(t*3,80)*30)+sine(t,2400)*0.3)*env(t,0.01,0.05,0.65,0.1)*0.55);
+                // Player switch
+                case "switch"   -> synth(0.10, t->
+                    sine(t,660)*env(t,0.01,0.03,0.35,0.04)*0.35);
+                // Menu beep
+                case "menubeep" -> synth(0.12, t->
+                    (sine(t,440)+sine(t,880)*0.3)*env(t,0.01,0.03,0.4,0.04)*0.38);
+                default         -> null;
+            };
+        }
+
+        double crowdRoar(double t){
+            // Rising noise burst
+            return noise()*(0.3+t*0.7)*Math.sin(t*Math.PI);
+        }
+        double hornBlast(double t){
+            if(t<0.3) return sine(t,440+t*200);
+            if(t<0.6) return sine(t,660)+sine(t,880)*0.4;
+            return sine(t,880)*Math.max(0,1-t);
+        }
+
+        static double sine(double t,double f){return Math.sin(2*Math.PI*f*t);}
+        static final Random NR=new Random();
+        static double noise(){return NR.nextDouble()*2-1;}
+        static double env(double t,double a,double d,double s,double r){
+            if(t<a) return t/a;
+            if(t<a+d) return 1-(1-0.7)*((t-a)/d);
+            if(t<1.0-r) return 0.7;
+            return 0.7*(1-(t-(1.0-r))/r);
+        }
+        byte[] synth(double dur,DoubleUnaryOperator fn){
+            int n=(int)(SR*dur); byte[] buf=new byte[n*2];
+            for(int i=0;i<n;i++){
+                double t=(double)i/n;
+                int s=(int)(fn.applyAsDouble(t)*28000);
+                s=Math.max(-32768,Math.min(32767,s));
+                buf[2*i]=(byte)(s&0xFF); buf[2*i+1]=(byte)((s>>8)&0xFF);
+            }
+            return buf;
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  MAIN
+    // ══════════════════════════════════════════════════════════════════
+    public static void main(String[] args){
+        SwingUtilities.invokeLater(()->{
+            JFrame f=new JFrame("Kick Off! — 5-a-Side Football");
+            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            f.setResizable(false);
+            FootballGame game=new FootballGame();
+            f.add(game); f.pack();
+            f.setLocationRelativeTo(null);
+            f.setVisible(true);
+            game.requestFocusInWindow();
+        });
+    }
+}

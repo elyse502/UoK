@@ -1,0 +1,404 @@
+package jos_test;
+
+import javax.swing.*;
+import javax.swing.border.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.awt.geom.*;
+
+public class GrayScaleViewer extends JFrame {
+
+    // --- State ---
+    private String displayMode = "grid";
+    private int cellSize = 20;
+    private boolean showValues = true;
+    private boolean showHex = false;
+
+    // --- UI components ---
+    private JLabel hoverLabel;
+    private DrawPanel drawPanel;
+    private JScrollPane scrollPane;
+
+    // --- Controls ---
+    private ButtonGroup modeGroup;
+    private JRadioButton gridBtn, gradientBtn, circularBtn;
+    private JSlider sizeSlider;
+    private JLabel sizeValueLabel;
+    private JCheckBox showValuesCheck, showHexCheck;
+
+    public GrayScaleViewer() {
+        super("256 Shades of Gray – 8-bit Grayscale Viewer");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(1200, 800);
+        setMinimumSize(new Dimension(800, 600));
+        getContentPane().setBackground(new Color(0x2b2b2b));
+        setLayout(new BorderLayout(10, 10));
+
+        buildUI();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    // ──────────────────────────────────────────────
+    //  UI construction
+    // ──────────────────────────────────────────────
+
+    private void buildUI() {
+        JPanel root = new JPanel(new BorderLayout(10, 10));
+        root.setBackground(new Color(0x2b2b2b));
+        root.setBorder(new EmptyBorder(10, 10, 10, 10));
+        add(root, BorderLayout.CENTER);
+
+        root.add(buildHeader(), BorderLayout.NORTH);
+        root.add(buildControls(), BorderLayout.CENTER);
+
+        // Draw panel + scroll
+        drawPanel = new DrawPanel();
+        scrollPane = new JScrollPane(drawPanel);
+        scrollPane.getViewport().setBackground(new Color(0x1e1e1e));
+        scrollPane.setBorder(null);
+        root.add(scrollPane, BorderLayout.SOUTH);
+        // Give scrollPane a fixed preferred height so the control area stays visible
+        scrollPane.setPreferredSize(new Dimension(0, 550));
+
+        updateDisplay();
+    }
+
+    private JPanel buildHeader() {
+        JPanel p = new JPanel(new BorderLayout());
+        p.setBackground(new Color(0x2b2b2b));
+
+        JLabel title = new JLabel("256 Shades of Gray Viewer");
+        title.setForeground(Color.WHITE);
+        title.setFont(new Font("Arial", Font.BOLD, 16));
+
+        JLabel info = new JLabel("8-bit Grayscale (0–255 values)");
+        info.setForeground(new Color(0xcccccc));
+        info.setFont(new Font("Arial", Font.PLAIN, 10));
+
+        p.add(title, BorderLayout.WEST);
+        p.add(info,  BorderLayout.EAST);
+        return p;
+    }
+
+    private JPanel buildControls() {
+        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+        p.setBackground(new Color(0x2b2b2b));
+
+        // --- Display mode ---
+        JPanel modePanel = darkTitledPanel("Display Mode");
+        modeGroup   = new ButtonGroup();
+        gridBtn     = darkRadio("Grid View");
+        gradientBtn = darkRadio("Gradient Bar");
+        circularBtn = darkRadio("Circular");
+        gridBtn.setSelected(true);
+        for (JRadioButton rb : new JRadioButton[]{gridBtn, gradientBtn, circularBtn}) {
+            modeGroup.add(rb);
+            modePanel.add(rb);
+            rb.addActionListener(e -> {
+                displayMode = rb.getText().toLowerCase().replace(" view","").replace(" bar","").trim();
+                if (rb == gridBtn)     displayMode = "grid";
+                if (rb == gradientBtn) displayMode = "gradient";
+                if (rb == circularBtn) displayMode = "circular";
+                updateDisplay();
+            });
+        }
+
+        // --- Cell size ---
+        JPanel sizePanel = darkTitledPanel("Cell Size");
+        sizeSlider = new JSlider(10, 40, cellSize);
+        sizeSlider.setBackground(new Color(0x2b2b2b));
+        sizeSlider.setForeground(new Color(0xcccccc));
+        sizeSlider.setPreferredSize(new Dimension(120, 30));
+        sizeValueLabel = darkLabel(String.valueOf(cellSize));
+        sizeSlider.addChangeListener(e -> {
+            cellSize = sizeSlider.getValue();
+            sizeValueLabel.setText(String.valueOf(cellSize));
+            updateDisplay();
+        });
+        sizePanel.add(sizeSlider);
+        sizePanel.add(sizeValueLabel);
+
+        // --- Options ---
+        JPanel optPanel = darkTitledPanel("Display Options");
+        showValuesCheck = darkCheck("Show Values", showValues);
+        showHexCheck    = darkCheck("Show Hex",    showHex);
+        showValuesCheck.addActionListener(e -> { showValues = showValuesCheck.isSelected(); updateDisplay(); });
+        showHexCheck   .addActionListener(e -> { showHex    = showHexCheck   .isSelected(); updateDisplay(); });
+        optPanel.add(showValuesCheck);
+        optPanel.add(showHexCheck);
+
+        // --- Hover info ---
+        hoverLabel = darkLabel("Hover over cells for details");
+
+        p.add(modePanel);
+        p.add(sizePanel);
+        p.add(optPanel);
+        p.add(hoverLabel);
+        return p;
+    }
+
+    // ──────────────────────────────────────────────
+    //  Drawing
+    // ──────────────────────────────────────────────
+
+    private void updateDisplay() {
+        drawPanel.repaint();
+        // Resize draw panel canvas to match content
+        drawPanel.setPreferredSize(computeCanvasSize());
+        drawPanel.revalidate();
+    }
+
+    private Dimension computeCanvasSize() {
+        if ("grid".equals(displayMode)) {
+            int margin = 10, spacing = 2, cols = 16, rows = 16;
+            int w = cols * (cellSize + spacing) + 2 * margin;
+            int h = rows * (cellSize + spacing) + 2 * margin;
+            return new Dimension(w, h);
+        } else if ("gradient".equals(displayMode)) {
+            return new Dimension(840, cellSize + 100);
+        } else {
+            return new Dimension(800, 600);
+        }
+    }
+
+    // Inner panel that handles painting
+    private class DrawPanel extends JPanel {
+        DrawPanel() {
+            setBackground(new Color(0x1e1e1e));
+            addMouseMotionListener(new MouseMotionAdapter() {
+                @Override public void mouseMoved(MouseEvent e) { onMouseMoved(e); }
+            });
+            addMouseListener(new MouseAdapter() {
+                @Override public void mouseClicked(MouseEvent e) { onMouseClicked(e); }
+            });
+        }
+
+        @Override protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+            switch (displayMode) {
+                case "grid":     paintGrid(g2);     break;
+                case "gradient": paintGradient(g2); break;
+                case "circular": paintCircular(g2); break;
+            }
+        }
+    }
+
+    // --- Grid ---
+    private void paintGrid(Graphics2D g2) {
+        int cols = 16, margin = 10, spacing = 2;
+        for (int i = 0; i < 256; i++) {
+            int row = i / cols;
+            int col = i % cols;
+            int x = margin + col * (cellSize + spacing);
+            int y = margin + row * (cellSize + spacing);
+
+            g2.setColor(new Color(i, i, i));
+            g2.fillRect(x, y, cellSize, cellSize);
+            g2.setColor(new Color(0x444444));
+            g2.drawRect(x, y, cellSize, cellSize);
+
+            if (showValues && cellSize >= 15) {
+                Color textColor = i < 128 ? Color.WHITE : Color.BLACK;
+                g2.setColor(textColor);
+                int fontSize = Math.max(6, Math.min(cellSize / 3, 12));
+                g2.setFont(new Font("Arial", Font.BOLD, fontSize));
+                String label = showHex ? String.format("%02X", i) : String.valueOf(i);
+                FontMetrics fm = g2.getFontMetrics();
+                int tx = x + (cellSize - fm.stringWidth(label)) / 2;
+                int ty = y + (cellSize + fm.getAscent() - fm.getDescent()) / 2;
+                g2.drawString(label, tx, ty);
+            }
+        }
+    }
+
+    // --- Gradient ---
+    private void paintGradient(Graphics2D g2) {
+        int margin = 20, width = 800;
+        for (int x = 0; x < width; x++) {
+            int val = (int) Math.round((x / (double)(width - 1)) * 255);
+            g2.setColor(new Color(val, val, val));
+            g2.fillRect(margin + x, margin, 1, cellSize);
+        }
+        // Tick marks
+        g2.setFont(new Font("Arial", Font.PLAIN, 10));
+        g2.setColor(Color.WHITE);
+        for (int i = 0; i <= 255; i += 32) {
+            int x = margin + (int)((i / 255.0) * (width - 1));
+            g2.drawLine(x, margin + cellSize, x, margin + cellSize + 20);
+            String label = String.valueOf(i);
+            FontMetrics fm = g2.getFontMetrics();
+            g2.drawString(label, x - fm.stringWidth(label) / 2, margin + cellSize + 35);
+        }
+    }
+
+    // --- Circular ---
+    private void paintCircular(Graphics2D g2) {
+        int cx = 400, cy = 300, maxRadius = 200, circles = 16;
+        int perCircle = 256 / circles;
+        for (int circle = 0; circle < circles; circle++) {
+            double radius = (circle + 1) * (maxRadius / (double) circles);
+            for (int i = 0; i < perCircle; i++) {
+                int value = circle * perCircle + i;
+                if (value >= 256) break;
+                double angle = (i / (double) perCircle) * 2 * Math.PI;
+                int x1 = (int)(cx + radius * Math.cos(angle)) - cellSize / 2;
+                int y1 = (int)(cy + radius * Math.sin(angle)) - cellSize / 2;
+                g2.setColor(new Color(value, value, value));
+                g2.fillOval(x1, y1, cellSize, cellSize);
+                g2.setColor(new Color(0x444444));
+                g2.drawOval(x1, y1, cellSize, cellSize);
+            }
+        }
+    }
+
+    // ──────────────────────────────────────────────
+    //  Mouse events
+    // ──────────────────────────────────────────────
+
+    private void onMouseMoved(MouseEvent e) {
+        int value = valueAtPoint(e.getPoint());
+        if (value >= 0) {
+            double pct = (value / 255.0) * 100;
+            String hex = String.format("#%02x%02x%02x", value, value, value);
+            hoverLabel.setText(String.format("Gray Level: %d/255 (%.1f%%)  |  Hex: %s", value, pct, hex));
+        } else {
+            hoverLabel.setText("Hover over cells for details");
+        }
+    }
+
+    private void onMouseClicked(MouseEvent e) {
+        int value = valueAtPoint(e.getPoint());
+        if (value >= 0) showDetailPopup(value);
+    }
+
+    /** Returns the gray value (0-255) under the given point, or -1 if none. */
+    private int valueAtPoint(Point p) {
+        if ("grid".equals(displayMode)) {
+            int margin = 10, spacing = 2, cols = 16;
+            int col = (p.x - margin) / (cellSize + spacing);
+            int row = (p.y - margin) / (cellSize + spacing);
+            if (col >= 0 && col < cols && row >= 0 && row < cols) {
+                int value = row * cols + col;
+                // Confirm point is inside cell
+                int cx = margin + col * (cellSize + spacing);
+                int cy = margin + row * (cellSize + spacing);
+                if (p.x >= cx && p.x < cx + cellSize && p.y >= cy && p.y < cy + cellSize) {
+                    return value;
+                }
+            }
+        } else if ("gradient".equals(displayMode)) {
+            int margin = 20, width = 800;
+            if (p.x >= margin && p.x < margin + width && p.y >= margin && p.y < margin + cellSize) {
+                return (int) Math.round(((p.x - margin) / (double)(width - 1)) * 255);
+            }
+        }
+        return -1;
+    }
+
+    // ──────────────────────────────────────────────
+    //  Detail popup
+    // ──────────────────────────────────────────────
+
+    private void showDetailPopup(int value) {
+        JDialog dlg = new JDialog(this, "Gray Level " + value + " Details", true);
+        dlg.setSize(300, 280);
+        dlg.getContentPane().setBackground(new Color(0x2b2b2b));
+        dlg.setLayout(new BorderLayout(10, 10));
+        dlg.setLocationRelativeTo(this);
+
+        // Color swatch
+        JPanel swatch = new JPanel();
+        swatch.setBackground(new Color(value, value, value));
+        swatch.setPreferredSize(new Dimension(300, 90));
+        dlg.add(swatch, BorderLayout.NORTH);
+
+        // Details
+        JPanel details = new JPanel(new GridLayout(0, 1, 4, 4));
+        details.setBackground(new Color(0x2b2b2b));
+        details.setBorder(new EmptyBorder(5, 20, 5, 20));
+        String[] lines = {
+            "Decimal Value: " + value,
+            String.format("Hexadecimal: #%02x%02x%02x", value, value, value),
+            String.format("Percentage: %.2f%%", (value / 255.0) * 100),
+            String.format("Binary: %8s", Integer.toBinaryString(value)).replace(' ', '0'),
+            String.format("Normalized (0-1): %.4f", value / 255.0)
+        };
+        for (String line : lines) {
+            JLabel lbl = new JLabel(line);
+            lbl.setForeground(Color.WHITE);
+            lbl.setFont(new Font("Arial", Font.PLAIN, 11));
+            details.add(lbl);
+        }
+        dlg.add(details, BorderLayout.CENTER);
+
+        // Close button
+        JButton close = new JButton("Close");
+        close.setBackground(new Color(0x404040));
+        close.setForeground(Color.WHITE);
+        close.setFont(new Font("Arial", Font.PLAIN, 10));
+        close.setBorderPainted(false);
+        close.setFocusPainted(false);
+        close.addActionListener(e -> dlg.dispose());
+        JPanel btnPanel = new JPanel();
+        btnPanel.setBackground(new Color(0x2b2b2b));
+        btnPanel.add(close);
+        dlg.add(btnPanel, BorderLayout.SOUTH);
+
+        dlg.setVisible(true);
+    }
+
+    // ──────────────────────────────────────────────
+    //  Dark-themed helper factory methods
+    // ──────────────────────────────────────────────
+
+    private JPanel darkTitledPanel(String title) {
+        JPanel p = new JPanel();
+        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+        p.setBackground(new Color(0x2b2b2b));
+        TitledBorder tb = BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(0x555555)), title);
+        tb.setTitleColor(new Color(0xcccccc));
+        tb.setTitleFont(new Font("Arial", Font.PLAIN, 10));
+        p.setBorder(tb);
+        return p;
+    }
+
+    private JLabel darkLabel(String text) {
+        JLabel l = new JLabel(text);
+        l.setForeground(new Color(0xcccccc));
+        l.setFont(new Font("Arial", Font.PLAIN, 10));
+        return l;
+    }
+
+    private JRadioButton darkRadio(String text) {
+        JRadioButton rb = new JRadioButton(text);
+        rb.setBackground(new Color(0x2b2b2b));
+        rb.setForeground(new Color(0xcccccc));
+        rb.setFont(new Font("Arial", Font.PLAIN, 10));
+        return rb;
+    }
+
+    private JCheckBox darkCheck(String text, boolean selected) {
+        JCheckBox cb = new JCheckBox(text, selected);
+        cb.setBackground(new Color(0x2b2b2b));
+        cb.setForeground(new Color(0xcccccc));
+        cb.setFont(new Font("Arial", Font.PLAIN, 10));
+        return cb;
+    }
+
+    // ──────────────────────────────────────────────
+    //  Entry point
+    // ──────────────────────────────────────────────
+
+    public static void main(String[] args) {
+        try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); }
+        catch (Exception ignored) {}
+        SwingUtilities.invokeLater(GrayScaleViewer::new);
+    }
+}

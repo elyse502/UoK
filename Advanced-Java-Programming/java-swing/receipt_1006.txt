@@ -1,0 +1,15 @@
+============================================
+       KIGALI CENTRAL HOSPITAL
+       Patient Billing Receipt
+============================================
+Patient ID   : 1006
+Name         : Elysee NIYIBIZI
+Age          : 30
+Blood Group  : A+
+Admission    : 2026-04-05
+Status       : Admitted
+--------------------------------------------
+TOTAL BILL   : FRW 25,000.00
+============================================
+Date Issued  : 2026-04-05 01:37
+Prepared by  : HMS System
