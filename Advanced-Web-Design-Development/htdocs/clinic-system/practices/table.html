@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMPLE TABLE</title>
+  </head>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    table {
+      max-width: 800px;
+      width: 100%;
+      margin: 40px auto;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      border-collapse: collapse;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      text-align: left;
+      background-color: #0077b6;
+      color: white;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>Names</th>
+          <th>School</th>
+          <th>Department</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Elysee NIYIBIZI</td>
+          <td>Computing and Info Tech</td>
+          <td>BCS</td>
+        </tr>
+        <tr>
+          <td>Yves BAHATI</td>
+          <td>Computing and Info Tech</td>
+          <td>IT</td>
+        </tr>
+        <tr>
+          <td>Elysee NIYIBIZI</td>
+          <td>Computing and Info Tech</td>
+          <td>BCS</td>
+        </tr>
+        <tr>
+          <td>Yves BAHATI</td>
+          <td>Computing and Info Tech</td>
+          <td>IT</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

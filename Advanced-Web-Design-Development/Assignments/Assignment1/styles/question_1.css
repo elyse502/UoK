@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+  font-family: "Unbounded", sans-serif;
+}
+
+body {
+  background-color: #000000; /* soft, eye-friendly light gray-green */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+h1 {
+  color: indigo;
+  text-align: center;
+}

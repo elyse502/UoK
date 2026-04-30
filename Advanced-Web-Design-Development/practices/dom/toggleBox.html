@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Outfit", sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .boxing {
+      width: 300px;
+      height: 300px;
+      color: #f0f0f0;
+      background-color: #0000ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* margin-bottom: 20px; */
+      margin: 20px 0;
+      border-radius: 6px;
+      opacity: 0;
+      /* transition: opacity 0.5s ease-in-out; */
+      transition: all 1s ease;
+      transform: translateY(-30px);
+    }
+
+    .show {
+      opacity: 1;
+      /* transition: opacity 0.5s ease-in-out; */
+      transition: all 1s ease;
+      /* transform: translate(0); */
+      transform: scale(0.8);
+    }
+  </style>
+
+  <body>
+    <!-- <button onclick="document.getElementById('box').style.display = 'block'"> -->
+    <button onclick="document.getElementById('box').classList.add('show')">
+      SHOW
+    </button>
+    <div id="box" class="boxing">THIS IS MY BOX</div>
+    <!-- <button onclick="document.getElementById('box').style.display = 'none'"> -->
+    <button onclick="document.getElementById('box').classList.remove('show')">
+      HIDE
+    </button>
+  </body>
+</html>

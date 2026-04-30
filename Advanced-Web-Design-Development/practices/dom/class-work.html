@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Outfit", sans-serif;
+    }
+
+    body {
+      background-color: #010101;
+      color: #f0f0f0;
+    }
+  </style>
+  <body>
+    <button class="btn"></button>
+
+    <script>
+      const btn = document.querySelector(".btn");
+      btn.textContent = "Register";
+      btn.style.padding = "10px 20px";
+      btn.style.fontSize = "16px";
+      btn.style.backgroundColor = "green";
+      btn.style.color = "white";
+      btn.style.border = "none";
+      btn.style.borderRadius = "5px";
+      btn.style.cursor = "pointer";
+      document.body.style.display = "flex";
+      document.body.style.justifyContent = "center";
+      document.body.style.alignItems = "center";
+      document.body.style.height = "100vh";
+
+      btn.addEventListener("click", function () {
+        prompt("Enter the age:");
+      });
+    </script>
+  </body>
+</html>

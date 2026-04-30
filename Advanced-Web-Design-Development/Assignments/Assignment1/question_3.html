@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Food Recipe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/question_3.css" />
+  </head>
+  <body>
+    <!-- ── NAVIGATION BAR ── -->
+    <nav>
+      <div class="nav-left">
+        <a href="#" class="nav-brand">My Food Recipe</a>
+        <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Food Categories</a></li>
+          <li><a href="#">Food List</a></li>
+        </ul>
+      </div>
+      <div class="nav-right">
+        <a href="#">My Account ▾</a>
+      </div>
+    </nav>
+
+    <!-- ── HERO SECTION WITH BACKGROUND ── -->
+    <section class="hero">
+      <!-- 3-panel background made of food images -->
+      <div class="hero-bg">
+        <img src="./assets/food0.jpg" alt="food 1" />
+        <img src="./assets/food1.jpg" alt="food 2" />
+        <img src="./assets/food2.jpg" alt="food 3" />
+      </div>
+
+      <!-- Overlay content with category buttons -->
+      <div class="hero-overlay">
+        <h1>My Food Recipe</h1>
+        <p>Discover delicious recipes from around the world</p>
+        <div class="category-buttons">
+          <button class="cat-btn">Breakfast</button>
+          <button class="cat-btn" id="lunch-btn">Lunch</button>
+          <button class="cat-btn">Dinner</button>
+          <button class="cat-btn">Dessert</button>
+          <button class="cat-btn">Snacks</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MODAL OVERLAY ── -->
+    <div id="modal-overlay">
+      <div id="modal">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h2>Lunch Recipes</h2>
+          <button id="close-x">&times;</button>
+        </div>
+
+        <!-- Recipe Cards -->
+        <div class="recipe-grid">
+          <div class="recipe-card">
+            <img src="./assets/food3.jpg" alt="Katsu Sando" />
+            <p class="recipe-name">Katsu Sando</p>
+            <p class="recipe-category">Category: Lunch</p>
+          </div>
+
+          <div class="recipe-card">
+            <img src="./assets/food4.jpg" alt="Igado" />
+            <p class="recipe-name">Igado</p>
+            <p class="recipe-category">Category: Lunch</p>
+          </div>
+
+          <div class="recipe-card">
+            <img src="./assets/food5.jpg" alt="Pork Adobo" />
+            <p class="recipe-name">Pork Adobo</p>
+            <p class="recipe-category">Category: Lunch</p>
+          </div>
+
+          <div class="recipe-card">
+            <img src="./assets/food6.jpg" alt="Chicken Curry" />
+            <p class="recipe-name">Chicken Curry</p>
+            <p class="recipe-category">Category: Lunch</p>
+          </div>
+
+          <div class="recipe-card">
+            <img src="./assets/food7.jpg" alt="Bulalo" />
+            <p class="recipe-name">Bulalo</p>
+            <p class="recipe-category">Category: Lunch</p>
+          </div>
+        </div>
+
+        <!-- Modal Footer with Close button -->
+        <div class="modal-footer">
+          <button id="close-btn">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./scripts/question_3.js"></script>
+  </body>
+</html>

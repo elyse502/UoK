@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flexbox & Grid Examples</title>
+    <style>
+      /* Flexbox Layout Example */
+      .container {
+        display: flex;
+        /* justify-content: space-between; horizontal alignment */
+        justify-content: center;
+        align-items: center; /* vertical alignment */
+        gap: 20px;
+        height: 200px;
+        background-color: #f0f0f0;
+        padding: 10px;
+      }
+
+      .box {
+        width: 80px;
+        height: 80px;
+        background-color: steelblue;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+      }
+
+      /* Grid Layout Example */
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+        gap: 10px; /* space between items */
+        background-color: #f0f0f0;
+        padding: 10px;
+      }
+
+      .box-0 {
+        background-color: tomato;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="box">1</div>
+      <div class="box">2</div>
+      <div class="box">3</div>
+      <div class="box">4</div>
+      <div class="box">5</div>
+    </div>
+
+    <div class="grid-container">
+      <div class="box-0">1</div>
+      <div class="box-0">2</div>
+      <div class="box-0">3</div>
+      <div class="box-0">4</div>
+      <div class="box-0">5</div>
+      <div class="box-0">6</div>
+    </div>
+  </body>
+</html>

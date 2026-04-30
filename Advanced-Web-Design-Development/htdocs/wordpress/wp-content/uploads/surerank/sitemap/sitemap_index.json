@@ -1,0 +1,18 @@
+[
+    {
+        "link": "http:\/\/localhost\/wordpress\/post-type-elementor_library-sitemap-1.xml",
+        "updated": "2026-04-27T16:50:55+00:00"
+    },
+    {
+        "link": "http:\/\/localhost\/wordpress\/post-type-page-sitemap-1.xml",
+        "updated": "2026-04-27T16:50:55+00:00"
+    },
+    {
+        "link": "http:\/\/localhost\/wordpress\/post-type-post-sitemap-1.xml",
+        "updated": "2026-04-27T16:50:55+00:00"
+    },
+    {
+        "link": "http:\/\/localhost\/wordpress\/taxonomy-type-category-sitemap-1.xml",
+        "updated": "2026-04-27T16:50:55+00:00"
+    }
+]

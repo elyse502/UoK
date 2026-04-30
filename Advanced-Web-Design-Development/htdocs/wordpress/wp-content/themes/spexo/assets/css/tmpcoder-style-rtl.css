@@ -1,0 +1,278 @@
+body.rtl {
+    direction: rtl;
+    unicode-bidi: embed;
+}
+
+body.rtl .tmpcoder-forms-container .wpcf7-select {
+    background-position: calc(0% + 25px) center;
+}
+
+body.rtl .tmpcoder-cart-wrapper .tmpcoder-cart-popup {
+    text-align: right;
+}
+
+body.rtl .tmpcoder-cart-wrapper .tmpcoder-cart-popup .tmpcoder-cart-popup-body ul li a.remove {
+    left: 0;
+    right: unset;
+}
+
+body.rtl .news-img .news-date {
+    right: unset;
+    left: 40px;
+}
+
+body.rtl .news-img .news-date-bg {
+    right: unset;
+    left: 38px;
+}
+
+body.rtl .tmpcoder-testimonial-meta-position-left .tmpcoder-testimonial-content-inner:before {
+    left: unset;
+    right: -22px;
+    transform: rotate(-90deg);
+}
+
+body.rtl .tmpcoder-navigation-menu .custom-icon {
+    float: right;
+}
+
+body.rtl ul.page-numbers {
+    padding: 0;
+}
+
+body.rtl ul.page-numbers li:first-child {
+    padding-left: 4px;
+    padding-right: 0;
+}
+
+body.rtl ul.page-numbers li:last-child {
+    padding-right: 4px;
+    padding-left: 0;
+}
+
+body.rtl .tmpcoder-comment-avatar {
+    float: right;
+}
+
+body.rtl .tmpcoder-comment-form .tmpcoder-comment-form-fields>div,
+body.rtl .tmpcoder-comment-form .tmpcoder-comment-form-fields>div input {
+    text-align: right;
+}
+
+body.rtl .tmpcoder-comment-form-text,
+body.rtl .tmpcoder-comment-form-text textarea {
+    text-align: right;
+}
+
+body.rtl .tmpcoder-product-add-to-cart * span.elementor-button-text {
+    padding-left: 0;
+    padding-right: 6px;
+}
+
+body.rtl .site-navigation ul li:last-child {
+    padding-right: 15px;
+    padding-left: 0;
+}
+
+body.rtl .site-main .blog-part {
+    padding-left: 0;
+    padding-right: 15px;
+}
+
+body.rtl .site-main .sidebar-part {
+    padding-right: 0;
+    padding-left: 15px;
+}
+
+body.rtl .site-main .wp-block-search__inside-wrapper input {
+    border-width: 1px 1px 1px 0px;
+    text-align: right;
+}
+
+body.rtl .blog-part .blog-list-box .blog-list-content ul.blog-date li:first-child {
+    padding-left: 10px;
+    padding-right: 0;
+}
+
+body.rtl .blog-part .blog-list-box .blog-list-content ul.blog-date li:last-child {
+    padding-left: 0;
+    padding-right: 10px;
+}
+
+body.rtl .site-main .post-authr-box .tmpcoder-author-box-text {
+    padding-left: 0;
+    padding-right: 30px;
+}
+
+body.rtl .site-main .wp-post-tags .wp-tag-label {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+body.rtl .site-main .wp-post-tags .btn.button {
+    margin-right: 0;
+    margin-left: 12px;
+}
+
+body.rtl .site-main .comments-area .comment-list li .comment-body {
+    padding-left: 60px !important;
+    padding-right: 75px !important;
+}
+
+body.rtl .wp-block-quote {
+    border-left: unset;
+    border-right: 0.25em solid;
+    padding-left: 0;
+    padding-right: 1em;
+}
+
+body.rtl .site-header .site-navigation ul ul.children li {
+    padding: 0;
+}
+
+body.rtl .site-header .site-navigation ul ul.children li a:before {
+    margin-right: 0 !important;
+    margin-left: 10px !important;
+}
+
+body.rtl .tmpcoder-cart-subtotal-position-right .tmpcoder-cart-wrapper .tmpcoder-cart-button .tmpcoder-cart-total {
+    margin-left: unset;
+}
+
+body.rtl.single-product .product.compare-button>a {
+    display: inline-flex;
+}
+
+body.rtl.single-product .product.compare-button>a:before {
+    margin-right: unset;
+    margin-left: 5px;
+}
+
+body.rtl .elementor-widget-tmpcoder-product-tabs #reviews #comments ol.commentlist li .comment-text {
+    margin-left: unset;
+}
+
+body.rtl .site-navigation ul {
+    text-align: left;
+}
+
+body.rtl .tmpcoder-checkout-notice .woocommerce-error,
+body.rtl .woocommerce-notices-wrapper .woocommerce-error,
+body.rtl .tmpcoder-checkout-notice .woocommerce-message,
+body.rtl .woocommerce-notices-wrapper .woocommerce-message {
+    flex-direction: unset;
+}
+
+body.rtl .tmpcoder-site-header nav.site-navigation>ul>li.menu-item-has-children>a:after {
+    margin-right: 4px;
+}
+
+body.rtl .tmpcoder-site-header nav.site-navigation>ul.menu>li.menu-item-has-children>a:before {
+    right: unset;
+    left: 0px;
+}
+
+body.rtl .site-main .page-content .blog-meta-options li:before {
+    right: unset;
+    left: 0;
+}
+
+body.rtl .site-main .page-content .blog-detail-content .blog-meta-options li:first-child {
+    padding-left: 10px;
+    padding-right: 0;
+}
+
+body.rtl .tmpcoder-site-header nav.site-navigation>ul.menu>li:first-child {
+    margin-left: 20px;
+    margin-right: 0;
+}
+
+body.rtl .tmpcoder-site-header nav.site-navigation>ul.menu>li:last-child {
+    margin-right: 20px;
+    margin-left: 0;
+}
+
+body.rtl .site-main .blog-detail-content .blog-meta-options li:last-child {
+    padding-right: 10px;
+    padding-left: 0;
+}
+
+body.rtl .site-main .comments-area .comment-list {
+    margin-bottom: 30px !important;
+}
+
+body.rtl .site-main form.woocommerce-ordering:after {
+    right: unset;
+    left: 20px;
+    top: 16px;
+}
+
+body.rtl .site-main .orderby {
+    padding: 11px 25px 11px 40px;
+}
+
+body.rtl.single-product form table.variations th.label {
+    text-align: right;
+}
+
+body.rtl .site-main select {
+    background-position: calc(0% + 10px);
+}
+
+body.rtl.single-product div.product .woocommerce-tabs .woocommerce-Tabs-panel tr th {
+    text-align: right;
+}
+
+body.rtl.single-product div.product .woocommerce-tabs .woocommerce-Tabs-panel tr td {
+    text-align: right;
+}
+
+body.rtl .site-main table.wc-block-cart-items td .wc-block-cart-item__prices {
+    padding-right: 0;
+    padding-left: 15px;
+}
+
+body.rtl .site-main .wc-block-checkout__form .components-combobox-control__input {
+    background-position: calc(0% + 10px) !important;
+}
+
+body.rtl .site-main .woocommerce-MyAccount-navigation ul {
+    margin-top: 0;
+}
+
+@media (max-width: 1024px) {
+    body.rtl .news-img .news-date {
+        left: 20px;
+    }
+
+    body.rtl .news-img .news-date-bg {
+        left: 18px;
+    }
+
+    body.rtl .site-main .blog-part {
+        padding-right: 0px;
+    }
+
+    body.rtl .site-main .sidebar-part {
+        padding-left: 0px;
+    }
+
+    body.rtl .tmpcoder-site-header nav.site-navigation>ul>li.menu-item-has-children>a:before {
+        left: 15px;
+    }
+}
+
+@media (max-width: 767px) {
+    body.rtl .tmpcoder-forms-container .wpcf7-select {
+        background-position: calc(0% + 15px) center;
+    }
+
+    body.rtl .site-main .comments-area .comment-list li .comment-body {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+    body.rtl.woocommerce .woocommerce-ordering {
+        float: right;
+    }
+}

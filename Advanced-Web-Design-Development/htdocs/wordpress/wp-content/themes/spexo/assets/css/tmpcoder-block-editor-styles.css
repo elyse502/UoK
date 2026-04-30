@@ -1,0 +1,20 @@
+.tmpcoder-block-builder h1,
+.tmpcoder-block-builder h2,
+.tmpcoder-block-builder h3,
+.tmpcoder-block-builder h4,
+.tmpcoder-block-builder h5,
+.tmpcoder-block-builder h6 {
+    line-height: 1.2;
+}
+.tmpcoder-block-builder .wp-block-button__link,
+.tmpcoder-block-builder button {
+    text-decoration: unset !important;
+}
+
+.tmpcoder-block-builder .wp-block-cover__inner-container {
+    max-width: 1230px;
+    width: 100% !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+

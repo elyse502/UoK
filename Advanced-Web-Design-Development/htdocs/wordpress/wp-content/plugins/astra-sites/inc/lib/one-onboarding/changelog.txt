@@ -1,0 +1,11 @@
+== Changelog ==
+
+v1.0.2 - 16th April 2026
+- Fix: Opt-in checkbox now defaults to checked.
+- Fix: First name fallback to display_name then user_login when first_name is empty.
+
+v1.0.1 - 7th April 2026
+- New: Added configurable opt-in checkbox to the User Information screen.
+
+v1.0.0 - 9th September 2025
+- Initial release

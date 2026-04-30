@@ -1,0 +1,1133 @@
+# Copyright (C) 2020 Automattic
+# This file is distributed under the GNU General Public License v3 or later.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: _s 1.0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/_s\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-04-17 04:25+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: _s\n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;"
+
+#: inc/wizard/wizard-ajax-api.php:183
+msgid " Could not install"
+msgstr ""
+
+#. 1$s is the memory size, 2$s is the URL to the documentation
+#: functions.php:86
+#, php-format
+msgid ""
+"%1$s - We recommend setting memory to at least <strong>128MB</strong>. "
+"Please define memory limit in <strong>wp-config.php</strong> file. To learn "
+"how, see: <a href=\"%2$s\" target=\"_blank\" rel=\"noopener noreferrer\">"
+"Increasing memory allocated to PHP.</a>"
+msgstr ""
+
+#. %s is the description of prebuilt sites
+#: inc/activation/class-welcome-notice.php:165
+#, php-format
+msgid "%1$s comes with %2$s with various designs to pick from."
+msgstr ""
+
+#. 1: list of categories.
+#: inc/template-tags.php:126
+#, php-format
+msgid "%1$s Comments"
+msgstr ""
+
+#. %s is the description of premium widgets
+#: inc/activation/class-welcome-notice.php:172
+#, php-format
+msgid "%s and many other Elementor Extensions & Effects."
+msgstr ""
+
+#. %s is the theme name
+#: inc/admin/global-options/init.php:27
+#, php-format
+msgid "%s Settings"
+msgstr ""
+
+#: inc/compatibility/block-patterns/404-error.php:9
+msgid "404 Error"
+msgstr ""
+
+#: inc/theme-functions.php:532
+msgid "<i class=\"fa fa-angle-left\" aria-hidden=\"true\"></i>"
+msgstr ""
+
+#: inc/theme-functions.php:533
+msgid "<i class=\"fa fa-angle-right\" aria-hidden=\"true\"></i>"
+msgstr ""
+
+#: inc/compatibility/class-spexo-starter-content.php:229 
+#: inc/compatibility/block-patterns/about.php:9
+msgid "About"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:307 
+#: inc/admin/global-options/theme-colors.php:38 
+#: inc/admin/global-options/theme-colors.php:47
+msgid "Accent Color"
+msgstr ""
+
+#: inc/activation/class-welcome-notice.php:297
+msgid "Activate"
+msgstr ""
+
+#: inc/wizard/index.php:33
+msgid "Activated"
+msgstr ""
+
+#: inc/activation/class-welcome-notice.php:295
+msgid "Activating"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:104
+msgid ""
+"Add color to theme primary color, secondary color, background color and "
+"button color etc."
+msgstr ""
+
+#: inc/admin/global-options/theme-custom-css.php:24
+msgid "Add your custom CSS here."
+msgstr ""
+
+#: inc/admin/global-options/theme-custom-css.php:15
+msgid "Add your custom CSS to style the theme."
+msgstr ""
+
+#: inc/wizard/wizard-ajax-api.php:179
+msgid "All recommended plugins installed & activated successfully."
+msgstr ""
+
+#: inc/compatibility/block-patterns/banner.php:9
+msgid "Banner"
+msgstr ""
+
+#: inc/compatibility/block-patterns/blog-grid.php:9
+msgid "Blog grid"
+msgstr ""
+
+#: inc/compatibility/block-patterns/blog-left-featured-image.php:9
+msgid "Blog left featured image"
+msgstr ""
+
+#: inc/compatibility/block-patterns/blog-simple.php:9
+msgid "Blog simple"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:328 
+#: inc/admin/global-options/theme-colors.php:87
+msgid "Body Background"
+msgstr ""
+
+#: inc/admin/global-options/theme-colors.php:88
+msgid "Body background with image, color, etc."
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:391 
+#: inc/admin/global-options/theme-colors.php:121
+msgid "Border Color"
+msgstr ""
+
+#: inc/theme-functions.php:565
+msgid "Bottom Left"
+msgstr ""
+
+#: inc/theme-functions.php:557
+msgid "Bottom Right"
+msgstr ""
+
+#. %s is the list of site builder plugins
+#: inc/activation/class-welcome-notice.php:186
+#, php-format
+msgid "Build your site with Spexo and our site builder plugins %s."
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1401 
+#: inc/admin/global-options/theme-button-style.php:81
+msgid "Button Border"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1468 
+#: inc/admin/global-options/theme-button-style.php:95
+msgid "Button Border Hover"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1528 
+#: inc/admin/global-options/theme-button-style.php:109
+msgid "Button Border Radius"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1565 
+#: inc/admin/customizer/tmpcoder-customizer.php:1691 
+#: inc/admin/customizer/tmpcoder-customizer.php:1817 
+#: inc/admin/global-options/theme-button-style.php:120 
+#: inc/admin/global-options/theme-button-style.php:171 
+#: inc/admin/global-options/theme-button-style.php:222
+msgid "Button Padding"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1143 
+#: inc/admin/customizer/tmpcoder-customizer.php:1621 
+#: inc/admin/customizer/tmpcoder-customizer.php:1747 
+#: inc/admin/global-options/theme-button-style.php:30 
+#: inc/admin/global-options/theme-button-style.php:147 
+#: inc/admin/global-options/theme-button-style.php:198
+msgid "Button Style"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:64 
+#: inc/admin/global-options/theme-button-style.php:12
+msgid "Buttons"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:688 
+#: inc/admin/customizer/tmpcoder-customizer.php:1191
+msgid "Capitalize"
+msgstr ""
+
+#: inc/theme-functions.php:573 
+#: inc/admin/customizer/tmpcoder-customizer.php:1177
+msgid "Center"
+msgstr ""
+
+#: inc/wizard/index.php:35
+msgid "check network connection, try again."
+msgstr ""
+
+#: inc/theme-hooks.php:143
+msgid "Close"
+msgstr ""
+
+#. 1: number of comments
+#: comments.php:51
+#, php-format
+msgctxt "comments title"
+msgid "%1$s Response"
+msgid_plural "%1$s Responses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:47
+msgctxt "comments title"
+msgid "One Response"
+msgstr ""
+
+#: inc/wizard/index.php:84
+msgid "Congrats, The Setup Wizard has successfully set up your website."
+msgstr ""
+
+#: inc/compatibility/class-spexo-starter-content.php:244
+msgid "Contact"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:201
+msgid "Container Width (Desktop)"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:243
+msgid "Container Width (Mobile)"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:222
+msgid "Container Width (Tablet)"
+msgstr ""
+
+#: inc/wizard/index.php:162
+msgid "Continue Setup"
+msgstr ""
+
+#. %1$s is the URL, %2$s is the theme name
+#: inc/theme-hooks.php:212
+#, php-format
+msgid ""
+"Copyright [COPYRIGHT] [CURRENT_YEAR] [SITE_TITLE] | Powered by <a "
+"href=\"%1$s\" target=\"_blank\" rel=\"noopener nofollow\">%2$s</a>"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1868
+msgid ""
+"Copyright [COPYRIGHT] [CURRENT_YEAR] [SITE_TITLE] | Powered by <a "
+"href=\"https://spexoaddons.com/\" target=\"_blank\">Spexo Wordpress Theme</a>"
+msgstr ""
+
+#: inc/admin/global-options/theme-custom-css.php:12 
+#: inc/admin/global-options/theme-custom-css.php:21
+msgid "Custom CSS"
+msgstr ""
+
+#: inc/compatibility/block-patterns/dark-header-centered-content.php:9
+msgid "Dark header with centered content"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1413 
+#: inc/admin/customizer/tmpcoder-customizer.php:1480
+msgid "Dashed"
+msgstr ""
+
+#: inc/activation/class-welcome-notice.php:298
+msgid "Deactivate"
+msgstr ""
+
+#: inc/activation/class-welcome-notice.php:296
+msgid "Deactivating"
+msgstr ""
+
+#: inc/admin/global-options/general.php:51
+msgid "Define favicon icon path here"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:114 
+#: inc/admin/customizer/tmpcoder-customizer.php:147 
+#: inc/admin/global-options/theme-button-style.php:20 
+#: inc/admin/global-options/theme-typography.php:20
+msgid "Desktop"
+msgstr ""
+
+#: inc/admin/global-options/general.php:63
+msgid "Disable"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1902
+msgid "Display Site Logo"
+msgstr ""
+
+#: inc/wizard/wizard-ajax-api.php:235
+msgid "Done"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1414 
+#: inc/admin/customizer/tmpcoder-customizer.php:1481
+msgid "Dotted"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1415 
+#: inc/admin/customizer/tmpcoder-customizer.php:1482
+msgid "Double"
+msgstr ""
+
+#: inc/activation/class-welcome-notice.php:176
+msgid ""
+"Easily Customize every fundamental part of your WordPress site with Spexo "
+"Theme & Woocommerce Shop Builder."
+msgstr ""
+
+#: inc/theme-functions.php:275
+msgid "Elementor"
+msgstr ""
+
+#: inc/admin/global-options/general.php:62
+msgid "Enable"
+msgstr ""
+
+#: inc/admin/global-options/theme-custom-css.php:22
+msgid "Enter your custom CSS."
+msgstr ""
+
+#: inc/admin/global-options/general.php:50
+msgid "Favicon Icon"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:610 
+#: inc/admin/customizer/tmpcoder-customizer.php:740 
+#: inc/admin/customizer/tmpcoder-customizer.php:1243
+msgid "Font Color"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:558 
+#: inc/admin/customizer/tmpcoder-customizer.php:671 
+#: inc/admin/customizer/tmpcoder-customizer.php:1159
+msgid "Font Family"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:570 
+#: inc/admin/customizer/tmpcoder-customizer.php:700 
+#: inc/admin/customizer/tmpcoder-customizer.php:831 
+#: inc/admin/customizer/tmpcoder-customizer.php:901 
+#: inc/admin/customizer/tmpcoder-customizer.php:992 
+#: inc/admin/customizer/tmpcoder-customizer.php:1062 
+#: inc/admin/customizer/tmpcoder-customizer.php:1203 
+#: inc/admin/customizer/tmpcoder-customizer.php:1630 
+#: inc/admin/customizer/tmpcoder-customizer.php:1756
+msgid "Font Size (px)"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer-controls.php:380
+msgid "Font Weight & Style"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1876 
+#: inc/admin/global-options/general.php:90
+msgid "Footer Copyright"
+msgstr ""
+
+#: inc/admin/global-options/general.php:91
+msgid ""
+"Footer copyright show in default footer. <br> Dynamic footer text change "
+"from Spexo Addons > Site Builder > Footer"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1877
+msgid ""
+"Footer copyright text is shown by default. <a href=\"https://wordpress."
+"org/plugins/sastra-essential-addons-for-elementor/\" target=\"_blank\">"
+"Install Spexo Addons</a> to customize it via <a href=\"https://spexoaddons."
+"com/documentation/custom-footer/\" target=\"_blank\">Site Builder > "
+"Footer</a>."
+msgstr ""
+
+#: inc/theme-functions.php:183
+msgid "Footer Menu"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:180 
+#: inc/admin/global-options/general.php:82
+msgid "Footer Options"
+msgstr ""
+
+#: inc/admin/global-options/general.php:12
+msgid "General Options"
+msgstr ""
+
+#: inc/wizard/index.php:119
+msgid "Get a Spexo Addons Pro"
+msgstr ""
+
+#: inc/wizard/wizard-ajax-api.php:229
+msgid "Get Pro Now"
+msgstr ""
+
+#. %s is License Activation Heading
+#: inc/wizard/wizard-ajax-api.php:216
+msgid "Get Spexo Addons Pro"
+msgstr ""
+
+#. %s is an icon or other HTML element
+#: inc/activation/class-welcome-notice.php:197
+#, php-format
+msgid "Get Started with Prebuild Demos %s"
+msgstr ""
+
+#: inc/wizard/index.php:28
+msgid "Getting Recommended Plugins Info"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:103 
+#: inc/admin/global-options/theme-colors.php:12
+msgid "Global Colors"
+msgstr ""
+
+#: inc/admin/global-options/init.php:26
+msgid "Global Options"
+msgstr ""
+
+#: inc/admin/global-options/general.php:26
+msgid "Header Options"
+msgstr ""
+
+#. %s: This is the heading level
+#: inc/admin/customizer/tmpcoder-customizer.php:654 
+#: inc/admin/customizer/tmpcoder-customizer.php:892 
+#: inc/admin/customizer/tmpcoder-customizer.php:1053
+#, php-format
+msgid "Heading %s Font"
+msgstr ""
+
+#: inc/admin/global-options/theme-typography.php:51 
+#: inc/admin/global-options/theme-typography.php:223 
+#: inc/admin/global-options/theme-typography.php:393
+msgid "Heading 1 Font"
+msgstr ""
+
+#: inc/admin/global-options/theme-typography.php:74 
+#: inc/admin/global-options/theme-typography.php:245 
+#: inc/admin/global-options/theme-typography.php:416
+msgid "Heading 2 Font"
+msgstr ""
+
+#: inc/admin/global-options/theme-typography.php:97 
+#: inc/admin/global-options/theme-typography.php:267 
+#: inc/admin/global-options/theme-typography.php:439
+msgid "Heading 3 Font"
+msgstr ""
+
+#: inc/admin/global-options/theme-typography.php:120 
+#: inc/admin/global-options/theme-typography.php:290 
+#: inc/admin/global-options/theme-typography.php:462
+msgid "Heading 4 Font"
+msgstr ""
+
+#: inc/admin/global-options/theme-typography.php:143 
+#: inc/admin/global-options/theme-typography.php:313 
+#: inc/admin/global-options/theme-typography.php:485
+msgid "Heading 5 Font"
+msgstr ""
+
+#: inc/admin/global-options/theme-typography.php:166 
+#: inc/admin/global-options/theme-typography.php:336 
+#: inc/admin/global-options/theme-typography.php:508
+msgid "Heading 6 Font"
+msgstr ""
+
+#. %s: Heading level
+#: inc/admin/customizer/tmpcoder-customizer.php:635
+#, php-format
+msgid "heading_%s_divider"
+msgstr ""
+
+#: inc/wizard/index.php:160
+msgid ""
+"Heads up! Would you like to continue without completing the setup wizard?"
+msgstr ""
+
+#: inc/compatibility/block-patterns/hero-content-video-icon.php:9
+msgid "Hero content video icon"
+msgstr ""
+
+#. Author URI of the theme
+msgid "http://spexoaddons.com"
+msgstr ""
+
+#. URI of the theme
+msgid "http://spexoaddons.com/spexo-elementor-theme/"
+msgstr ""
+
+#: inc/admin/global-options/theme-button-style.php:110
+msgid "if set Border Radius - 0 then Border Radius unset"
+msgstr ""
+
+#. %s is the list of customizable elements
+#: inc/activation/class-welcome-notice.php:180
+#, php-format
+msgid "Including your %s etc."
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:692 
+#: inc/admin/customizer/tmpcoder-customizer.php:1174 
+#: inc/admin/customizer/tmpcoder-customizer.php:1195
+msgid "Inherit"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:691 
+#: inc/admin/customizer/tmpcoder-customizer.php:1179 
+#: inc/admin/customizer/tmpcoder-customizer.php:1194
+msgid "Initial"
+msgstr ""
+
+#: inc/wizard/index.php:31 inc/wizard/wizard-ajax-api.php:63 
+#: inc/wizard/wizard-ajax-api.php:65
+msgid "Install & Activate"
+msgstr ""
+
+#: inc/wizard/index.php:29 inc/wizard/index.php:116
+msgid "Install Recommended Plugins"
+msgstr ""
+
+#: inc/wizard/index.php:32
+msgid "Installed & Activate"
+msgstr ""
+
+#: inc/wizard/index.php:27
+msgid "Installing Recommended Plugins"
+msgstr ""
+
+#: 404.php:26
+msgid "It looks like nothing was found at this location."
+msgstr ""
+
+#: template-parts/content-none.php:49
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1178
+msgid "Justify"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:93
+msgid "Layout"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1175
+msgid "Left"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:596 
+#: inc/admin/customizer/tmpcoder-customizer.php:726 
+#: inc/admin/customizer/tmpcoder-customizer.php:857 
+#: inc/admin/customizer/tmpcoder-customizer.php:927 
+#: inc/admin/customizer/tmpcoder-customizer.php:1018 
+#: inc/admin/customizer/tmpcoder-customizer.php:1088 
+#: inc/admin/customizer/tmpcoder-customizer.php:1229 
+#: inc/admin/customizer/tmpcoder-customizer.php:1656 
+#: inc/admin/customizer/tmpcoder-customizer.php:1782
+msgid "Letter Spacing (px)"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:583 
+#: inc/admin/customizer/tmpcoder-customizer.php:713 
+#: inc/admin/customizer/tmpcoder-customizer.php:844 
+#: inc/admin/customizer/tmpcoder-customizer.php:914 
+#: inc/admin/customizer/tmpcoder-customizer.php:1005 
+#: inc/admin/customizer/tmpcoder-customizer.php:1075 
+#: inc/admin/customizer/tmpcoder-customizer.php:1216 
+#: inc/admin/customizer/tmpcoder-customizer.php:1643 
+#: inc/admin/customizer/tmpcoder-customizer.php:1769
+msgid "Line Height"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:349 
+#: inc/admin/global-options/theme-colors.php:103
+msgid "Link Color"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:370 
+#: inc/admin/global-options/theme-colors.php:112
+msgid "Link Hover Color"
+msgstr ""
+
+#: inc/admin/global-options/general.php:34
+msgid "Logo Image"
+msgstr ""
+
+#: inc/admin/global-options/general.php:43
+msgid "Logo Text"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:690 
+#: inc/admin/customizer/tmpcoder-customizer.php:1193
+msgid "Lowercase"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:136 
+#: inc/admin/customizer/tmpcoder-customizer.php:169 
+#: inc/admin/global-options/theme-button-style.php:188 
+#: inc/admin/global-options/theme-typography.php:362
+msgid "Mobile"
+msgstr ""
+
+#: inc/wizard/index.php:135 inc/wizard/wizard-ajax-api.php:18
+msgid "Next"
+msgstr ""
+
+#: inc/wizard/index.php:26
+msgid "Next Step"
+msgstr ""
+
+#: inc/activation/class-welcome-notice.php:29
+msgid "No post data found!"
+msgstr ""
+
+#: inc/wizard/wizard-ajax-api.php:89
+msgid "No recommended plugins found"
+msgstr ""
+
+#: inc/activation/class-welcome-notice.php:27
+msgid "Nonce validation failed"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:687 
+#: inc/admin/customizer/tmpcoder-customizer.php:1190 
+#: inc/admin/customizer/tmpcoder-customizer.php:1416 
+#: inc/admin/customizer/tmpcoder-customizer.php:1483
+msgid "None"
+msgstr ""
+
+#: template-parts/content-none.php:18
+msgid "Nothing Found"
+msgstr ""
+
+#: inc/compatibility/block-patterns/our-case-studies.php:9
+msgid "Our case studies"
+msgstr ""
+
+#: template-parts/content-page.php:30
+msgid "Pages:"
+msgstr ""
+
+#: inc/activation/class-welcome-notice.php:346
+msgid "Plugin Successfully Activated"
+msgstr ""
+
+#: inc/wizard/wizard-ajax-api.php:83
+msgid "Plugins getting successfully."
+msgstr ""
+
+#. %s: post author.
+#: inc/template-tags.php:48
+#, php-format
+msgctxt "post author"
+msgid "by %s"
+msgstr ""
+
+#: inc/admin/global-options/general.php:68
+msgid "Preloader Custom Html"
+msgstr ""
+
+#: inc/theme-functions.php:182 
+#: inc/compatibility/class-spexo-starter-content.php:271 
+#: inc/compatibility/class-spexo-starter-content.php:275
+msgid "Primary"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:265 
+#: inc/admin/global-options/theme-colors.php:20
+msgid "Primary Color"
+msgstr ""
+
+#: inc/wizard/index.php:34
+msgid "Pro Plugin Info Loading..."
+msgstr ""
+
+#: inc/theme-functions.php:382
+msgid "Read More"
+msgstr ""
+
+#. 1: link to WP admin new post page.
+#: template-parts/content-none.php:26
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+
+#: inc/theme-functions.php:283
+msgid "Redux Framework"
+msgstr ""
+
+#: inc/compatibility/class-spexo-starter-content.php:234
+msgid "Reviews"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1176
+msgid "Right"
+msgstr ""
+
+#: inc/theme-hooks.php:387
+msgid "Search results for: "
+msgstr ""
+
+#: inc/forms-hooks.php:24
+msgid "Search..."
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:286 
+#: inc/admin/global-options/theme-colors.php:29
+msgid "Secondary Color"
+msgstr ""
+
+#: inc/compatibility/block-patterns/service-we-provide.php:9
+msgid "Service we provide"
+msgstr ""
+
+#: inc/compatibility/class-spexo-starter-content.php:224
+msgid "Services"
+msgstr ""
+
+#: inc/compatibility/block-patterns/services-we-provide-2.php:9
+msgid "Services we provide 2"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:148
+msgid "Set button colors, background & font style for Desktop"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:170
+msgid "Set button font style for mobile"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:159
+msgid "Set button font style for tablet"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:115
+msgid "Set site fonts & headings for Desktop"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:137
+msgid "Set site fonts & headings for Mobile"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:126
+msgid "Set site fonts & headings for Tablet"
+msgstr ""
+
+#: inc/admin/global-options/general.php:44
+msgid "Set your logo text here"
+msgstr ""
+
+#: inc/admin/global-options/theme-colors.php:39
+msgid "Set your theme accent color"
+msgstr ""
+
+#: inc/admin/global-options/theme-colors.php:122
+msgid "Set your theme border color"
+msgstr ""
+
+#: inc/admin/global-options/theme-colors.php:104
+msgid "Set your theme link color"
+msgstr ""
+
+#: inc/admin/global-options/theme-colors.php:113
+msgid "Set your theme link hover color"
+msgstr ""
+
+#: inc/admin/global-options/theme-colors.php:21
+msgid "Set your theme main color"
+msgstr ""
+
+#: inc/admin/global-options/theme-colors.php:30
+msgid "Set your theme secondary color"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1319 
+#: inc/admin/global-options/theme-button-style.php:64
+msgid "Set your theme site button background color"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1357 
+#: inc/admin/global-options/theme-button-style.php:73
+msgid "Set your theme site button background hover color"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1281 
+#: inc/admin/global-options/theme-button-style.php:54
+msgid "Set your theme site button font hover color"
+msgstr ""
+
+#: inc/activation/class-welcome-notice.php:299
+msgid "Settings"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1903
+msgid "Show or hide the site logo in the header."
+msgstr ""
+
+#: inc/admin/global-options/general.php:61
+msgid "show this option before site load."
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1318 
+#: inc/admin/global-options/theme-button-style.php:63
+msgid "Site Button Background Color"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1356 
+#: inc/admin/global-options/theme-button-style.php:72
+msgid "Site Button Background Hover Color"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1280 
+#: inc/admin/global-options/theme-button-style.php:53
+msgid "Site Button Font Hover Color"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:542 
+#: inc/admin/customizer/tmpcoder-customizer.php:822 
+#: inc/admin/customizer/tmpcoder-customizer.php:983 
+#: inc/admin/global-options/theme-typography.php:28 
+#: inc/admin/global-options/theme-typography.php:200 
+#: inc/admin/global-options/theme-typography.php:370
+msgid "Site Fonts"
+msgstr ""
+
+#: inc/admin/global-options/general.php:60
+msgid "Site Preloader"
+msgstr ""
+
+#: inc/wizard/index.php:136
+msgid "Skip Setup & Go to Dashboard"
+msgstr ""
+
+#: inc/wizard/index.php:158
+msgid "Skip the Setup Wizard?"
+msgstr ""
+
+#: header.php:33
+msgid "Skip to content"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1412 
+#: inc/admin/customizer/tmpcoder-customizer.php:1479
+msgid "Solid"
+msgstr ""
+
+#: inc/activation/class-welcome-notice.php:291
+msgid "Something went wrong, contact support."
+msgstr ""
+
+#: template-parts/content-none.php:41
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: inc/activation/class-welcome-notice.php:28
+msgid "Sorry, something went wrong."
+msgstr ""
+
+#: inc/activation/class-welcome-notice.php:26
+msgid "Sorry, you are not allowed to do this operation."
+msgstr ""
+
+#. Name of the theme
+#. Author of the theme
+#: inc/compatibility/tmpcoder-patterns.php:79
+msgid "Spexo"
+msgstr ""
+
+#: inc/theme-functions.php:279
+msgid "Spexo Addons for Elementor"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:80
+msgid "Spexo Addons PRO Features"
+msgstr ""
+
+#. Description of the theme
+msgid ""
+"Spexo is a lightweight Elementor Theme for WordPress. It is responsive, SEO "
+"optimized and optimized for speed. With over more than 100+ advanced "
+"Elementor widgets, and multiple pre-built demos that can be imported with "
+"just one click. Spexo(formerly SastraWP) is fully compatible with your "
+"favorite Elementor page builder. Spexo is designed to simplify and "
+"streamline the website development process using large collection of "
+"elementor widgets, Form Stylers, Extensions, WooCommerce Widgets, Prebuilt "
+"blocks and Prebuilt sections. Spexo is the developers' top pick. It offers "
+"quick WordPress website development and flexible post-launch options. Spexo "
+"theme is suitable for blogs, personal portfolios, business websites and "
+"ecommerce stores. With over 80+ advanced Elementor widgets, it includes many "
+"other cool features like Sticky Header, Particle effects, Lottie animations, "
+"parallax backgrounds, and many other essential addons. When you are building "
+"eCommerce store using a WooCommerce plugin, Spexo can be one and only choice "
+"for the Elementor WooCommerce theme. Spexo(formerly SastraWP) is a true all-"
+"in-one solution for Elementor Template Kit Lovers. It is very easy to use "
+"for both WordPress beginners and professionals. Spexo includes many pro "
+"addons for free, and it also does not need Elementor Pro at some level. "
+"Designed, Developed, Maintained &amp; Supported by Spexo team. You can "
+"customize the Elementor starter templates very easily and extend them to "
+"meet your development requirements. With a vast collection of Elementor "
+"template kits available for single-click use. Theme Spexo is fully "
+"responsive and compatible with popular WordPress plugins like Elementor, "
+"WooCommerce, WPML, Yoast SEO, Jetpack, Contact Form 7, Mailchimp for "
+"WordPress, Rankmath, WPForms, Caldera Forms, Ninja Forms and more. "
+"Experience the captivating power of the spectral briteful lightning theme. "
+"Here are the multipurpose theme demo ready to use, Elementor Blog Template, "
+"Elementor Travel Template, Elementor Portfolio Template, Elementor Medical "
+"Theme, Elementor Digital Agency Template, Elementor Real Estate Template, "
+"Elementor Bear Bar Template, Magazine theme, News portal theme &amp; other "
+"beautiful Royal Elementor Templates. Spexo is a comprehensive Elementor "
+"WordPress theme that is perfect for any project. Spexo is an optimized "
+"WooCommerce Elementor theme, you can quickly create eCommerce stores like "
+"Furniture Store, Fashion Store, Cosmetic, Organic Store, Jewellery, Clothing "
+"Store Mega Store eCommerce theme, Restaurant, Craft Beer, Electronics Store "
+"and many more. Theme Demo Page: http://spexoaddons.com/spexo-elementor-theme/"
+msgstr ""
+
+#: inc/theme-hooks.php:212
+msgid "Spexo WordPress Theme"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:125 
+#: inc/admin/customizer/tmpcoder-customizer.php:158 
+#: inc/admin/global-options/theme-button-style.php:137 
+#: inc/admin/global-options/theme-typography.php:192
+msgid "Tablet"
+msgstr ""
+
+#: inc/compatibility/block-patterns/teams-four-columns-circle.php:9
+msgid "Teams four columns circle"
+msgstr ""
+
+#: inc/compatibility/block-patterns/teams-three-columns.php:9
+msgid "Teams three columns"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:1171
+msgid "Text Align"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:684 
+#: inc/admin/customizer/tmpcoder-customizer.php:1187
+msgid "Text Transform"
+msgstr ""
+
+#: 404.php:22
+msgid "The page can&rsquo;t be found."
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:412 
+#: inc/admin/global-options/theme-colors.php:55
+msgid "Theme Color 1"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:433 
+#: inc/admin/global-options/theme-colors.php:63
+msgid "Theme Color 2"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:454 
+#: inc/admin/global-options/theme-colors.php:71
+msgid "Theme Color 3"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:475 
+#: inc/admin/global-options/theme-colors.php:79
+msgid "Theme Color 4"
+msgstr ""
+
+#: inc/compatibility/class-spexo-starter-content.php:261
+msgctxt "Theme starter content"
+msgid "Attachment Caption"
+msgstr ""
+
+#: inc/compatibility/class-spexo-starter-content.php:260
+msgctxt "Theme starter content"
+msgid "Attachment Description"
+msgstr ""
+
+#: inc/compatibility/starter-content/home.php:434
+msgctxt "Theme starter content"
+msgid "Home"
+msgstr ""
+
+#: inc/compatibility/class-spexo-starter-content.php:259
+msgctxt "Theme starter content"
+msgid "Logo"
+msgstr ""
+
+#: inc/compatibility/class-spexo-starter-content.php:265
+msgctxt "Theme starter content"
+msgid "Site Icon"
+msgstr ""
+
+#: inc/admin/global-options/general.php:69
+msgid "This is show before load website custom preloader"
+msgstr ""
+
+#: inc/compatibility/block-patterns/three-column-featured-center.php:9
+msgid "Three column featured center"
+msgstr ""
+
+#: inc/compatibility/block-patterns/three-column-featured-grid.php:9
+msgid "Three column featured grid"
+msgstr ""
+
+#: inc/compatibility/block-patterns/two-column-featured-left.php:9
+msgid "Two column featured left"
+msgstr ""
+
+#: inc/compatibility/block-patterns/two-columns-with-image-and-text.php:9
+msgid "Two columns with image and text"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:51 
+#: inc/admin/global-options/theme-typography.php:12
+msgid "Typography"
+msgstr ""
+
+#: inc/admin/global-options/theme-button-style.php:35 
+#: inc/admin/global-options/theme-button-style.php:152 
+#: inc/admin/global-options/theme-button-style.php:203 
+#: inc/admin/global-options/theme-typography.php:33 
+#: inc/admin/global-options/theme-typography.php:56 
+#: inc/admin/global-options/theme-typography.php:79 
+#: inc/admin/global-options/theme-typography.php:102 
+#: inc/admin/global-options/theme-typography.php:125 
+#: inc/admin/global-options/theme-typography.php:148 
+#: inc/admin/global-options/theme-typography.php:171 
+#: inc/admin/global-options/theme-typography.php:205 
+#: inc/admin/global-options/theme-typography.php:227 
+#: inc/admin/global-options/theme-typography.php:249 
+#: inc/admin/global-options/theme-typography.php:272 
+#: inc/admin/global-options/theme-typography.php:295 
+#: inc/admin/global-options/theme-typography.php:318 
+#: inc/admin/global-options/theme-typography.php:341 
+#: inc/admin/global-options/theme-typography.php:375 
+#: inc/admin/global-options/theme-typography.php:398 
+#: inc/admin/global-options/theme-typography.php:421 
+#: inc/admin/global-options/theme-typography.php:444 
+#: inc/admin/global-options/theme-typography.php:467 
+#: inc/admin/global-options/theme-typography.php:490 
+#: inc/admin/global-options/theme-typography.php:513
+msgid "Typography option with each property can be called individually."
+msgstr ""
+
+#: inc/admin/global-options/general.php:35
+msgid "Upload your logo"
+msgstr ""
+
+#: inc/admin/customizer/tmpcoder-customizer.php:689 
+#: inc/admin/customizer/tmpcoder-customizer.php:1192
+msgid "Uppercase"
+msgstr ""
+
+#. %s is Theme Name.
+#: inc/wizard/index.php:132
+#, php-format
+msgid ""
+"We recommend making use of the %s Theme Wizard to create your website. the "
+"easiest way to get started."
+msgstr ""
+
+#. %s is Theme Name
+#: inc/wizard/index.php:113
+#, php-format
+msgid "Welcome %s Theme"
+msgstr ""
+
+#. %1$s is Theme Name, %2$s is User Name.
+#: inc/wizard/index.php:129
+#, php-format
+msgid "Welcome To %1$s Theme Wizard, %2$s!"
+msgstr ""
+
+#. %s is the theme name
+#: inc/activation/class-welcome-notice.php:155
+#, php-format
+msgid "Welcome to %s"
+msgstr ""
+
+#: inc/compatibility/block-patterns/welcome-to-spexo-section.php:9
+msgid "Welcome to spexo section"
+msgstr ""
+
+#: inc/compatibility/class-spexo-starter-content.php:239
+msgid "Why Us"
+msgstr ""
+
+#: inc/wizard/index.php:163
+msgid "Yes, Skip"
+msgstr ""
+
+#: inc/admin/global-options/theme-colors.php:89
+msgid "You can set your site background color"
+msgstr ""
+
+#: inc/wizard/wizard-ajax-api.php:12 inc/wizard/wizard-ajax-api.php:104 
+#: inc/wizard/wizard-ajax-api.php:197
+msgid "You must log in to site setup"
+msgstr ""
+
+#. %s is the PHP version
+#: functions.php:64
+#, php-format
+msgid ""
+"Your site is running on an outdated version of PHP %s. The minimum "
+"recommended version of PHP is 7.4."
+msgstr ""
+
+#: inc/wizard/index.php:161
+msgid ""
+"You’ll still be able to access the setup wizard later from the <strong>"
+"“Appearance → Setup Wizard”</strong> menu."
+msgstr ""
