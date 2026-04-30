@@ -1,0 +1,81 @@
+# WordPress core
+/wp-admin/
+/wp-includes/
+/wp-*.php
+/index.php
+/license.txt
+/readme.html
+/xmlrpc.php
+
+# Config
+wp-config.php
+.env
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# Uploads
+/wp-content/uploads/
+
+# Cache & logs
+/wp-content/cache/
+/wp-content/debug.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Plugins & themes (keep custom only)
+/wp-content/plugins/*
+!/wp-content/plugins/my-plugin/
+
+/wp-content/themes/*
+!/wp-content/themes/my-theme/
+
+# Dependencies
+/node_modules/
+
+# Production build
+/build/
+/dist/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing
+/coverage/
+
+# Cache
+.cache/
+.parcel-cache/
+.vite/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Misc
+*.log
+*.tmp
+*.temp
+
