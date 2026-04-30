@@ -1,0 +1,145 @@
+/* * {
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 20px;
+}
+
+.heading {
+  text-align: center;
+  color: #3d0fe0;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.btn {
+  background-color: #3d0fe0;
+  color: white;
+  font-weight: 800;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #3112a1;
+} */
+
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* background-color: #898c8f; */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+.header {
+  background-color: rgb(33, 162, 212);
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  padding: 18px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* FOOTER */
+.footer {
+  background-color: rgb(5, 5, 5);
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  padding: 18px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+/* CONTAINER */
+.dashcontainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  padding: 120px 20px 80px; /* space for header/footer */
+}
+
+/* CARDS */
+.dashgroup {
+  width: 320px;
+  padding: 25px 20px;
+  background-color: #fff;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  /* min-height: 240px; */
+}
+
+.dashgroup:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+}
+
+/* TITLE */
+.dashgroup h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #222;
+}
+
+/* NUMBER */
+.dashgroup p {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(15, 115, 115);
+  margin: 10px 0 15px;
+}
+
+.dashgroup #paragraph {
+  font-size: 20px;
+}
+
+/* BUTTON */
+.dashgroup a {
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  background-color: rgb(33, 162, 212);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  width: 100%;
+  transition: 0.2s ease;
+}
+
+.dashgroup a:hover {
+  background-color: black;
+  color: #fff;
+}
